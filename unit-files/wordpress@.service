@@ -1,0 +1,26 @@
+[Unit]
+Description=%p-%i
+After=docker.service
+Requires=docker.service
+Requires=mysql@%i.service
+After=mysql@%i.service
+Requires=%p-importer@%i.service
+After=%p-importer@%i.service
+
+[Service]
+Restart=always
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill %p-%i
+ExecStartPre=-/usr/bin/docker rm %p-%i
+ExecStart=/usr/bin/docker run\
+--name %p-%i\
+--link mysql-%i:db\
+-v /data/per-user/%i/%p/data/wp-content:/app/wp-content\
+-v /data/per-user/%i/%p/data/.htaccess:/app/.htaccess\
+--env-file /data/per-user/%i/%p/.env\
+tutum/wordpress-stackable
+ExecReload=/usr/bin/docker restart %p-%i
+ExecStop=/usr/bin/docker stop %p-%i
+
+[Install]
+WantedBy=multi-user.target
