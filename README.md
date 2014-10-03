@@ -2,6 +2,7 @@
 - [vagrant](http://www.vagrantup.com/)
 - [virtualbox](https://www.virtualbox.org/)
 - optional: [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
+  - run `vagrant plugin install vagrant-hostsupdater` to install
 
 ## Get started:
 
