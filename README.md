@@ -10,7 +10,7 @@
 vagrant up
 ```
 
-Wait the provisionning to finish (~40mins), and go to your browser: http://coreos.dev
+Wait for the provisioning to finish (~40mins), and go to your browser: http://coreos.dev
 
 ### If you want to start another wordpress:
 ```bash
