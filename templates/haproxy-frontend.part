@@ -1,0 +1,4 @@
+
+# %HOSTNAME%:
+    acl is_%HOSTNAME%          hdr_end(host) -i %HOSTNAME%
+    use_backend %HOSTNAME%      if is_%HOSTNAME%

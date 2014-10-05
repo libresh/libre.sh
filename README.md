@@ -12,10 +12,9 @@ vagrant up
 
 Wait for the provisioning to finish (~40mins), and go to your browser: http://coreos.dev
 
-### If you want to start another wordpress:
+### If you want to add another wordpress instance:
 ```bash
 vagrant ssh
-sudo systemctl start wordpress@myuser.service
+sudo sh /data/infrastructure/scripts/adduser.sh example.dev wordpress
 ```
-Update haproxy configuration in ``/data/server-wide/haproxy/haproxy.cfg`.
-Check in your bowser!
+Check http://example.dev in your bowser!

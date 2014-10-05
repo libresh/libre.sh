@@ -1,0 +1,12 @@
+[Unit]  
+Description=nginx importer
+Before=nginx@%i.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=USER=%i
+ExecStart=/data/infrastructure/importers/nginx.sh
+
+[Install]
+WantedBy=nginx@%i.service

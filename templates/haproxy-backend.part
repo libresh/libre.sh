@@ -1,0 +1,7 @@
+
+# %HOSTNAME%:
+backend %HOSTNAME%
+    cookie SERVERID insert nocache indirect
+    option httpclose
+    option forwardfor
+    server Server %IP%:80 cookie Server
