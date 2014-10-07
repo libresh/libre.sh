@@ -34,9 +34,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       core.vm.hostname = HOSTNAME
       core.vm.network :private_network, ip: "#{BASE_IP_ADDR}.#{i+1}"
       config.vm.synced_folder ".", "/data/infrastructure"
+      config.vm.synced_folder "/data/per-user", "/data/per-user"
       core.vm.provision :file, source: "./config/user-data", destination: "/var/lib/coreos-vagrant/vagrantfile-user-data"
       core.vm.provision :shell, path: "./scripts/setup.sh"
-      core.vm.provision :shell, path: "./scripts/adduser.sh", args: [HOSTNAME, "wordpress"]
+      core.vm.provision :shell, path: "./scripts/approve-user.sh", args: [HOSTNAME, "nginx"]
     end
   end
 end
