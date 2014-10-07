@@ -11,7 +11,8 @@ docker pull tutum/nginx
 
 # Configure and start HAproxy
 docker pull dockerfile/haproxy
-mkdir -p /data/server-wide/haproxy
+mkdir -p /data/server-wide/haproxy/certs
+touch /data/server-wide/haproxy/certs/list.txt
 cp /data/infrastructure/templates/haproxy-*.part /data/server-wide/haproxy/
 rm /data/server-wide/haproxy/*.part
 #rm /etc/systemd/system/multi-user.target.wants/*
