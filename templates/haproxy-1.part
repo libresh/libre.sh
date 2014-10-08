@@ -17,7 +17,4 @@ defaults
 
 frontend https-in
 mode http
- bind *:443 ssl crt-list /haproxy-override/certs/list.txt crt /haproxy-override/approved-certs/coreos.dev/combined.pem
- reqadd X-Forwarded-Proto:\ https
-
-
+ bind *:443 ssl crt-list /haproxy-override/certs/list.txt crt /haproxy-override/approved-certs/

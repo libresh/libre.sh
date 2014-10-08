@@ -19,6 +19,7 @@ rm /data/server-wide/haproxy/*.part
 touch /data/server-wide/haproxy/certs.part
 touch /data/server-wide/haproxy/frontends.part
 touch /data/server-wide/haproxy/backends.part
+hostname > /data/server-wide/haproxy/hostname.part
 cp /data/infrastructure/templates/haproxy-*.part /data/server-wide/haproxy/
 systemctl enable haproxy.service
 systemctl start  haproxy.service

@@ -1,6 +1,4 @@
+/combined.pem
+ reqadd X-Forwarded-Proto:\ https
 
 
-default_backend coreos.dev
-    
-frontend http-in
-    bind *:80
