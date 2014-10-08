@@ -26,15 +26,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   (1..$num_instances).each do |i|
     config.vm.define "core-#{i}" do |core|
-      config.vm.provider :virtualbox do |vb|
+      core.vm.provider :virtualbox do |vb|
         vb.memory = $vb_memory
         vb.cpus = $vb_cpus
       end
 
       core.vm.hostname = HOSTNAME
       core.vm.network :private_network, ip: "#{BASE_IP_ADDR}.#{i+1}"
-      config.vm.synced_folder ".", "/data/infrastructure"
-      config.vm.synced_folder "/data/per-user", "/data/per-user"
+      core.vm.synced_folder ".", "/data/infrastructure"
+      core.vm.synced_folder "/data/per-user", "/data/per-user"
       core.vm.provision :file, source: "./config/user-data", destination: "/var/lib/coreos-vagrant/vagrantfile-user-data"
       core.vm.provision :shell, path: "./scripts/setup.sh"
       core.vm.provision :shell, path: "./scripts/approve-user.sh", args: [HOSTNAME, "nginx"]
