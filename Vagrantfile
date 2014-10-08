@@ -29,6 +29,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       core.vm.provider :virtualbox do |vb|
         vb.memory = $vb_memory
         vb.cpus = $vb_cpus
+        # On VirtualBox, we don't have guest additions or a functional vboxsf
+        # in CoreOS, so tell Vagrant that so it can be smarter.
+        vb.check_guest_additions = false
+        vb.functional_vboxsf = false
+      end
+       # plugin conflict
+      if Vagrant.has_plugin?("vagrant-vbguest") then
+        core.vbguest.auto_update = false
       end
 
       core.vm.hostname = HOSTNAME
