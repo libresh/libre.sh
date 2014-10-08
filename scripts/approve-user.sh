@@ -27,5 +27,5 @@ sed s/%HOSTNAME%/$1/g /data/infrastructure/templates/haproxy-frontend.part >> /d
 
 sed s/%HOSTNAME%/$1/g /data/infrastructure/templates/haproxy-backend.part | sed s/%IP%/$IP/g >> /data/server-wide/haproxy/backends.part
 
-cat /data/server-wide/haproxy/haproxy-1.part /data/server-wide/haproxy/hostname.part /data/server-wide/haproxy/haproxy-2.part /data/server-wide/haproxy/certs.part /data/server-wide/haproxy/haproxy-3.part /data/server-wide/haproxy/frontends.part /data/server-wide/haproxy/backends.part > /data/server-wide/haproxy/haproxy.cfg
+cat /data/server-wide/haproxy/haproxy-1.part /data/server-wide/haproxy/hostname.part /data/server-wide/haproxy/haproxy-2.part /data/server-wide/haproxy/certs.part /data/server-wide/haproxy/haproxy-3.part /data/server-wide/haproxy/hostname.part /data/server-wide/haproxy/haproxy-4.part /data/server-wide/haproxy/frontends.part /data/server-wide/haproxy/backends.part > /data/server-wide/haproxy/haproxy.cfg
 systemctl reload haproxy.service
