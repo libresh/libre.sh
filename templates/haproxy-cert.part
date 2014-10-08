@@ -1,4 +1,4 @@
 
 # %HOSTNAME%:
-    acl https_%HOSTNAME% req_end(host) -i %HOSTNAME%
+    acl https_%HOSTNAME% hdr_end(host) -i %HOSTNAME%
     use_backend %HOSTNAME% if https_%HOSTNAME%
