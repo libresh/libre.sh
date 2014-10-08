@@ -43,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       core.vm.network :private_network, ip: "#{BASE_IP_ADDR}.#{i+1}"
       core.vm.synced_folder ".", "/data/infrastructure"
       core.vm.synced_folder "/data/per-user", "/data/per-user"
-      core.vm.provision :file, source: "./config/user-data", destination: "/var/lib/coreos-vagrant/vagrantfile-user-data"
+      core.vm.provision :file, source: "./config/user-data", destination: "/tmp/vagrantfile-user-data"
       core.vm.provision :shell, path: "./scripts/setup.sh"
       core.vm.provision :shell, path: "./scripts/approve-user.sh", args: [HOSTNAME, "nginx"]
     end

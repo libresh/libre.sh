@@ -1,5 +1,8 @@
 #!/bin/bash -eux
 
+# Install cloud-config
+mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/vagrantfile-user-data
+
 # Install unit-files
 cp /data/infrastructure/unit-files/* /etc/systemd/system
 systemctl daemon-reload
