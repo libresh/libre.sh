@@ -1,4 +1,4 @@
 
 # %HOSTNAME%:
-    acl is_%HOSTNAME% req_ssl_sni -i %HOSTNAME%
-    use_backend %HOSTNAME% if is_%HOSTNAME%
+    acl https_%HOSTNAME% req_end(host) -i %HOSTNAME%
+    use_backend %HOSTNAME% if https_%HOSTNAME%
