@@ -5,16 +5,16 @@
   - run `vagrant plugin install vagrant-hostsupdater` to install
 
 ## Get started:
-- Put a TLS certificate (self-signed is fine, but make sure you have [public, intermediate, and private all concatenated into one .pem file](https://www.digitalocean.com/community/tutorials/how-to-implement-ssl-termination-with-haproxy-on-ubuntu-14-04)) in /data/per-user/coreos.dev/combined.pem on the host system.
-- Test it with `openssl s_server -cert /data/per-user/coreos.dev/combined.pem -www`
+- Put a TLS certificate (self-signed is fine, but make sure you have [public, intermediate, and private all concatenated into one .pem file](https://www.digitalocean.com/community/tutorials/how-to-implement-ssl-termination-with-haproxy-on-ubuntu-14-04)) in /data/per-user/indiehosters.dev/combined.pem on the host system.
+- Test it with `openssl s_server -cert /data/per-user/indiehosters.dev/combined.pem -www`
 
 ```bash
 vagrant up
 ```
 
-Wait for the provisioning to finish (~40mins), and go to your browser: https://coreos.dev
+Wait for the provisioning to finish (~40mins), and go to your browser: https://indiehosters.dev
 
-### If you want to add another wordpress instance apart from coreos.dev:
+### If you want to add another wordpress instance apart from indiehosters.dev:
 - For e.g. example.dev, put a cert for it in /data/per-user/example.dev/combined.pem on
 the host system.
 - Test it with `openssl s_server -cert /data/per-user/example.dev/combined.pem -www`

@@ -17,7 +17,7 @@ $vb_memory = 1024
 $vb_cpus = 1
 
 BASE_IP_ADDR  = ENV['BASE_IP_ADDR'] || "192.168.65"
-HOSTNAME = ENV['HOSTNAME'] || "coreos.dev"
+HOSTNAME = ENV['HOSTNAME'] || "indiehosters.dev"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "coreos-%s" % $update_channel
