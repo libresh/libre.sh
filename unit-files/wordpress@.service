@@ -1,11 +1,16 @@
 [Unit]
 Description=%p-%i
 After=docker.service
+
+Requires=etcd.service
 Requires=docker.service
 Requires=mysql@%i.service
 After=mysql@%i.service
 Requires=%p-importer@%i.service
+Requires=%p-discovery@%i.service
+
 After=%p-importer@%i.service
+Before=%p-discovery@%i.service
 
 [Service]
 Restart=always

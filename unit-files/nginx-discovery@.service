@@ -1,0 +1,36 @@
+[Unit]
+Description=%p for %i etcd registration
+
+# Requirements
+Requires=etcd.service
+Requires=nginx@%i.service
+
+# Dependency ordering and binding
+After=etcd.service
+After=nginx@%i.service
+BindsTo=nginx@%i.service
+
+[Service]
+
+EnvironmentFile=/etc/environment
+TimeoutStartSec=0
+# Start
+## Test whether service is accessible and then register useful information
+ExecStart=/bin/bash -c '\
+  sleep 3; \
+  while true; do \
+    app=`echo %p | cut -d"-" -f1`; \
+    ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $app-%i`; \
+    curl -f $ip; \
+    if [ $? -eq 0 ]; then \
+      etcdctl set /services/$app/%i \'{"ip":"\'$ip\'", "port":"80"}\' --ttl 30; \
+    else \
+      etcdctl rm /services/$app/%i; \
+    fi; \
+    sleep 20; \
+  done'
+
+# Stop
+ExecStop=/bin/bash -ceux '\
+  app=`echo %p | cut -d"-" -f1`;\
+  /usr/bin/etcdctl rm /services/$app/%i

@@ -2,8 +2,11 @@
 Description=%p-%i
 After=docker.service
 Requires=docker.service
+Requires=etcd.service
 Requires=%p-importer@%i.service
 After=%p-importer@%i.service
+Requires=%p-discovery@%i.service
+Before=%p-discovery@%i.service
 
 [Service]
 Restart=always
