@@ -1,7 +1,9 @@
 #!/bin/bash -eux
 
 # Install cloud-config
-mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/vagrantfile-user-data
+if [ -f /tmp/vagrantfile-user-data ]; then
+  mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/vagrantfile-user-data
+fi
 
 # Install unit-files
 cp /data/infrastructure/unit-files/* /etc/systemd/system
