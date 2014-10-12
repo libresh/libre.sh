@@ -23,7 +23,7 @@ ExecStart=/usr/bin/docker run\
 -v /data/per-user/%i/%p/data/wp-content:/app/wp-content\
 -v /data/per-user/%i/%p/data/.htaccess:/app/.htaccess\
 --env-file /data/per-user/%i/%p/.env\
-tutum/wordpress-stackable
+indiehosters/wordpress
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 

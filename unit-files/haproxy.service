@@ -13,7 +13,7 @@ ExecStart=/usr/bin/docker run\
 -p 80:80\
 -p 443:443\
 -v /data/server-wide/haproxy/approved-certs/:/etc/haproxy/approved-certs\
-pierreozoux/haproxy-confd
+indiehosters/haproxy-confd
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
 
