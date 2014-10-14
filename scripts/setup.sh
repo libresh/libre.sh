@@ -16,7 +16,7 @@ docker pull indiehosters/wordpress
 docker pull indiehosters/nginx
 
 # Activate default domain
-etcdctl set /services/default '{"app":"nginx", "hostname":"`hostname`"}'
+etcdctl set /services/default '{"app":"nginx", "hostname":"'$1'"}'
 
 # Configure and start HAproxy
 mkdir -p /data/server-wide/haproxy/approved-certs

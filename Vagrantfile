@@ -45,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       core.vm.synced_folder ".", "/data/infrastructure", id: "coreos-infrastructure", :nfs => true, :mount_options => ['nolock,vers=3,udp']
       core.vm.provision :file, source: "./cloud-config", destination: "/tmp/vagrantfile-user-data"
       core.vm.provision :shell, inline: "cp /data/infrastructure/scripts/unsecure-certs/*.pem /data/server-wide/haproxy/approved-certs"
-      core.vm.provision :shell, path: "./scripts/setup.sh"
+      core.vm.provision :shell, path: "./scripts/setup.sh", args: [HOSTNAME]
       core.vm.provision :shell, inline: "etcdctl set /services/default '{\"app\":\"nginx\", \"hostname\":\"#{HOSTNAME}\"}'"
       core.vm.provision :shell, path: "./scripts/approve-user.sh", args: [HOSTNAME, "nginx"]
     end
