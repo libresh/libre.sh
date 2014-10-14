@@ -4,8 +4,8 @@ coreos:
   update:
     reboot-strategy: best-effort
   etcd:
-    addr: $public_ipv4:4001
-    peer-addr: $public_ipv4:7001
+    addr: 172.17.42.1:4001
+    peer-addr: 172.17.42.1:7001
   units:
     - name: etcd.service
       command: start
