@@ -15,8 +15,10 @@ docker pull indiehosters/mysql
 docker pull indiehosters/wordpress
 docker pull indiehosters/nginx
 
+# Activate default domain
+etcdctl set /services/default '{"app":"nginx", "hostname":"`hostname`"}'
+
 # Configure and start HAproxy
 mkdir -p /data/server-wide/haproxy/approved-certs
-cp /data/infrastructure/scripts/unsecure-certs/*.pem /data/server-wide/haproxy/approved-certs
 systemctl enable haproxy.service
 systemctl start  haproxy.service
