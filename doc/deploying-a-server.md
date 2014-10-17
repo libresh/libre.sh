@@ -36,7 +36,7 @@ on your laptop.
   * Unless there is already a TLS certificate at `indiehosters/user-data/example.com/tls.pem` get one
     (from StartSSL or elswhere) for example.com and concatenate the certificate
     and its unencrypted private key into `indiehosters/user-data/example.com/tls.pem`
-  * Make sure the TLS certificate is valid (use `indiehosters/infrastructure/scripts/check-cert.sh` for this), and if it is,
+  * Make sure the TLS certificate is valid (use `indiehosters/indiehosters/scripts/check-cert.sh` for this), and if it is,
     copy it from
     `indiehosters/user-data/example.com/tls.pem` 
     to `indiehosters/orchestration/TLS/approved-certs/example.com.pem`.
@@ -49,7 +49,7 @@ on your laptop.
 
 ## Deploying a mailserver
 
-Right now, this is still a bit separate from the rest of the infrastructure - just get a server with Docker (doesn't have to be coreos), and run:
+Right now, this is still a bit separate from the rest of the indiehosters - just get a server with Docker (doesn't have to be coreos), and run:
 
 ```bash
 docker run -d -p 25:25 -p 443:443 indiehosters/yunohost /sbin/init

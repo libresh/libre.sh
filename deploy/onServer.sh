@@ -3,13 +3,13 @@
 echo Starting etcd:
 /usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
 
-echo Cloning the infrastructure repo into /data/infrastructure:
+echo Cloning the indiehosters repo into /data/indiehosters:
 mkdir /data
 cd /data
-git clone https://github.com/indiehosters/infrastructure.git
-cd infrastructure
+git clone https://github.com/indiehosters/indiehosters.git
+cd indiehosters
 
-echo Checking out $1 branch of the IndieHosters infrastructure:
+echo Checking out $1 branch of the IndieHosters indiehosters:
 git checkout $1
 git pull
 
