@@ -6,7 +6,7 @@ Before=mysql@%i.service
 Type=oneshot
 RemainAfterExit=yes
 Environment=USER=%i
-ExecStart=/data/infrastructure/importers/mysql.sh
+ExecStart=/data/indiehosters/importers/mysql.sh
 
 [Install]
 WantedBy=mysql@%i.service

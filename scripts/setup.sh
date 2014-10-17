@@ -6,7 +6,7 @@ if [ -f /tmp/vagrantfile-user-data ]; then
 fi
 
 # Install unit-files
-cp /data/infrastructure/unit-files/* /etc/systemd/system
+cp /data/indiehosters/unit-files/* /etc/systemd/system
 systemctl daemon-reload
 
 # Pull relevant docker images

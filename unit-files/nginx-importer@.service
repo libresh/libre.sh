@@ -6,7 +6,7 @@ Before=nginx@%i.service
 Type=oneshot
 RemainAfterExit=yes
 Environment=USER=%i
-ExecStart=/data/infrastructure/importers/nginx.sh
+ExecStart=/data/indiehosters/importers/nginx.sh
 
 [Install]
 WantedBy=nginx@%i.service

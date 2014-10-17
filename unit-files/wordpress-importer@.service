@@ -7,7 +7,7 @@ Before=wordpress@%i.service
 Type=oneshot
 RemainAfterExit=yes
 Environment=USER=%i
-ExecStart=/data/infrastructure/importers/wordpress.sh
+ExecStart=/data/indiehosters/importers/wordpress.sh
 
 [Install]
 WantedBy=wordpress@%i.service

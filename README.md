@@ -21,7 +21,7 @@ the host system.
 
 ```bash
 vagrant ssh
-sudo sh /data/infrastructure/scripts/approve-user.sh example.dev wordpress
+sudo sh /data/indiehosters/scripts/approve-user.sh example.dev wordpress
 ```
 Check https://example.dev in your bowser!
 
