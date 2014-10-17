@@ -11,6 +11,7 @@ systemctl daemon-reload
 
 # Pull relevant docker images
 docker pull indiehosters/haproxy-confd
+docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
 
 # Activate default domain
