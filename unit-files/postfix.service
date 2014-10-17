@@ -1,0 +1,20 @@
+[Unit]
+Description=%p
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run\
+--name %p\
+-p 25:25\
+-v /data/server-wide/postfix/:/data\
+indiehosters/postfix-forwarder
+ExecReload=/usr/bin/docker restart %p
+ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target
