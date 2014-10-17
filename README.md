@@ -6,11 +6,11 @@ It can run inside Vagrant (see below; FIXME: check whether these instruction cur
 prescribe less folder structure, explain static https+smtp hosting, and check if they currently
 work).
 
-## Prerequisites to work on this project using vagrant:
+## Prerequisites to running this code with Vagrant:
 - [vagrant](http://www.vagrantup.com/)
 - [virtualbox](https://www.virtualbox.org/)
 - nfs
-  - run `apt-get install nfs-kernel-server` or your OS equivalent
+  - run `apt-get install nfs-kernel-server`, or your OS equivalent
 - optional: [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
   - run `vagrant plugin install vagrant-hostsupdater` to install
 
