@@ -1,17 +1,19 @@
 # Deploying a server
 
 ## Before you start
-Make sure you read [getting started](getting-started-as-a-hoster.md) first and created your `indiehosters` folder structure somewhere
-on your laptop.
+Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 
 ### Prepare your orchestration data
 * Get a CoreOS server, for instance from [RackSpace](rackspace.com) or [Vultr](vultr.com).
-* If you didn't add your public ssh key during the order process (e.g. through your IaaS control panel or a cloud-config file), and unless it's already there from a previous server deploy job, copy your laptop's public ssh key (probably in `~/.ssh/id_rsa.pub`) to `indiehosters/orchestration/deploy-keys/authorized_keys`
+* If you didn't add your public ssh key during the order process (e.g. through your IaaS control panel or a cloud-config file),
+  scp your laptop's public ssh key (probably in `~/.ssh/id_rsa.pub`) to `.ssh/authorized_keys` for the remote user
+  you will be ssh-ing and scp-ing as (the default remote user of our deploy scripts is 'core').
 * Give the new server a name (in this example, we call the server 'k3')
-* Create an empty folder `indiehosters/orchestration/per-server/k3/sites` (replace 'k3' with your server's domain name)
 * Add k3 to your /etc/hosts with the right IP address
 * If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
-* From the `indiehosters/dev-scripts` folder, run `sh ./deploy/deploy.sh k3`
+* From the root folder of this repository, run `sh ./deploy/deploy.sh k3 ./data/` (where `./data/` should contain `server-wide/postfix/`
+  and `server-wide/haproxy/approved-certs/`; see the existing folder `data/` in this repo for an example of what the email forwards and
+  TLS certificate files should look like).
 * This will ask for the ssh password once; the rest should be automatic!
 
 ### Adding a website to your server
@@ -26,35 +28,16 @@ on your laptop.
         in real time, immediately when you click 'verify' in the StartSSL UI. If they forward the email the next day, then the token
         will already have expired.
     * If no, register it (at Namecheap or elsewhere).
-  * Decide which image to run as the user's main website software (check out `../dockerfiles/sites/` to see which ones can be used for this)
-  * Say you picked nginx, then create a text file containing just the word 'nginx' at
-    `indiehosters/orchestration/per-server/k3/sites/example.com`
+  * Decide which image to run as the user's main website software (in version 0.1 only 'nginx' is supported)
   * If you already have some content that should go on there, and which is compatible with the image you chose,
-    put it in `indiehosters/user-data/example.com/nginx/` (replace 'nginx' with the actual image name you're using;
-    note that for wordpress it's currently a bit more complicated, as this relies on more than one image, so you
-    would then probably have to import both the user's wordpress folder and their mysql folder).
-  * Unless there is already a TLS certificate at `indiehosters/user-data/example.com/tls.pem` get one
+    put it in a public git repository somewhere.
+  * Unless there is already a TLS certificate at `./data/server-wide/haproxy/example.com.pem` get one
     (from StartSSL or elswhere) for example.com and concatenate the certificate
     and its unencrypted private key into `indiehosters/user-data/example.com/tls.pem`
-  * Make sure the TLS certificate is valid (use `indiehosters/indiehosters/scripts/check-cert.sh` for this), and if it is,
-    copy it from
-    `indiehosters/user-data/example.com/tls.pem` 
-    to `indiehosters/orchestration/TLS/approved-certs/example.com.pem`.
-  * Now run `deploy/deploy.sh k3` again. It will make sure the server is in the correct state, and scp the user data and the
+  * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this).
+  * Now run `deploy/add-site.sh k3 example.com https://github.com/someone/example.com.git` again. It will make sure the server is in the
+    correct state, and scp the user data and the
     approved cert into place, start a container running the image requested, update haproxy config, and restart the haproxy container.
-  * Test the site using your /etc/hosts. If you did not import data, there should be some default message there. For wordpress, be aware
-    that the site is installed in a state where any visitor can take control over it.
-  * Switch DNS and note down the current DNS situation in `indiehosters/orchestration/DNS/example.com` (or if you're hosting
+  * Test the site using your /etc/hosts. If you did not import data, there should be some default message there.
+  * Switch DNS and note down the current DNS situation (or if you're hosting
     a subdomain of another domain, update whichever is the zone file you edited).
-
-## Deploying a mailserver
-
-Right now, this is still a bit separate from the rest of the indiehosters - just get a server with Docker (doesn't have to be coreos), and run:
-
-```bash
-docker run -d -p 25:25 -p 443:443 indiehosters/yunohost /sbin/init
-```
-
-Then set up the mail domains and forwards through the web interface (with self-signed cert) on https://server.com/.
-Use Chrome for this, because Firefox will refuse to let you view the admin interface because of the invalid TLS cert.
-The initial admin password is 'changeme' - change it on https://server.com/yunohost/admin/#/tools/adminpw
