@@ -9,6 +9,8 @@ work).
 ## Prerequisites to work on this project using vagrant:
 - [vagrant](http://www.vagrantup.com/)
 - [virtualbox](https://www.virtualbox.org/)
+- nfs
+  - run `apt-get install nfs-kernel-server` or your OS equivalent
 - optional: [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
   - run `vagrant plugin install vagrant-hostsupdater` to install
 
