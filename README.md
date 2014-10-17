@@ -1,12 +1,18 @@
-## Prerequisites to work on this project:
+## IndieHosters
+
+This repository contains the confd and bash scripts we use to control our servers.
+It can run inside Vagrant (see below; FIXME: check whether these instruction currently work) or
+[deploy to a server](doc/getting-started-as-a-hoster.md) (FIXME: update those instructions to
+prescribe less folder structure, explain static https+smtp hosting, and check if they currently
+work).
+
+## Prerequisites to work on this project using vagrant:
 - [vagrant](http://www.vagrantup.com/)
 - [virtualbox](https://www.virtualbox.org/)
 - optional: [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
   - run `vagrant plugin install vagrant-hostsupdater` to install
 
 ## Get started:
-- Put a TLS certificate (self-signed is fine, but make sure you have [public, intermediate, and private all concatenated into one .pem file](https://www.digitalocean.com/community/tutorials/how-to-implement-ssl-termination-with-haproxy-on-ubuntu-14-04)) in /data/per-user/indiehosters.dev/combined.pem on the host system.
-- Test it with `openssl s_server -cert /data/per-user/indiehosters.dev/combined.pem -www`
 
 ```bash
 vagrant up
@@ -14,7 +20,7 @@ vagrant up
 
 Wait for the provisioning to finish (~40mins), and go to your browser: https://indiehosters.dev
 
-### If you want to add another wordpress instance apart from indiehosters.dev:
+### FIXME: this is outdated: If you want to add another nginx instance apart from indiehosters.dev:
 - For e.g. example.dev, put a cert for it in /data/per-user/example.dev/combined.pem on
 the host system.
 - Test it with `openssl s_server -cert /data/per-user/example.dev/combined.pem -www`
