@@ -1,12 +1,11 @@
 #!/bin/bash -eux
 
-mkdir -p /data/per-user/$1/$2/data
-cd /data/per-user/$1/$2/data
-if [ -e www-content ]; then
-  cd www-content
-  git pull
+mkdir -p /data/per-user/$1/nginx/data
+touch /data/per-user/$1/nginx/.env
+if [ -e /data/per-user/$1/nginx/data/www-content ]; then
+  cd /data/per-user/$1/nginx/data/www-content; git pull --rebase
 else
-  git clone $3 www-content
+  git clone $3 /data/per-user/$1/nginx/data/www-content
 fi
 
 # Start service for new site (and create the user)

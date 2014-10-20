@@ -13,7 +13,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
 * From the root folder of this repository, run `sh ./deploy/deploy.sh k3 ./data/ master root` (where `./data/` should contain
   `server-wide/postfix/`
-  and `server-wide/haproxy/approved-certs/`; see the existing folder `data/` in this repo for an example of what the email forwards and
+  and `server-wide/haproxy/approved-certs/k3.pem`; see the existing folder `data/` in this repo for an example of what the email forwards and
   TLS certificate files should look like).
 * The rest should be automatic!
 
