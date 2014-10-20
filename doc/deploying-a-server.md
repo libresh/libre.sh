@@ -15,6 +15,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   `server-wide/postfix/`
   and `server-wide/haproxy/approved-certs/k3.pem`; see the existing folder `data/` in this repo for an example of what the email forwards and
   TLS certificate files should look like).
+* Add the default site by following the 'Adding a website to your server' instructions below with domain name k3 instead of example.com
 * The rest should be automatic!
 
 ### Adding a website to your server
