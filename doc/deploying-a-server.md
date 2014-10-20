@@ -11,10 +11,11 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * Give the new server a name (in this example, we call the server 'k3')
 * Add k3 to your /etc/hosts with the right IP address
 * If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
-* From the root folder of this repository, run `sh ./deploy/deploy.sh k3 ./data/` (where `./data/` should contain `server-wide/postfix/`
+* From the root folder of this repository, run `sh ./deploy/deploy.sh k3 ./data/ master root` (where `./data/` should contain
+  `server-wide/postfix/`
   and `server-wide/haproxy/approved-certs/`; see the existing folder `data/` in this repo for an example of what the email forwards and
   TLS certificate files should look like).
-* This will ask for the ssh password once; the rest should be automatic!
+* The rest should be automatic!
 
 ### Adding a website to your server
 * For each site you want to deploy on the server, e.g. example.com, do the following:

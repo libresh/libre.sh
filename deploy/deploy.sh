@@ -11,12 +11,12 @@ else
   FOLDER="./data/"
 fi
 if [ $# -ge 3 ]; then
-  BRANCH=$2
+  BRANCH=$3
 else
   BRANCH="master"
 fi
 if [ $# -ge 4 ]; then
-  USER=$3
+  USER=$4
 else
   USER="core"
 fi
@@ -30,7 +30,7 @@ echo "Infrastructure branch is $BRANCH"
 echo "Remote user is $USER"
 echo "Default site is $DEFAULTSITE"
 
-scp $FOLDER $USER@$SERVER:/data
+scp -r $FOLDER $USER@$SERVER:/data
 scp ./deploy/onServer.sh $USER@$SERVER:
 ssh $USER@$SERVER sudo mkdir -p /var/lib/coreos-install/
 scp cloud-config $USER@$SERVER:/var/lib/coreos-install/user_data
