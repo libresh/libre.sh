@@ -26,7 +26,7 @@ you run on your own servers.
 Note that although it's probably inevitable that you resell DNR and TLS services from some third party, and your monitoring would ideally
 also run on a system that's decoupled from your actual servers, you may not be reselling DNS
 hosting. If you host DNS for your customer on server-wide bind services that directly read data from files on the per-user data folders,
-then you don't need this folder, and instead DNS data will be considered user-data for you.
+then DNS data will be considered user-data for you.
 
 # User data
 User data is data owned by one of your users. Which human owns which site is something you can administer
@@ -41,13 +41,13 @@ But in the end, the user, and not you, owns this data, and they can do with it w
 Just like a mailman is not supposed to open and read letters, you also should treat each user's data as a closed envelope
 which you never open up, unless in the following cases:
 
-* There may things you need to import from specific files on there (like a user-supplied TLS certificate or DNS zone)
+* There may be things you need to import from specific files on there (like a user-supplied TLS certificate or DNS zone)
 * When running backups, you sometimes can't avoid seeing some of the modified filenames flying by (depending on the backup software)
 * After explicit permission of the user, when this is useful for tech support (e.g. fix a corrupt mysql database for them)
 
 In version 0.1 no user data exists because the TLS cert is part of the hoster-data, and so are the secondary email address to forward
 to and the git repository to pull the website content from. We don't need to back up users' websites, because they are already versioned
-and  backed up in the git repository from which we're pulling it in.
+and backed up in the git repository from which we're pulling it in.
 
 # Backups
 Your user-data, hoster-data, and billing folders together contain all the critical data
@@ -57,8 +57,8 @@ ever lose it, no matter what calamity may strike. Once a month, put a copy of it
 You may give a trusted person an emergency key to your infrastructure, in case you walk under a bus. Think about the risk of data loss and
 establish an emergency recovery plan for when, for instance, the hard disk of your laptop or of one of your servers die.
 
-Make sure you often rsync the live data from each of your servers to indiehosters/user-data/live/{servername}/{domain} and store snapshots
-regularly (for instance to indiehosters/user-data/backup). Users *will* contact you sooner or later asking for "the backup from last Tuesday"
+Make sure you often rsync the live data from each of your servers to somewhere else, and store snapshots of it
+regularly. Users *will* contact you sooner or later asking for "the backup from last Tuesday"
 and they will expect you to have one.
 
 # Basic digital hygiene
@@ -69,13 +69,13 @@ for which you use the same password, reset your RackSpace password and restore a
 
 Make a diagram of how your laptop talks to your USB sticks and your servers. Then make a diagram of the services you use and to which
 email addresses they send password reset emails. Draw a perimeter of trust in both diagrams, and start taking some basic measures to
-keep your laptop secure.
+keep your daily operations secure.
 
 Don't mix accounts and email addresses which you may
 use from other computers, and keep your IndieHosters passwords and accounts separate from your other passwords and accounts, and reset
 them every few months. It might even
 make sense to dual-boot your laptop or boot from a live disk which resets on boot to make sure everything you do with IndieHosters data
-is done in a sterile environment.
+is done in a sterile environment. Ubuntu has a 'guest account' option on the login screen which maybe also be handy for this.
 
 Also: lock your screen when walking away from your laptop, and think about what someone could do with it if they were to steal your bag,
 or your smartphone.
@@ -83,5 +83,5 @@ or your smartphone.
 # Do I have to use this?
 As an IndieHoster you can of course use any infrastructure and scripts you want, as long as it doesn't change the format of each user-data folder, so that
 your customers can still migrate at will between you and other IndieHosters. However, you might find some of the scripts in this repo
-helpful at some point.
+helpful at some point, and we hope you contribute any features you add to it back upstream to this repo.
 Thanks for taking the time to read through these general considerations - the next topic is [deploying a server](deploying-a-server.md)! :)
