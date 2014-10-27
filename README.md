@@ -20,16 +20,13 @@ work).
 vagrant up
 ```
 
-Wait for the provisioning to finish (~40mins), and go to your browser: https://indiehosters.dev
+Wait for the provisioning to finish (~5mins), and go to your browser: https://indiehosters.dev
 
-### FIXME: this is outdated: If you want to add another nginx instance apart from indiehosters.dev:
-- For e.g. example.dev, put a cert for it in /data/per-user/example.dev/combined.pem on
-the host system.
-- Test it with `openssl s_server -cert /data/per-user/example.dev/combined.pem -www`
+### If you want to add another nginx instance apart from indiehosters.dev:
 
 ```bash
 vagrant ssh
-sudo sh /data/indiehosters/scripts/approve-user.sh example.dev wordpress
+sh /data/indiehosters/scripts/activate-user.sh example.dev nginx
 ```
 Check https://example.dev in your bowser!
 
@@ -38,7 +35,6 @@ Check https://example.dev in your bowser!
 To clean up stuff from previous runs of your VM, you can do:
 
 ```bash
-vagrant ssh
-rm -rf /etc/systemd/system/multi-user.wants/*
+vagrant destroy
+vagrant up
 ```
-and then restart the VM with `vagrant reload`.
