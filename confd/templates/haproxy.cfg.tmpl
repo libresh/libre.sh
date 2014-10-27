@@ -29,6 +29,7 @@ mode http
     {{$data := json .Value}}
 # {{base $hostname}}:
   acl https_{{base $hostname}} hdr(host) -i {{base $hostname}}
+  acl https_{{base $hostname}} hdr(host) -i www.{{base $hostname}}
   use_backend {{base $hostname}} if https_{{base $hostname}}
   {{end}}
 {{end}}
@@ -44,6 +45,7 @@ frontend http-in
     {{$data := json .Value}}
 # {{base $hostname}}:
   acl is_{{base $hostname}} hdr(host) -i {{base $hostname}}
+  acl is_{{base $hostname}} hdr(host) -i www.{{base $hostname}}
   use_backend {{base $hostname}} if is_{{base $hostname}}
   {{end}}
 {{end}}
