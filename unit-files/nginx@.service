@@ -16,7 +16,6 @@ ExecStartPre=-/usr/bin/docker rm %p-%i
 ExecStart=/usr/bin/docker run\
 --name %p-%i\
 -v /data/per-user/%i/%p/data/www-content:/app\
---env-file /data/per-user/%i/%p/.env\
 indiehosters/nginx
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
