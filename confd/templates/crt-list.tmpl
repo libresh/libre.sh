@@ -1,0 +1,7 @@
+{{range $app := lsdir "/services"}}
+{{$hostnames := printf "/services/%s/*" $app}}
+  {{range gets $hostnames}}
+    {{$hostname := .Key}}
+/etc/haproxy/approved-certs/{{base $hostname}}.pem {{base $hostname}}
+  {{end}}
+{{end}}
