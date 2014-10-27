@@ -1,18 +1,22 @@
 [Unit]
 Description=%p
-After=docker.service
+
+# Requirements
 Requires=docker.service
+
+# Dependency ordering
+After=docker.service
 
 [Service]
 Restart=always
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
-ExecStart=/usr/bin/docker run\
---name %p\
--p 25:25\
--v /data/server-wide/postfix/:/data\
-indiehosters/postfix-forwarder
+ExecStart=/usr/bin/docker run \
+  --name %p \
+  -v /data/server-wide/postfix/:/data \
+  -p 25:25 \
+  indiehosters/postfix-forwarder
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
 

@@ -1,19 +1,23 @@
 [Unit]
 Description=%p
-After=docker.service
+
+# Requirements
 Requires=docker.service
+
+# Dependency ordering
+After=docker.service
 
 [Service]
 Restart=always
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
-ExecStart=/usr/bin/docker run\
---name %p\
--v /data/server-wide/haproxy:/etc/haproxy\
--p 80:80\
--p 443:443\
-indiehosters/haproxy
+ExecStart=/usr/bin/docker run \
+  --name %p \
+  -v /data/server-wide/haproxy:/etc/haproxy \
+  -p 80:80 \
+  -p 443:443 \
+  indiehosters/haproxy
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
 

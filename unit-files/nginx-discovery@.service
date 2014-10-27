@@ -5,17 +5,18 @@ Description=%p for %i etcd registration
 Requires=etcd.service
 Requires=nginx@%i.service
 
-# Dependency ordering and binding
+# Dependency ordering
 After=etcd.service
 After=nginx@%i.service
+
+# Dependency binding
 BindsTo=nginx@%i.service
 
 [Service]
-
 TimeoutStartSec=0
 # Start
 ## Test whether service is accessible and then register useful information
-ExecStart=/bin/bash -c '\
+ExecStart=/bin/bash -c ' \
   sleep 3; \
   while true; do \
     app=`echo %p | cut -d"-" -f1`; \
@@ -30,6 +31,6 @@ ExecStart=/bin/bash -c '\
   done'
 
 # Stop
-ExecStop=/bin/bash -ceux '\
-  app=`echo %p | cut -d"-" -f1`;\
+ExecStop=/bin/bash -ceux ' \
+  app=`echo %p | cut -d"-" -f1`; \
   /usr/bin/etcdctl rm /services/$app/%i

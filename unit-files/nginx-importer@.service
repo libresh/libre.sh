@@ -1,5 +1,7 @@
-[Unit]  
+[Unit]
 Description=nginx importer
+
+# Dependency ordering
 Before=nginx@%i.service
 
 [Service]

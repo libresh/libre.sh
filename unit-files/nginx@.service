@@ -1,22 +1,26 @@
 [Unit]
 Description=%p-%i
-After=docker.service
+
+# Requirements
 Requires=docker.service
 Requires=etcd.service
 Requires=%p-importer@%i.service
-After=%p-importer@%i.service
 Requires=%p-discovery@%i.service
+
+# Dependency ordering
 Before=%p-discovery@%i.service
+After=docker.service
+After=%p-importer@%i.service
 
 [Service]
 Restart=always
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
-ExecStart=/usr/bin/docker run\
---name %p-%i\
--v /data/per-user/%i/%p/data/www-content:/app\
-indiehosters/nginx
+ExecStart=/usr/bin/docker run \
+  --name %p-%i \
+  -v /data/per-user/%i/%p/data/www-content:/app \
+  indiehosters/nginx
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 
