@@ -3,9 +3,12 @@ Description=%p
 
 # Requirements
 Requires=docker.service
+Requires=etcd.service
 
 # Dependency ordering
 After=docker.service
+After=etcd.service
+Before=haproxy.service
 
 [Service]
 Restart=always
