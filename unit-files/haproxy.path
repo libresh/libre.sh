@@ -1,2 +1,5 @@
 [Path]
 PathExists=/data/server-wide/haproxy/haproxy.cfg
+
+[Install]
+WantedBy=multi-user.target
