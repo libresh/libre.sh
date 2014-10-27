@@ -8,9 +8,9 @@ Requires=%p-importer@%i.service
 Requires=%p-discovery@%i.service
 
 # Dependency ordering
-Before=%p-discovery@%i.service
 After=docker.service
 After=%p-importer@%i.service
+Before=%p-discovery@%i.service
 
 [Service]
 Restart=always
