@@ -13,7 +13,6 @@ After=nginx@%i.service
 BindsTo=nginx@%i.service
 
 [Service]
-TimeoutStartSec=0
 # Start
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c ' \
