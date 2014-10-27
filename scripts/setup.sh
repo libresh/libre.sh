@@ -5,15 +5,15 @@ if [ -f /tmp/vagrantfile-user-data ]; then
   mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/vagrantfile-user-data
 fi
 
-# Install unit-files
-cp /data/indiehosters/unit-files/* /etc/systemd/system
-systemctl daemon-reload
-
 # Pull relevant docker images
 docker pull indiehosters/haproxy
 docker pull indiehosters/confd
 docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
+
+# Install unit-files
+cp /data/indiehosters/unit-files/* /etc/systemd/system
+systemctl daemon-reload
 
 # Activate default domain
 sh /data/indiehosters/scripts/activate-user.sh $1 nginx
