@@ -10,7 +10,8 @@ cp /data/indiehosters/unit-files/* /etc/systemd/system
 systemctl daemon-reload
 
 # Pull relevant docker images
-docker pull indiehosters/haproxy-confd
+docker pull indiehosters/haproxy
+docker pull indiehosters/confd
 docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
 
