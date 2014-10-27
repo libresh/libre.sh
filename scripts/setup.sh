@@ -16,12 +16,15 @@ docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
 
 # Activate default domain
+sh /data/indiehosters/scripts/activate-user.sh $1 nginx
 etcdctl set /services/default '{"app":"nginx", "hostname":"'$1'"}'
 
 # Configure and start HAproxy
 mkdir -p /data/server-wide/haproxy/approved-certs
-systemctl enable haproxy.service
-systemctl start  haproxy.service
+systemctl enable haproxy-confd.service
+systemctl start  haproxy-confd.service
+systemctl enable haproxy.path
+systemctl start  haproxy.path
 
 # Configure and start postfix
 mkdir -p /data/server-wide/postfix
