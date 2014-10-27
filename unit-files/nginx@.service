@@ -3,7 +3,6 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=etcd.service
 Requires=%p-importer@%i.service
 Requires=%p-discovery@%i.service
 
