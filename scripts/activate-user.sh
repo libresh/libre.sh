@@ -1,12 +1,18 @@
 #!/bin/bash -eux
 
-# mkdir -p /data/per-user/$1/nginx/data
-# if [ -e /data/per-user/$1/nginx/data/www-content ]; then
-#   cd /data/per-user/$1/nginx/data/www-content; git pull --rebase
-# else
-#   git clone $3 /data/per-user/$1/nginx/data/www-content
-# fi
+if [ $# -ge 2 ]; then
+  DOMAIN=$1
+  IMAGE=$2
+else
+  echo "Usage: sh /data/indiehosters/scripts/activate-user domain image [gitrepo]"
+  exit 1
+fi
+mkdir -p /data/per-user/$DOMAIN/nginx/data
+if [ $# -ge 3 ]; then
+  GITREPO=$3
+  echo $GITREPO > /data/per-user/$DOMAIN/nginx/data/git-url.txt
+fi
 
-# Start service for new site (and create the user)
-systemctl enable $2@$1.service
-systemctl start  $2@$1.service
+# Start service for new site (and create the user). This will also enable the git puller.
+systemctl enable $IMAGE@$DOMAIN.service
+systemctl start  $IMAGE@$DOMAIN.service

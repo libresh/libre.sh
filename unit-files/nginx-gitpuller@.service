@@ -1,0 +1,12 @@
+[Unit]
+Description=nginx git puller
+
+# Dependency ordering
+Before=nginx@%i.service
+
+[Service]
+Environment=USER=%i
+ExecStart=/data/indiehosters/importers/nginx-updater.sh
+
+[Install]
+WantedBy=nginx@%i.service

@@ -21,12 +21,13 @@ vagrant up
 ```
 
 Wait for the provisioning to finish (~5mins), and go to your browser: https://indiehosters.dev
+If the process fails, for instance due to network problems, you can retry by running `vagrant provision`.
 
 ### If you want to add another nginx instance apart from indiehosters.dev:
 
 ```bash
 vagrant ssh
-sh /data/indiehosters/scripts/activate-user.sh example.dev nginx
+sudo sh /data/indiehosters/scripts/activate-user.sh example.dev nginx https://github.com/indiehosters/website-static.git
 ```
 Check https://example.dev in your bowser!
 

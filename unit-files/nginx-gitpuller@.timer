@@ -1,0 +1,8 @@
+[Unit]
+Description=Run git puller every 10 minutes
+
+[Timer]
+OnUnitActiveSec=10min
+
+[Install]
+WantedBy=timers.target
