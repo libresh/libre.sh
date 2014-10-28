@@ -1,20 +1,25 @@
 [Unit]
 Description=%p-%i
-After=docker.service
-After=%p-importer@%i.service
+
+# Requirements
 Requires=docker.service
 Requires=%p-importer@%i.service
 
+# Dependency ordering
+After=docker.service
+After=%p-importer@%i.service
+
 [Service]
 Restart=always
+ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
-ExecStart=/usr/bin/docker run\
---name %p-%i\
--v /data/per-user/%i/%p/data:/var/lib/mysql\
---env-file /data/per-user/%i/%p/.env\
-indiehosters/mysql
+ExecStart=/usr/bin/docker run \
+  --name %p-%i \
+  -v /data/per-user/%i/%p/data:/var/lib/mysql \
+  --env-file /data/per-user/%i/%p/.env \
+  indiehosters/mysql
 ExecReload=/usr/bin/docker restart %p-%i
-ExecStop=/usr/bin/docker stop %p-%i 
+ExecStop=/usr/bin/docker stop %p-%i
 
 [Install]
 WantedBy=multi-user.target

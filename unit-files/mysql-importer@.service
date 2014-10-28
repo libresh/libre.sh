@@ -1,4 +1,4 @@
-[Unit]  
+[Unit]
 Description=MySQL importer
 Before=mysql@%i.service
 

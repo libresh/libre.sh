@@ -5,16 +5,17 @@ Description=%p for %i etcd registration
 Requires=etcd.service
 Requires=wordpress@%i.service
 
-# Dependency ordering and binding
+# Dependency ordering
 After=etcd.service
 After=wordpress@%i.service
+
+# Dependency binding
 BindsTo=wordpress@%i.service
 
 [Service]
-
 # Start
 ## Test whether service is accessible and then register useful information
-ExecStart=/bin/bash -c '\
+ExecStart=/bin/bash -c ' \
   sleep 3; \
   while true; do \
     app=`echo %p | cut -d"-" -f1`; \
@@ -29,6 +30,6 @@ ExecStart=/bin/bash -c '\
   done'
 
 # Stop
-ExecStop=/bin/bash -ceux '\
-  app=`echo %p | cut -d"-" -f1`;\
+ExecStop=/bin/bash -ceux ' \
+  app=`echo %p | cut -d"-" -f1`; \
   /usr/bin/etcdctl rm /services/$app/%i

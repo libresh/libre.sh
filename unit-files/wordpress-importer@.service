@@ -1,5 +1,7 @@
-[Unit]  
+[Unit]
 Description=WordPress importer
+
+# Dependency ordering
 After=mysql-importer@%i.service
 Before=wordpress@%i.service
 
