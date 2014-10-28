@@ -38,7 +38,17 @@ default_backend {{$default_service.hostname}}
 
 frontend http-in
   bind *:80
-  redirect scheme https code 301 if !{ ssl_fc }
+{{range $app := lsdir "/services"}}
+{{$hostnames := printf "/services/%s/*" $app}}
+  {{range gets $hostnames}}
+    {{$hostname := .Key}}
+    {{$data := json .Value}}
+# {{base $hostname}}:
+  acl is_{{base $hostname}} hdr(host) -i {{base $hostname}}
+  acl is_{{base $hostname}} hdr(host) -i www.{{base $hostname}}
+  use_backend {{base $hostname}} if is_{{base $hostname}}
+  {{end}}
+{{end}}
 
 {{range $app := lsdir "/services"}}
 {{$hostnames := printf "/services/%s/*" $app}}
