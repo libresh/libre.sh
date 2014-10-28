@@ -1,0 +1,13 @@
+[Unit]  
+Description=WordPress importer
+After=mysql-importer@%i.service
+Before=wordpress@%i.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=USER=%i
+ExecStart=/data/indiehosters/importers/wordpress.sh
+
+[Install]
+WantedBy=wordpress@%i.service

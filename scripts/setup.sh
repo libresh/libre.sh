@@ -10,6 +10,8 @@ docker pull indiehosters/haproxy
 docker pull indiehosters/confd
 docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
+docker pull indiehosters/mysql
+docker pull indiehosters/wordpress
 
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system
