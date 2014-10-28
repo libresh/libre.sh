@@ -13,7 +13,6 @@ BindsTo=wordpress@%i.service
 [Service]
 
 EnvironmentFile=/etc/environment
-TimeoutStartSec=0
 # Start
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c '\

@@ -7,8 +7,6 @@ Requires=%p-importer@%i.service
 
 [Service]
 Restart=always
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill %p-%i 
 ExecStartPre=-/usr/bin/docker rm %p-%i
 ExecStart=/usr/bin/docker run\
 --name %p-%i\
