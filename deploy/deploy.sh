@@ -20,11 +20,14 @@ if [ $# -ge 4 ]; then
 else
   USER="core"
 fi
-if [ -e ../orchestration/per-server/$SERVER/default-site ]; then
-  DEFAULTSITE=`cat ../orchestration/per-server/$SERVER/default-site`
-else
+
+if [ -e "${FOLDER}server-wide/haproxy/approved-certs/${SERVER}.pem" ]; then
   DEFAULTSITE=$SERVER
+else
+  echo "Please make sure ${FOLDER}server-wide/haproxy/approved-certs/${SERVER}.pem exists, then retry"
+  exit 1
 fi
+
 echo "Hoster data folder is $FOLDER"
 echo "Infrastructure branch is $BRANCH"
 echo "Remote user is $USER"
