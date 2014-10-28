@@ -5,8 +5,7 @@ Description=nginx git puller
 Before=nginx@%i.service
 
 [Service]
-Environment=USER=%i
-ExecStart=/data/indiehosters/importers/nginx-updater.sh
+ExecStart=cd /data/per-user/%i/nginx/data/www-content && git pull
 
 [Install]
 WantedBy=nginx@%i.service
