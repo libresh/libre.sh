@@ -21,11 +21,11 @@ ExecStart=/bin/bash -c '\
     ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $app-%i`; \
     curl -f $ip; \
     if [ $? -eq 0 ]; then \
-      etcdctl set /services/$app/%i \'{"ip":"\'$ip\'", "port":"80"}\' --ttl 30; \
+      etcdctl set /services/$app/%i \'{"ip":"\'$ip\'", "port":"80"}\' --ttl 60; \
     else \
       etcdctl rm /services/$app/%i; \
     fi; \
-    sleep 20; \
+    sleep 50; \
   done'
 
 # Stop
