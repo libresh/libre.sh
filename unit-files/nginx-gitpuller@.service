@@ -1,0 +1,7 @@
+[Unit]
+Description= git puller
+
+[Service]
+Environment=USER=%i
+Environment=APP=nginx
+ExecStart=/data/indiehosters/importers/gitpuller.sh

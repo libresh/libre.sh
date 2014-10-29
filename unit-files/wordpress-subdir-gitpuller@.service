@@ -3,4 +3,5 @@ Description= git puller
 
 [Service]
 Environment=USER=%i
+Environment=APP=wordpress-subdir
 ExecStart=/data/indiehosters/importers/gitpuller.sh

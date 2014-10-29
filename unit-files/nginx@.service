@@ -5,7 +5,7 @@ Description=%p-%i
 Requires=docker.service
 Requires=%p-importer@%i.service
 Requires=%p-discovery@%i.service
-Wants=gitpuller@%i.service
+Wants=%p-gitpuller@%i.service
 
 # Dependency ordering
 After=docker.service
