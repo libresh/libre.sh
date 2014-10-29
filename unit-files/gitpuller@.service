@@ -1,9 +1,6 @@
 [Unit]
 Description=nginx git puller
 
-# Dependency ordering
-Before=nginx@%i.service
-
 [Service]
 ExecStart=cd /data/per-user/%i/nginx/data/www-content && git pull
 

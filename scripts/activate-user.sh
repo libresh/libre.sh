@@ -10,7 +10,7 @@ fi
 mkdir -p /data/per-user/$DOMAIN/$IMAGE/data
 if [ $# -ge 3 ]; then
   GITREPO=$3
-  echo $GITREPO > /data/per-user/$DOMAIN/$IMAGE/data/git-url.txt
+  echo $GITREPO > /data/per-user/$DOMAIN/$IMAGE/data/GITURL
 fi
 
 # Start service for new site (and create the user). This will also enable the git puller.

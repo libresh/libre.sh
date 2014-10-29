@@ -1,5 +1,12 @@
 #!/bin/bash -eux
 
+if [ $# -ge 1 ]; then
+  HOSTNAME=$1
+else
+  echo "Usage: sh /data/indiehosters/scripts/setup.sh k1.you.indiehosters.net"
+  exit 1
+fi
+
 # Install cloud-config
 if [ -f /tmp/vagrantfile-user-data ]; then
   mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/vagrantfile-user-data
@@ -12,14 +19,15 @@ docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
 docker pull indiehosters/mysql
 docker pull indiehosters/wordpress
+docker pull indiehosters/wordpress-subdir
 
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system
 systemctl daemon-reload
 
 # Activate default domain
-sh /data/indiehosters/scripts/activate-user.sh $1 nginx
-etcdctl set /services/default '{"app":"nginx", "hostname":"'$1'"}'
+sh /data/indiehosters/scripts/activate-user.sh $HOSTNAME nginx
+etcdctl set /services/default '{"app":"nginx", "hostname":"'$HOSTNAME'"}'
 
 # Configure and start HAproxy
 mkdir -p /data/server-wide/haproxy/approved-certs

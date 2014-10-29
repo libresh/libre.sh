@@ -1,0 +1,15 @@
+[Unit]
+Description=wordpress-subdir importer
+
+# Dependency ordering
+After=mysql-importer@%i.service
+Before=wordpress-subdir@%i.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=USER=%i
+ExecStart=/data/indiehosters/importers/wordpress-subdir.sh
+
+[Install]
+WantedBy=wordpress-subdir@%i.service
