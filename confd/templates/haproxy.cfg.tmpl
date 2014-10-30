@@ -11,6 +11,8 @@ global
 
 defaults
   mode http
+  option forwardfor
+  option httpclose
   option httplog
   option dontlognull
   retries 3
@@ -58,8 +60,6 @@ frontend http-in
 # {{base $hostname}}:
 backend {{base $hostname}}
   cookie SERVERID insert nocache indirect
-  option httpclose
-  option forwardfor
   server Server {{$data.ip}}:{{$data.port}} cookie Server
   {{end}}
 {{end}}
