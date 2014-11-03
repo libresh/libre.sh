@@ -5,6 +5,9 @@ Description=WordPress importer
 After=mysql-importer@%i.service
 Before=wordpress@%i.service
 
+# Dependency binding
+BindsTo=wordpress@%i.service
+
 [Service]
 Type=oneshot
 RemainAfterExit=yes

@@ -1,6 +1,11 @@
 [Unit]
 Description=MySQL importer
+
+# Dependency ordering
 Before=mysql@%i.service
+
+# Dependency binding
+BindsTo=mysql@%i.service
 
 [Service]
 Type=oneshot
