@@ -1,8 +1,8 @@
 #!/bin/bash -eux
 
-if [ ! -d "/data/per-user/$USER/wordpress/data" ]; then
-  cd /data/per-user/$USER/
+if [ ! -d "/data/per-user/$DOMAIN/wordpress/data" ]; then
+  cd /data/per-user/$DOMAIN/
   tar xvzf /data/indiehosters/blueprints/wordpress.tgz
 fi
 
-cat /data/per-user/$USER/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > /data/per-user/$USER/wordpress/.env
+cat /data/per-user/$DOMAIN/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > /data/per-user/$DOMAIN/wordpress/.env

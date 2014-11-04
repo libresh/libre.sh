@@ -3,5 +3,5 @@ Description= Back up mysql and www data to a git repo and optionally push it out
 
 [Service]
 Type=oneshot
-Environment=USER=%i
+Environment=DOMAIN=%i
 ExecStart=/data/indiehosters/importers/backup-snapshot.sh

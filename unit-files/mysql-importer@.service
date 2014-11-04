@@ -10,7 +10,7 @@ BindsTo=mysql@%i.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-Environment=USER=%i
+Environment=DOMAIN=%i
 ExecStart=/data/indiehosters/importers/mysql.sh
 
 [Install]

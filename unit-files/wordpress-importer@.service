@@ -11,7 +11,7 @@ BindsTo=wordpress@%i.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-Environment=USER=%i
+Environment=DOMAIN=%i
 ExecStart=/data/indiehosters/importers/wordpress.sh
 
 [Install]
