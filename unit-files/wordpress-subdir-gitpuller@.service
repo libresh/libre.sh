@@ -1,9 +1,0 @@
-[Unit]
-Description= git puller
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-Environment=USER=%i
-Environment=APP=wordpress-subdir
-ExecStart=/data/indiehosters/importers/gitpuller.sh

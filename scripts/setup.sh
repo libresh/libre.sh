@@ -19,7 +19,6 @@ docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
 docker pull indiehosters/mysql
 docker pull indiehosters/wordpress
-docker pull indiehosters/wordpress-subdir
 
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system
