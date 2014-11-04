@@ -1,2 +1,9 @@
+[Unit]
+Description=Start the timer if there is a GITURL file
+
+# Dependency binding
+BindsTo=nginx@%i.service
+
 [Path]
 PathExists=/data/per-user/%i/nginx/data/GITURL
+Unit=nginx-gitpuller@%i.timer

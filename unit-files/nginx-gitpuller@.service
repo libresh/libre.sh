@@ -1,9 +1,9 @@
 [Unit]
-Description= git puller
+Description=git puller
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
-Environment=USER=%i
-Environment=APP=nginx
-ExecStart=/data/indiehosters/importers/gitpuller.sh
+ExecStart=/bin/bash -euxc ' \
+  app=`echo %p | cut -d"-" -f1`; \
+  cd /data/per-user/%i/$app/data/www-content; \
+  git pull'
