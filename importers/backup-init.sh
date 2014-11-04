@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eux
 
 echo initializing backups for $USER
 mkdir -p /data/per-user/$USER/backup/mysql

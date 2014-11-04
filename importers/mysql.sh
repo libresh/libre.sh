@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eux
 
 if [ ! -d "/data/per-user/$USER/mysql/data" ]; then
   mkdir -p /data/per-user/$USER/mysql/data

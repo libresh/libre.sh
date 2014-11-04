@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eux
 
 if [ -e /data/per-user/$USER/mysql ]; then
   echo backing up mysql databases for $USER

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eux
 
 if [ ! -e "/data/per-user/$USER/nginx/data/www-content/index.html" ]; then
   if [ -e "/data/per-user/$USER/nginx/data/GITURL" ]; then

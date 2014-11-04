@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eux
 
 if [ ! -d "/data/per-user/$USER/wordpress/data" ]; then
   cd /data/per-user/$USER/
