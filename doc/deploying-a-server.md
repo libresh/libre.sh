@@ -12,8 +12,8 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * Add k3 to your /etc/hosts with the right IP address
 * If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
 * From the root folder of this repository, run `sh ./deploy/deploy.sh k3 ./data/ master root` (where `./data/` should contain
-  `server-wide/postfix/`
-  and `server-wide/haproxy/approved-certs/k3.pem`; see the existing folder `data/` in this repo for an example of what the email forwards and
+  `runtime/postfix/`
+  and `runtime/haproxy/approved-certs/k3.pem`; see the existing folder `data/` in this repo for an example of what the email forwards and
   TLS certificate files should look like).
 * Add the default site by following the 'Adding a website to your server' instructions below with domain name k3 instead of example.com
 * The rest should be automatic!
@@ -40,7 +40,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * Decide which image to run as the user's main website software (in version 0.1 only 'nginx' is supported)
   * If you already have some content that should go on there, and which is compatible with the image you chose,
     put it in a public git repository somewhere.
-  * Unless there is already a TLS certificate at `./data/server-wide/haproxy/example.com.pem` get one
+  * Unless there is already a TLS certificate at `./data/runtime/haproxy/example.com.pem` get one
     (from StartSSL or elswhere) for example.com and concatenate the certificate
     and its unencrypted private key into `indiehosters/user-data/example.com/tls.pem`
   * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this).

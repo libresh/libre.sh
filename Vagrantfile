@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       core.vm.network :private_network, ip: "#{BASE_IP_ADDR}.#{i+1}"
       core.vm.synced_folder ".", "/data/indiehosters", id: "coreos-indiehosters", :nfs => true, :mount_options => ['nolock,vers=3,udp']
       core.vm.provision :file, source: "./cloud-config", destination: "/tmp/vagrantfile-user-data"
-      core.vm.provision :shell, inline: "mkdir -p /data/server-wide/haproxy/approved-certs; cp /data/indiehosters/scripts/unsecure-certs/*.pem /data/server-wide/haproxy/approved-certs"
+      core.vm.provision :shell, inline: "mkdir -p /data/runtime/haproxy/approved-certs; cp /data/indiehosters/scripts/unsecure-certs/*.pem /data/runtime/haproxy/approved-certs"
       core.vm.provision :shell, path: "./scripts/setup.sh", args: [HOSTNAME]
     end
   end

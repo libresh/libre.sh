@@ -15,8 +15,8 @@ ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
 ExecStart=/usr/bin/docker run \
   --name %p-%i \
-  -v /data/per-user/%i/%p/data:/var/lib/mysql \
-  --env-file /data/per-user/%i/%p/.env \
+  -v /data/domains/%i/%p/data:/var/lib/mysql \
+  --env-file /data/domains/%i/%p/.env \
   indiehosters/mysql
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i

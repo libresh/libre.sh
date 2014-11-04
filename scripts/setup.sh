@@ -29,17 +29,17 @@ sh /data/indiehosters/scripts/activate-user.sh $HOSTNAME nginx
 etcdctl set /services/default '{"app":"nginx", "hostname":"'$HOSTNAME'"}'
 
 # Configure and start HAproxy
-mkdir -p /data/server-wide/haproxy/approved-certs
+mkdir -p /data/runtime/haproxy/approved-certs
 systemctl enable haproxy-confd.service
 systemctl start  haproxy-confd.service
 systemctl enable haproxy.path
 systemctl start  haproxy.path
 
 # Configure and start postfix
-mkdir -p /data/server-wide/postfix
-touch /data/server-wide/postfix/hostname
-touch /data/server-wide/postfix/destinations
-touch /data/server-wide/postfix/forwards
+mkdir -p /data/runtime/postfix
+touch /data/runtime/postfix/hostname
+touch /data/runtime/postfix/destinations
+touch /data/runtime/postfix/forwards
 
 systemctl enable postfix.service
 systemctl start  postfix.service

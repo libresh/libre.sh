@@ -5,5 +5,5 @@ Description=git puller
 Type=oneshot
 ExecStart=/bin/bash -euxc ' \
   app=`echo %p | cut -d"-" -f1`; \
-  cd /data/per-user/%i/$app/data/www-content; \
+  cd /data/domains/%i/$app/data/www-content; \
   git pull'

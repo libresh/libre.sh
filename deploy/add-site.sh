@@ -17,6 +17,6 @@ fi
 echo "Adding $DOMAIN to $SERVER, running $IMAGE behind $PEMFILE and pulling from $GITREPO"
 echo "Remote user is $USER"
 
-ssh $USER@$SERVER sudo mkdir -p /data/per-user/$DOMAIN/$IMAGE/data
-scp $PEMFILE $USER@$SERVER:/data/server-wide/haproxy/approved-certs/$DOMAIN.pem
+ssh $USER@$SERVER sudo mkdir -p /data/domains/$DOMAIN/$IMAGE/data
+scp $PEMFILE $USER@$SERVER:/data/runtime/haproxy/approved-certs/$DOMAIN.pem
 ssh $USER@$SERVER sudo sh /data/indiehosters/scripts/activate-user.sh $DOMAIN $IMAGE $GITREPO

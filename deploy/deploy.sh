@@ -21,10 +21,10 @@ else
   USER="core"
 fi
 
-if [ -e "${FOLDER}server-wide/haproxy/approved-certs/${SERVER}.pem" ]; then
+if [ -e "${FOLDER}runtime/haproxy/approved-certs/${SERVER}.pem" ]; then
   DEFAULTSITE=$SERVER
 else
-  echo "Please make sure ${FOLDER}server-wide/haproxy/approved-certs/${SERVER}.pem exists, then retry"
+  echo "Please make sure ${FOLDER}runtime/haproxy/approved-certs/${SERVER}.pem exists, then retry"
   exit 1
 fi
 

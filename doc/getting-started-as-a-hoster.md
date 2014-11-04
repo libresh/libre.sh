@@ -25,7 +25,7 @@ third-party service providers, alongside the services which
 you run on your own servers.
 Note that although it's probably inevitable that you resell DNR and TLS services from some third party, and your monitoring would ideally
 also run on a system that's decoupled from your actual servers, you may not be reselling DNS
-hosting. If you host DNS for your customer on server-wide bind services that directly read data from files on the per-user data folders,
+hosting. If you host DNS for your customer on server-wide bind services that directly read data from files on the per domain data folders,
 then DNS data will be considered user-data for you.
 
 # User data

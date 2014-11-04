@@ -4,17 +4,17 @@ Our architecture revolves around a
 
 ## Server-wide processes
 
-The haproxy.* and postfix.* unit files correspond to two server-wide processes. They run Docker containers from images in the
+The haproxy.* and postfix.* unit files correspond to two server wide processes. They run Docker containers from images in the
 [server-wide/ folder of our dockerfiles repo](https://github.com/indiehosters/dockerfiles/tree/master/server-wide).
-The haproxy-confd.* unit starts a side-kick service for haproxy, which monitors `etcdctl ls /services` to see if any new backends were created, and updates the haproxy configuration, which lives in `/data/server-wide/haproxy/` on the host sytem. It is required by the haproxy.* unit. That means that when you run `systemctl start haproxy`, and then run `docker ps` or `systemctl list-units`, you will see that systemd not only started the haproxy container, but also the haproxy-confd container.
+The haproxy-confd.* unit starts a side-kick service for haproxy, which monitors `etcdctl ls /services` to see if any new backends were created, and updates the haproxy configuration, which lives in `/data/runtime/haproxy/` on the host sytem. It is required by the haproxy.* unit. That means that when you run `systemctl start haproxy`, and then run `docker ps` or `systemctl list-units`, you will see that systemd not only started the haproxy container, but also the haproxy-confd container.
 
-There is currently no similar side-kick for updating `/data/server-wide/postfix/`, so you will have to update the configuration files in that folder manually, and then run `systemctl restart postfix`.
+There is currently no similar side-kick for updating `/data/runtime/postfix/`, so you will have to update the configuration files in that folder manually, and then run `systemctl restart postfix`.
 
 The `scripts/setup.sh` takes care of setting up etcd, enabling and starting the haproxy and postfix service (as well as one haproxy backend, to serve the default site), and the haproxy-confd side-kick to listen for changes in the backends configuration in etcd, so that new backends are automatically added to the haproxy config as soon as their IP address is written into etcd.
 
 ## HAProxy backends: nginx, wordpress
 
-A per-user process is a haproxy backend for a specific domain name. At the time of writing we have two applications available: nginx and wordpress.
+A per user process is a haproxy backend for a specific domain name. At the time of writing we have two applications available: nginx and wordpress.
 
 You will notice there are also some other units in the `unit-files/` folder of this repo, like the gitpuller and mysql ones. Whenever you start a wordpress unit, it requires a mysql service.
 Whenever you start an nginx unit, it wants a gitpuller unit. In all three cases, an -importer unit and a -discovery unit are required.

@@ -13,7 +13,7 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --name %p \
-  -v /data/server-wide/postfix/:/data \
+  -v /data/runtime/postfix/:/data \
   -p 25:25 \
   indiehosters/postfix-forwarder
 ExecReload=/usr/bin/docker restart %p

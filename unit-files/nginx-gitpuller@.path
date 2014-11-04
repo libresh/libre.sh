@@ -5,5 +5,5 @@ Description=Start the timer if there is a GITURL file
 BindsTo=nginx@%i.service
 
 [Path]
-PathExists=/data/per-user/%i/nginx/data/GITURL
+PathExists=/data/domains/%i/nginx/data/GITURL
 Unit=nginx-gitpuller@%i.timer

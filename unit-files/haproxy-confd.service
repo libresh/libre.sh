@@ -16,7 +16,7 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --name %p \
-  -v /data/server-wide/haproxy/:/etc/haproxy/ \
+  -v /data/runtime/haproxy/:/etc/haproxy/ \
   -v /data/indiehosters/confd/:/etc/confd/ \
   -v /var/run/docker.sock:/var/run/docker.sock \
   indiehosters/confd

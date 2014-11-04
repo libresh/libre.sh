@@ -13,7 +13,7 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --name %p \
-  -v /data/server-wide/haproxy:/etc/haproxy \
+  -v /data/runtime/haproxy:/etc/haproxy \
   -p 80:80 \
   -p 443:443 \
   indiehosters/haproxy
