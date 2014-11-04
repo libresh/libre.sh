@@ -1,21 +1,22 @@
 #!/bin/sh
-if [ $# -ge 4 ]; then
+if [ $# -ge 5 ]; then
   SERVER=$1
   DOMAIN=$2
   PEMFILE=$3
-  GITREPO=$4
+  IMAGE=$4
+  GITREPO=$5
 else
-  echo "Usage: sh ./deploy/add-site.sh server domain pemfile gitrepo [user]"
+  echo "Usage: sh ./deploy/add-site.sh server domain pemfile image gitrepo [user]"
   exit 1
 fi
-if [ $# -ge 5 ]; then
-  USER=$5
+if [ $# -ge 6 ]; then
+  USER=$6
 else
   USER="core"
 fi
-echo "Adding $DOMAIN to $SERVER with cert from $PEMFILE"
+echo "Adding $DOMAIN to $SERVER, running $IMAGE behind $PEMFILE and pulling from $GITREPO"
 echo "Remote user is $USER"
 
-ssh $USER@$SERVER sudo mkdir -p /data/per-user/$DOMAIN/nginx/data
+ssh $USER@$SERVER sudo mkdir -p /data/per-user/$DOMAIN/$IMAGE/data
 scp $PEMFILE $USER@$SERVER:/data/server-wide/haproxy/approved-certs/$DOMAIN.pem
-ssh $USER@$SERVER sudo sh /data/indiehosters/scripts/activate-user.sh $DOMAIN nginx $GITREPO
+ssh $USER@$SERVER sudo sh /data/indiehosters/scripts/activate-user.sh $DOMAIN $IMAGE $GITREPO

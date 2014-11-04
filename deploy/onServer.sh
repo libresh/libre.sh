@@ -4,7 +4,7 @@ echo Starting etcd:
 /usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
 
 echo Cloning the indiehosters repo into /data/indiehosters:
-mkdir /data
+mkdir -p /data
 cd /data
 git clone https://github.com/indiehosters/indiehosters.git
 cd indiehosters
