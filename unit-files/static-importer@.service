@@ -8,7 +8,9 @@ Before=static@%i.service
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/bash -euxc ' \
-  folder=/data/domains/%i/static/www-content; \
+  domain_folder=/data/domains/%i; \
+  cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
+  folder=$domain_folder/static/www-content; \
   mkdir -p $folder; \
   if [ ! -f $folder/index.html ]; then \
     echo Hello %i > $folder/index.html; \

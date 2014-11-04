@@ -8,11 +8,13 @@ Before=static-git@%i.service
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/bash -euxc ' \
+  domain_folder=/data/domains/%i; \
+  cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
   runtime_folder=/data/runtime/domains/%i/static-git; \
   mkdir -p $runtime_folder; \
   git_folder=$runtime_folder/www-content; \
   if [ ! -d $git_folder/.git ]; then \
-    git clone `cat /data/domains/%i/static-git/GITURL` $git_folder; \
+    git clone `cat $domain_folder/static-git/GITURL` $git_folder; \
   fi;'
 
 [Install]

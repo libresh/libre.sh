@@ -10,8 +10,14 @@ BindsTo=mysql@%i.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-Environment=DOMAIN=%i
-ExecStart=/data/indiehosters/importers/mysql.sh
+ExecStart=/bin/bash -euxc ' \
+  folder=/data/domains/%i/mysql; \
+  if [ ! -d $folder ]; then \
+    mkdir -p $folder; \
+    pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
+    echo MYSQL_PASS=$pass > $folder/.env; \
+  fi; \
+  mkdir -p /data/runtime/domains/%i/mysql/db_files'
 
 [Install]
 WantedBy=mysql@%i.service
