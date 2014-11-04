@@ -49,9 +49,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
     approved cert into place, start a container running the image requested, update haproxy config, and restart the haproxy container.
   * set up a git repo for the new site on the backup server (see http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server again), and for instance if you called the backup repo example.com.git and your backup server is in /etc/hosts on k3 as 'bu25', ssh into k3 and run:
 
-    echo "git@bu25:/opt/git/example.com.git" > /data/per-user/example.com/backup/BACKUPDEST
-    USER=example.com
-    /data/indiehosters/importers/backup-init.sh
+    sh scripts/backup-init.sh example.com git@bu25:/opt/git/example.com.git
 
   * Test the site using your /etc/hosts. You should see the data from the git repo on both http and https.
   * Switch DNS and monitoring.

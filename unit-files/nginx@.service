@@ -6,6 +6,7 @@ Requires=docker.service
 Requires=%p-importer@%i.service
 Requires=%p-discovery@%i.service
 Requires=%p-gitpuller@%i.path
+Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service

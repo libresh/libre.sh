@@ -7,6 +7,7 @@ Requires=etcd.service
 Requires=mysql@%i.service
 Requires=%p-importer@%i.service
 Requires=%p-discovery@%i.service
+Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service

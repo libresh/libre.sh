@@ -4,12 +4,10 @@ Description=%p-%i
 # Requirements
 Requires=docker.service
 Requires=%p-importer@%i.service
-Requires=%p-dump@%i.timer
 
 # Dependency ordering
 After=docker.service
 After=%p-importer@%i.service
-Before=%p-dump@%i.timer
 
 [Service]
 Restart=always
