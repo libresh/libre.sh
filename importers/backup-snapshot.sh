@@ -13,9 +13,8 @@ fi
 
 if [ -e /data/per-user/$USER/wordpress ]; then
   echo backing up www from wordpress for $USER
-  mkdir -p /data/per-user/$USER/backup/www/wordpress/
-  cp /data/per-user/$USER/wordpress/.env /data/per-user/$USER/backup/www/wordpress/.env
-  rsync -r /data/per-user/$USER/wordpress/data/wp-content /data/per-user/$USER/backup/www/wordpress/wp-content
+  mkdir -p /data/per-user/$USER/backup/www/
+  rsync -r /data/per-user/$USER/wordpress /data/per-user/$USER/backup/www/wordpress
 fi
 
 if [ -e /data/per-user/$USER/nginx ]; then
