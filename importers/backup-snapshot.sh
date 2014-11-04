@@ -36,6 +36,11 @@ cd /data/per-user/$USER/backup/
 pwd
 git add *
 git status
+
+git config --local user.email "backups@`hostname`"
+git config --local user.name "`hostname` hourly backups"
+git config --local push.default simple
+
 git commit -m"backup $USER @ `hostname` - `date`"
 if [ -e /data/per-user/$USER/backup/BACKUPDEST ]; then
   git pull --rebase
