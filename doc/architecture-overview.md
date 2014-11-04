@@ -12,12 +12,12 @@ There is currently no similar side-kick for updating `/data/runtime/postfix/`, s
 
 The `scripts/setup.sh` takes care of setting up etcd, enabling and starting the haproxy and postfix service (as well as one haproxy backend, to serve the default site), and the haproxy-confd side-kick to listen for changes in the backends configuration in etcd, so that new backends are automatically added to the haproxy config as soon as their IP address is written into etcd.
 
-## HAProxy backends: nginx, wordpress
+## HAProxy backends: static, static-git, wordpress
 
-A per user process is a haproxy backend for a specific domain name. At the time of writing we have two applications available: nginx and wordpress.
+A per user process is a haproxy backend for a specific domain name. At the time of writing we have three applications available: static, static-git and wordpress.
 
 You will notice there are also some other units in the `unit-files/` folder of this repo, like the gitpuller and mysql ones. Whenever you start a wordpress unit, it requires a mysql service.
-Whenever you start an nginx unit, it wants a gitpuller unit. In all three cases, an -importer unit and a -discovery unit are required.
+Whenever you start a static-git unit, it wants a static-git-puller unit. In all three cases, an -importer unit and a -discovery unit are required.
 This works through a
 [`Requires=` directive](https://github.com/indiehosters/indiehosters/blob/0.1.0/unit-files/nginx@.service#L6-L7) which systemd interprets, so that if you start one service, its dependencies are also started (you can see that in `systemctl list-units`).
 

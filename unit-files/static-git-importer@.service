@@ -1,0 +1,19 @@
+[Unit]
+Description=static importer
+
+# Dependency ordering
+Before=static-git@%i.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -euxc ' \
+  runtime_folder=/data/runtime/domains/%i/static-git; \
+  mkdir -p $runtime_folder; \
+  git_folder=$runtime_folder/www-content; \
+  if [ ! -d $git_folder/.git ]; then \
+    git clone `cat /data/domains/%i/static-git/GITURL` $git_folder; \
+  fi;'
+
+[Install]
+WantedBy=static-git@%i.service

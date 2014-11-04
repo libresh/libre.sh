@@ -2,7 +2,7 @@
 Description=Run git puller service every 10 minutes
 
 # Dependency binding
-BindsTo=nginx-gitpuller@%i.path
+BindsTo=static-git@%i.service
 
 [Timer]
 OnUnitActiveSec=10min

@@ -6,10 +6,10 @@ Requires=etcd.service
 
 # Dependency ordering
 After=etcd.service
-After=nginx@%i.service
+After=static-git@%i.service
 
 # Dependency binding
-BindsTo=nginx@%i.service
+BindsTo=static-git@%i.service
 
 [Service]
 # Start
@@ -17,7 +17,7 @@ BindsTo=nginx@%i.service
 ExecStart=/bin/bash -euxc ' \
   sleep 3; \
   while true; do \
-    app=`echo %p | cut -d"-" -f1`; \
+    app=`echo %p | cut -d"-" -f1,2`; \
     ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $app-%i`; \
     curl -f $ip; \
     if [ $? -eq 0 ]; then \

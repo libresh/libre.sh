@@ -15,6 +15,6 @@ fi
 echo "Adding $DOMAIN to $SERVER with cert from $PEMFILE"
 echo "Remote user is $USER"
 
-ssh $USER@$SERVER sudo mkdir -p /data/domains/$DOMAIN/nginx/data
+ssh $USER@$SERVER sudo mkdir -p /data/domains/$DOMAIN/static
 scp $PEMFILE $USER@$SERVER:/data/runtime/haproxy/approved-certs/$DOMAIN.pem
-ssh $USER@$SERVER sudo sh /data/indiehosters/scripts/activate-user.sh $DOMAIN nginx
+ssh $USER@$SERVER sudo sh /data/indiehosters/scripts/activate-user.sh $DOMAIN static

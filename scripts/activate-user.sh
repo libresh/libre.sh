@@ -7,10 +7,10 @@ else
   echo "Usage: sh /data/indiehosters/scripts/activate-user.sh domain image [gitrepo]"
   exit 1
 fi
-mkdir -p /data/domains/$DOMAIN/$IMAGE/data
+mkdir -p /data/domains/$DOMAIN/$IMAGE
 if [ $# -ge 3 ]; then
   GITREPO=$3
-  echo $GITREPO > /data/domains/$DOMAIN/$IMAGE/data/GITURL
+  echo $GITREPO > /data/domains/$DOMAIN/$IMAGE/GITURL
 fi
 
 # Start service for new site (and create the user). This will also enable the git puller.

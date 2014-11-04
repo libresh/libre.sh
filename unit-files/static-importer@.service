@@ -1,0 +1,18 @@
+[Unit]
+Description=static importer
+
+# Dependency ordering
+Before=static@%i.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -euxc ' \
+  folder=/data/domains/%i/static/www-content; \
+  mkdir -p $folder; \
+  if [ ! -f $folder/index.html ]; then \
+    echo Hello %i > $folder/index.html; \
+  fi;'
+
+[Install]
+WantedBy=static@%i.service

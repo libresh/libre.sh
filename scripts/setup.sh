@@ -25,8 +25,8 @@ cp /data/indiehosters/unit-files/* /etc/systemd/system
 systemctl daemon-reload
 
 # Activate default domain
-sh /data/indiehosters/scripts/activate-user.sh $HOSTNAME nginx
-etcdctl set /services/default '{"app":"nginx", "hostname":"'$HOSTNAME'"}'
+sh /data/indiehosters/scripts/activate-user.sh $HOSTNAME static
+etcdctl set /services/default '{"app":"static", "hostname":"'$HOSTNAME'"}'
 
 # Configure and start HAproxy
 mkdir -p /data/runtime/haproxy/approved-certs

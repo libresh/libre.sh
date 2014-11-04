@@ -1,0 +1,27 @@
+[Unit]
+Description=%p-%i
+
+# Requirements
+Requires=docker.service
+Requires=%p-importer@%i.service
+Requires=%p-discovery@%i.service
+Requires=backup@%i.timer
+
+# Dependency ordering
+After=docker.service
+After=%p-importer@%i.service
+Before=%p-discovery@%i.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker kill %p-%i
+ExecStartPre=-/usr/bin/docker rm %p-%i
+ExecStart=/usr/bin/docker run \
+  --name %p-%i \
+  -v /data/domains/%i/%p/www-content:/app \
+  indiehosters/nginx
+ExecReload=/usr/bin/docker restart %p-%i
+ExecStop=/usr/bin/docker stop %p-%i
+
+[Install]
+WantedBy=multi-user.target

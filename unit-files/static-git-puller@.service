@@ -4,6 +4,6 @@ Description=git puller
 [Service]
 Type=oneshot
 ExecStart=/bin/bash -euxc ' \
-  app=`echo %p | cut -d"-" -f1`; \
-  cd /data/domains/%i/$app/data/www-content; \
+  app=`echo %p | cut -d"-" -f1,2`; \
+  cd /data/runtime/domains/%i/$app/www-content; \
   git pull'
