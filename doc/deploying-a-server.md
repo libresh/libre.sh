@@ -15,7 +15,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * set up a backups server at an independent location (at least a different data center, but preferably also a different IaaS provider, the bu25 plan of https://securedragon.net/ is a good option at 3 dollars per month).
 * set up a git server by following http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (no need to set up any repos like 'project.git' yet).  Let's call the backup server 'bu25' (add this to /etc/hosts on k3).
 * add the ssh key from k3 to the authorized_keys for the git user (not the root user) on bu25.
-* Exit from the double ssh back to your laptop, and from the root folder of this repository, run `sh ./deploy/deploy.sh k3 master root`
+* Exit from the double ssh back to your laptop, and from the root folder of this repository, run `sh ./deploy/deploy.sh k3 git@bu25 master root`
 * The rest should be automatic!
 
 ### Adding a website to your server
