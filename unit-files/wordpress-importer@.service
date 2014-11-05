@@ -4,6 +4,7 @@ Description=WordPress importer
 # Dependency ordering
 After=mysql-importer@%i.service
 Before=wordpress@%i.service
+Before=backup@%i.timer
 
 # Dependency binding
 BindsTo=wordpress@%i.service
@@ -15,6 +16,10 @@ Environment=DOMAIN=%i
 ExecStartPre=/data/indiehosters/scripts/backup-init.sh
 ExecStart=/bin/bash -euxc ' \
   domain_folder=/data/domains/%i; \
+  if [ -f /data/import/%i.pem ]; then \
+    mkdir -p $domain_folder/TLS; \
+    mv /data/import/%i.pem $domain_folder/TLS; \
+  fi; \
   cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
   if [ ! -d $domain_folder/wordpress/wp-content ]; then \
     mkdir -p $domain_folder/wordpress/; \

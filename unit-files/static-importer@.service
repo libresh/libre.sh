@@ -3,6 +3,7 @@ Description=static importer
 
 # Dependency ordering
 Before=static@%i.service
+Before=backup@%i.timer
 
 [Service]
 Type=oneshot
@@ -11,6 +12,10 @@ Environment=DOMAIN=%i
 ExecStartPre=/data/indiehosters/scripts/backup-init.sh
 ExecStart=/bin/bash -euxc ' \
   domain_folder=/data/domains/%i; \
+  if [ -f /data/import/%i.pem ]; then \
+    mkdir -p $domain_folder/TLS; \
+    mv /data/import/%i.pem $domain_folder/TLS; \
+  fi; \
   cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
   folder=$domain_folder/static/www-content; \
   mkdir -p $folder; \
