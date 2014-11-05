@@ -2,7 +2,8 @@
 Description=Hourly backup of www and mysql content to a git repo
 
 [Timer]
-OnUnitActiveSec=1h
+OnActiveSec=0
+OnUnitActiveSec=10min
 
 [Install]
 WantedBy=timers.target

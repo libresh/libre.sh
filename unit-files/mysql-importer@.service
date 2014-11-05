@@ -11,13 +11,18 @@ BindsTo=mysql@%i.service
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/bash -euxc ' \
-  folder=/data/domains/%i/mysql; \
-  if [ ! -d $folder ]; then \
-    mkdir -p $folder; \
+  mysql_folder=/data/domains/%i/mysql; \
+  if [ ! -d $mysql_folder ]; then \
+    mkdir -p $mysql_folder; \
     pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
-    echo MYSQL_PASS=$pass > $folder/.env; \
+    echo MYSQL_PASS=$pass > $mysql_folder/.env; \
   fi; \
-  mkdir -p /data/runtime/domains/%i/mysql/db_files'
+  if [ -f $mysql_folder/dump.sql ]; then \
+    echo develop import mysql feature; \
+    exit 1; \
+  else \
+    mkdir -p /data/runtime/domains/%i/mysql/db_files; \
+  fi'
 
 [Install]
 WantedBy=mysql@%i.service

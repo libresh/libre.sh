@@ -14,20 +14,17 @@ Type=oneshot
 RemainAfterExit=yes
 Environment=DOMAIN=%i
 ExecStartPre=/data/indiehosters/scripts/backup-init.sh
+ExecStartPre=/data/indiehosters/scripts/import.sh
 ExecStart=/bin/bash -euxc ' \
-  domain_folder=/data/domains/%i; \
-  if [ -f /data/import/%i.pem ]; then \
-    mkdir -p $domain_folder/TLS; \
-    mv /data/import/%i.pem $domain_folder/TLS; \
-  fi; \
-  cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
-  if [ ! -d $domain_folder/wordpress/wp-content ]; then \
-    mkdir -p $domain_folder/wordpress/; \
-    cd $domain_folder/wordpress/; \
+  cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
+  wordpress_folder=/data/domains/%i/wordpress; \
+  if [ ! -d $wordpress_folder/wp-content ]; then \
+    mkdir -p $wordpress_folder; \
+    cd $wordpress_folder; \
     tar xvzf /data/indiehosters/blueprints/wordpress.tgz; \
+    touch .htaccess; \
   fi; \
-  cat $domain_folder/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $domain_folder/wordpress/.env'
-
+  cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $wordpress_folder/.env'
 
 [Install]
 WantedBy=wordpress@%i.service

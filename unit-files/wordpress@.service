@@ -22,8 +22,8 @@ ExecStartPre=-/usr/bin/docker rm %p-%i
 ExecStart=/usr/bin/docker run \
   --name %p-%i \
   --link mysql-%i:db \
-  -v /data/domains/%i/%p/data/wp-content:/app/wp-content \
-  -v /data/domains/%i/%p/data/.htaccess:/app/.htaccess \
+  -v /data/domains/%i/%p/wp-content:/app/wp-content \
+  -v /data/domains/%i/%p/.htaccess:/app/.htaccess \
   --env-file /data/domains/%i/%p/.env \
   indiehosters/wordpress
 ExecReload=/usr/bin/docker restart %p-%i

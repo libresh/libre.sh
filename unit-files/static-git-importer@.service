@@ -10,18 +10,13 @@ Type=oneshot
 RemainAfterExit=yes
 Environment=DOMAIN=%i
 ExecStartPre=/data/indiehosters/scripts/backup-init.sh
+ExecStartPre=/data/indiehosters/scripts/import.sh
 ExecStart=/bin/bash -euxc ' \
-  domain_folder=/data/domains/%i; \
-  if [ -f /data/import/%i.pem ]; then \
-    mkdir -p $domain_folder/TLS; \
-    mv /data/import/%i.pem $domain_folder/TLS; \
-  fi; \
-  cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
-  runtime_folder=/data/runtime/domains/%i/static-git; \
-  mkdir -p $runtime_folder; \
-  git_folder=$runtime_folder/www-content; \
-  if [ ! -d $git_folder/.git ]; then \
-    git clone `cat $domain_folder/static-git/GITURL` $git_folder; \
+  cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
+  git_folder=/data/runtime/domains/%i/static-git; \
+  if [ ! -d $git_folder/www-content/.git ]; then \
+    mkdir -p $git_folder; \
+    git clone `cat /data/domains/%i/static-git/GITURL` $git_folder/www-content; \
   fi;'
 
 [Install]

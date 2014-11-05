@@ -3,29 +3,28 @@ Description=Back up domain data to a git repo and push it out
 
 [Service]
 Type=oneshot
-Environment=DOMAIN=%i
 ExecStartPre=/bin/bash -euxc ' \
-  if [ -e /data/domains/$DOMAIN/mysql ]; then \
-    echo "Backing up mysql databases for $DOMAIN"; \
+  if [ -d /data/domains/%i/mysql ]; then \
+    echo "Backing up mysql databases for %i"; \
+    mysql_passwd=`cat /data/domains/%i/mysql/.env | cut -d= -f2`; \
     /usr/bin/docker run \
-      --link mysql-$DOMAIN:db \
-      --env-file /data/domains/$DOMAIN/mysql/.env \
+      --link mysql-%i:db \
+      --env-file /data/domains/%i/mysql/.env \
       indiehosters/mysql \
         mysqldump \
           --all-databases \
           --events \
           -u admin \
-          -p$(cat /data/domains/$DOMAIN/mysql/.env | cut -d'=' -f2) \
-          -h db \
-          > /data/domains/$DOMAIN/mysql/dump.sql; \
+          -p$mysql_passwd \
+          -h db > /data/domains/%i/mysql/dump.sql; \
   fi'
 
 ExecStart=/bin/bash -euxc ' \
   echo "Committing everything"; \
-  cd /data/domains/$DOMAIN/; \
+  cd /data/domains/%i/; \
   git add *; \
   git status; \
-  git commit -m"backup $DOMAIN @ `hostname` - `date`"; \
+  git commit --allow-empty -m"backup %i @ `hostname` - `date`"; \
   # be careful: hidden sync functionnality; \
   git pull --rebase; \
-  git push'
+  git push origin master'
