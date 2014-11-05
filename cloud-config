@@ -9,3 +9,9 @@ coreos:
   units:
     - name: etcd.service
       command: start
+write_files:
+  - path: /data/BACKUP_DESTINATION
+    permissions: 0644
+    owner: root
+    content: |
+      core@backup.dev

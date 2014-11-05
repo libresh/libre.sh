@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#Usage from deploy/deploy.sh:
+#ssh $USER@$SERVER sudo sh ./onServer.sh $BRANCH $SERVER
+
 echo Starting etcd:
 /usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
 

@@ -11,18 +11,12 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * Give the new server a name (in this example, we call the server 'k3')
 * Add k3 to your /etc/hosts with the right IP address
 * If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
-* From the root folder of this repository, run `sh ./deploy/deploy.sh k3 ./data/ master root` (where `./data/` should contain
-  `runtime/postfix/`
-  and `runtime/haproxy/approved-certs/k3.pem`; see the existing folder `data/` in this repo for an example of what the email forwards and
-  TLS certificate files should look like).
-* Add the default site by following the 'Adding a website to your server' instructions below with domain name k3 instead of example.com
-* The rest should be automatic!
-
-### Preparing backups
-
-* ssh into your server, and run `ssh-keygen -t rsa`
+* ssh into your server, and run `ssh-keygen -t rsa`  (use all the default settings, empty passphrase)
 * set up a backups server at an independent location (at least a different data center, but preferably also a different IaaS provider, the bu25 plan of https://securedragon.net/ is a good option at 3 dollars per month).
-* set up a git server with one private git repo per domain by following http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (instead of 'project.git' you can use 'domainname.com.git')
+* set up a git server by following http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (no need to set up any repos like 'project.git' yet).  Let's call the backup server 'bu25' (add this to /etc/hosts on k3).
+* add the ssh key from k3 to the authorized_keys for the git user (not the root user) on bu25.
+* Exit from the double ssh back to your laptop, and from the root folder of this repository, run `sh ./deploy/deploy.sh k3 master root`
+* The rest should be automatic!
 
 ### Adding a website to your server
 * For each site you want to deploy on the server, e.g. example.com, do the following:
@@ -47,9 +41,5 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * Now run `deploy/add-site.sh k3 example.com ../hoster-data/TLS/example.com.pem nginx https://github.com/someone/example.com.git root`.
     It will make sure the server is in the correct state, and git pull and scp the user data and the
     approved cert into place, start a container running the image requested, update haproxy config, and restart the haproxy container.
-  * set up a git repo for the new site on the backup server (see http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server again), and for instance if you called the backup repo example.com.git and your backup server is in /etc/hosts on k3 as 'bu25', ssh into k3 and run:
-
-    sh scripts/backup-init.sh example.com git@bu25:/opt/git/example.com.git
-
   * Test the site using your /etc/hosts. You should see the data from the git repo on both http and https.
   * Switch DNS and monitoring.

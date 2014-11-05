@@ -1,7 +1,31 @@
 [Unit]
-Description= Back up mysql and www data to a git repo and optionally push it out
+Description=Back up domain data to a git repo and push it out
 
 [Service]
 Type=oneshot
 Environment=DOMAIN=%i
-ExecStart=/data/indiehosters/importers/backup-snapshot.sh
+ExecStartPre=/bin/bash -euxc ' \
+  if [ -e /data/domains/$DOMAIN/mysql ]; then \
+    echo "Backing up mysql databases for $DOMAIN"; \
+    /usr/bin/docker run \
+      --link mysql-$DOMAIN:db \
+      --env-file /data/domains/$DOMAIN/mysql/.env \
+      indiehosters/mysql \
+        mysqldump \
+          --all-databases \
+          --events \
+          -u admin \
+          -p$(cat /data/domains/$DOMAIN/mysql/.env | cut -d'=' -f2) \
+          -h db \
+          > /data/domains/$DOMAIN/mysql/dump.sql; \
+  fi'
+
+ExecStart=/bin/bash -euxc ' \
+  echo "Committing everything"; \
+  cd /data/domains/$DOMAIN/; \
+  git add *; \
+  git status; \
+  git commit -m"backup $DOMAIN @ `hostname` - `date`"; \
+  # be careful: hidden sync functionnality; \
+  git pull --rebase; \
+  git push'

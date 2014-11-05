@@ -1,14 +1,10 @@
 #!/bin/sh
-if [ $# -ge 1 ]; then
-  SERVER=$1
-else
-  echo "Usage: sh ./deploy/deploy.sh server [folder [branch [user]]]"
-  exit 1
-fi
 if [ $# -ge 2 ]; then
-  FOLDER=$2
+  SERVER=$1
+  BACKUP_DEST=$2
 else
-  FOLDER="./data/"
+  echo "Usage: sh ./deploy/deploy.sh server backup_dest [branch [user]]]"
+  exit 1
 fi
 if [ $# -ge 3 ]; then
   BRANCH=$3
@@ -21,20 +17,18 @@ else
   USER="core"
 fi
 
-if [ -e "${FOLDER}runtime/haproxy/approved-certs/${SERVER}.pem" ]; then
-  DEFAULTSITE=$SERVER
-else
-  echo "Please make sure ${FOLDER}runtime/haproxy/approved-certs/${SERVER}.pem exists, then retry"
-  exit 1
-fi
-
-echo "Hoster data folder is $FOLDER"
-echo "Infrastructure branch is $BRANCH"
+echo "Server to deploy is $SERVER"
+echo "Backups will live under $BACKUP_DEST"
+echo "IndieHosters repo branch is $BRANCH"
 echo "Remote user is $USER"
-echo "Default site is $DEFAULTSITE"
 
-scp -r $FOLDER $USER@$SERVER:/data
 scp ./deploy/onServer.sh $USER@$SERVER:
+
 ssh $USER@$SERVER sudo mkdir -p /var/lib/coreos-install/
 scp cloud-config $USER@$SERVER:/var/lib/coreos-install/user_data
-ssh $USER@$SERVER sudo sh ./onServer.sh $BRANCH $DEFAULTSITE
+ssh $USER@$SERVER sudo sh ./onServer.sh $BRANCH $SERVER
+
+# overrides BACKUP_DESTINATION from cloud-config
+echo $BACKUP_DEST > ./deploy/tmp.txt
+scp ./deploy/tmp.txt $USER@SERVER:/data/BACKUP_DESTINATION
+rm ./deploy/tmp.txt

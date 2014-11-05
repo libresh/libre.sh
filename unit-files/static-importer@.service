@@ -7,6 +7,8 @@ Before=static@%i.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+Environment=DOMAIN=%i
+ExecStartPre=/data/indiehosters/scripts/backup-init.sh
 ExecStart=/bin/bash -euxc ' \
   domain_folder=/data/domains/%i; \
   cp $domain_folder/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
