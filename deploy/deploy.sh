@@ -30,5 +30,5 @@ ssh $USER@$SERVER sudo sh ./onServer.sh $BRANCH $SERVER
 
 # overrides BACKUP_DESTINATION from cloud-config
 echo $BACKUP_DEST > ./deploy/tmp.txt
-scp ./deploy/tmp.txt $USER@SERVER:/data/BACKUP_DESTINATION
+scp ./deploy/tmp.txt $USER@$SERVER:/data/BACKUP_DESTINATION
 rm ./deploy/tmp.txt
