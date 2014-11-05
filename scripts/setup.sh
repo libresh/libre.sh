@@ -26,6 +26,7 @@ systemctl daemon-reload
 
 # Configure and start HAproxy
 mkdir -p /data/runtime/haproxy/approved-certs
+cp /data/indiehosters/scripts/unsecure-certs/indiehosters.dev.pem /data/runtime/haproxy/approved-certs/default.pem
 systemctl enable haproxy-confd.service
 systemctl start  haproxy-confd.service
 systemctl enable haproxy.path

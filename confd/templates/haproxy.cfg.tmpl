@@ -1,9 +1,3 @@
-{{$default_service_value := getv "/services/default"}}
-{{$default_service := json $default_service_value}}
-{{$default_url := printf "/services/%s/%s" $default_service.app $default_service.hostname}}
-{{$default_value := getv $default_url}}
-{{$default := json $default_value}}
-{{$default := json $default_value}}
 global
   maxconn 4096
   user haproxy
@@ -22,7 +16,7 @@ defaults
 
 frontend https-in
 mode http
-  bind *:443 ssl crt-list /etc/haproxy/crt-list crt /etc/haproxy/approved-certs/{{$default_service.hostname}}.pem
+  bind *:443 ssl crt-list /etc/haproxy/crt-list crt /etc/haproxy/approved-certs/default.pem
   reqadd X-Forwarded-Proto:\ https
 {{range $app := lsdir "/services"}}
 {{$hostnames := printf "/services/%s/*" $app}}
@@ -35,8 +29,6 @@ mode http
   use_backend {{base $hostname}} if https_{{base $hostname}}
   {{end}}
 {{end}}
-
-default_backend {{$default_service.hostname}}
 
 frontend http-in
   bind *:80
