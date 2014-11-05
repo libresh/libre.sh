@@ -31,15 +31,20 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
         in real time, immediately when you click 'verify' in the StartSSL UI. If they forward the email the next day, then the token
         will already have expired.
     * If no, register it (at Namecheap or elsewhere).
-  * Decide which image to run as the user's main website software (in version 0.1 only 'nginx' is supported)
-  * If you already have some content that should go on there, and which is compatible with the image you chose,
-    put it in a public git repository somewhere.
-  * Unless there is already a TLS certificate at `./data/runtime/haproxy/example.com.pem` get one
-    (from StartSSL or elswhere) for example.com and concatenate the certificate
-    and its unencrypted private key into `indiehosters/user-data/example.com/tls.pem`
-  * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this).
-  * Now run `deploy/add-site.sh k3 example.com ../hoster-data/TLS/example.com.pem nginx https://github.com/someone/example.com.git root`.
-    It will make sure the server is in the correct state, and git pull and scp the user data and the
-    approved cert into place, start a container running the image requested, update haproxy config, and restart the haproxy container.
-  * Test the site using your /etc/hosts. You should see the data from the git repo on both http and https.
+  * Decide which image to run as the user's main website software (in version 0.2, 'static', 'static-git', and 'wordpress' are supported)
+  * For the 'wordpress' image, all you need is the TLS certificate. Use the 'static-git' image if you already have some static
+    content that should go on there, and which you can put in a public git repository somewhere.
+  * Unless you already have a TLS certificate for example.com, get one
+    (from StartSSL or elsewhere), and concatenate the certificate
+    and its unencrypted private key into one file.
+  * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this), and scp it to `/data/import/example.com/TLS/example.com.pem` on k3.
+  * Now ssh into k3, and if for instance 'wordpress' is the image you chose, run:
+
+    systemctl enable wordpress@example.com
+    systemctl start wordpress@example.com
+
+  * In case you're going for the 'static-git' repo, store the git url with the content in `/data/domains/example.com/static-git/GITURL`.
+  * In case you're going for the 'static' repo, store the html content under `/data/domains/example.com/static/www-content`.
+  * Test the site using your /etc/hosts. You should see the data from the git repo, or the static content, or a wordpress start page
+    on both http and https.
   * Switch DNS and monitoring.
