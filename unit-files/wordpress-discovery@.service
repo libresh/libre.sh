@@ -14,8 +14,8 @@ BindsTo=wordpress@%i.service
 [Service]
 # Start
 ## Test whether service is accessible and then register useful information
-ExecStart=/bin/bash -euxc ' \
-  sleep 3; \
+ExecStart=/bin/bash -c ' \
+  sleep 30; \
   while true; do \
     app=`echo %p | cut -d"-" -f1`; \
     ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $app-%i`; \

@@ -14,7 +14,7 @@ BindsTo=static-git@%i.service
 [Service]
 # Start
 ## Test whether service is accessible and then register useful information
-ExecStart=/bin/bash -euxc ' \
+ExecStart=/bin/bash -c ' \
   sleep 3; \
   while true; do \
     app=`echo %p | cut -d"-" -f1,2`; \
