@@ -21,8 +21,7 @@ docker pull indiehosters/mysql
 docker pull indiehosters/wordpress
 
 # Install unit-files
-cp /data/indiehosters/unit-files/* /etc/systemd/system
-systemctl daemon-reload
+cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
 
 # Create Directory structure
 mkdir -p /data/domains
