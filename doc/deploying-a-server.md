@@ -37,7 +37,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * Unless you already have a TLS certificate for example.com, get one
     (from StartSSL or elsewhere), and concatenate the certificate
     and its unencrypted private key into one file.
-  * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this), and scp it to `/data/import/example.com.pem` on k3.
+  * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this), and scp it to `/data/import/example.com/TLS/example.com.pem` on k3.
   * Now ssh into k3, and if for instance 'wordpress' is the image you chose, run:
 
     systemctl enable wordpress@example.com
