@@ -29,6 +29,6 @@ ExecStart=/bin/bash -c ' \
   done'
 
 # Stop
-ExecStop=/bin/bash -euxc ' \
+ExecStop=-/bin/bash -euxc ' \
   app=`echo %p | cut -d"-" -f1`; \
   /usr/bin/etcdctl rm /services/$app/%i
