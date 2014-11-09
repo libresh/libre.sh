@@ -32,17 +32,7 @@ mode http
 
 frontend http-in
   bind *:80
-{{range $app := lsdir "/services"}}
-{{$hostnames := printf "/services/%s/*" $app}}
-  {{range gets $hostnames}}
-    {{$hostname := .Key}}
-    {{$data := json .Value}}
-# {{base $hostname}}:
-  acl is_{{base $hostname}} hdr(host) -i {{base $hostname}}
-  acl is_{{base $hostname}} hdr(host) -i www.{{base $hostname}}
-  use_backend {{base $hostname}} if is_{{base $hostname}}
-  {{end}}
-{{end}}
+  redirect scheme https code 301
 
 {{range $app := lsdir "/services"}}
 {{$hostnames := printf "/services/%s/*" $app}}
