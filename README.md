@@ -20,17 +20,18 @@ work).
 vagrant up
 ```
 
-Wait for the provisioning to finish (~12mins), and go to your browser: https://indiehosters.dev
+Wait for the provisioning to finish (~40mins), and go to your browser: https://indiehosters.dev
 
 If the process fails, for instance due to network problems, you can retry by running `vagrant provision`.
 
-### If you want to add another static instance apart from indiehosters.dev:
+### Set up a domain:
 
 ```bash
-vagrant ssh
+vagrant ssh core-1
 sudo mkdir -p /data/import/example.dev/TLS
 sudo cp /data/indiehosters/scripts/unsecure-certs/example.dev.pem /data/import/example.dev/TLS
 sudo systemctl start static@example.dev
+sudo systemctl restart haproxy-confd
 ```
 
 Check https://example.dev in your bowser!
@@ -49,8 +50,8 @@ vagrant up
 ```bash
 vagrant destroy
 vagrant up
-# Check in your browser https://indiehosters.dev
-vagrant ssh
+# Check in your browser https://example.dev
+vagrant ssh core-1
 sudo su
-/data/indiehosters/scripts/tests/main.sh
+/data/indiehosters/tests/main.sh
 ```
