@@ -30,8 +30,8 @@ If the process fails, for instance due to network problems, you can retry by run
 vagrant ssh core-1
 sudo mkdir -p /data/import/example.dev/TLS
 sudo cp /data/indiehosters/scripts/unsecure-certs/example.dev.pem /data/import/example.dev/TLS
+sudo systemctl enable static@example.dev
 sudo systemctl start static@example.dev
-sudo systemctl restart haproxy-confd
 ```
 
 Check https://example.dev in your bowser!
@@ -50,7 +50,7 @@ vagrant up
 ```bash
 vagrant destroy
 vagrant up
-# Check in your browser https://example.dev
+# Set up example.dev as above, and test https://example.dev in your browser
 vagrant ssh core-1
 sudo su
 /data/indiehosters/tests/main.sh

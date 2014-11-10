@@ -11,14 +11,33 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * Give the new server a name (in this example, we call the server 'k3')
 * Add k3 to your /etc/hosts with the right IP address
 * If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
-* ssh into your server, and run `ssh-keygen -t rsa`  (use all the default settings, empty passphrase)
-* set up a backups server at an independent location (at least a different data center, but preferably also a different IaaS provider, the bu25 plan of https://securedragon.net/ is a good option at 3 dollars per month).
-* set up a git server by following http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (no need to set up any repos like 'project.git' yet).  Let's call the backup server 'bu25' (add this to /etc/hosts on k3).
-* add the ssh key from k3 to the authorized_keys for the git user (not the root user) on bu25.
+* Ssh into your server, and run `ssh-keygen -t rsa`  (use all the default settings, empty passphrase)
+* Set up a backups server at an independent location (at least a different data center, but preferably also a different IaaS provider, the bu25 plan of https://securedragon.net/ is a good option at 3 dollars per month).
+* Set up a git server by following http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (no need to set up any repos like 'project.git' yet).  Let's call the backup server 'bu25' (add this to /etc/hosts on k3).
+* Add the ssh key from k3 to the authorized_keys for the git user (not the root user) on bu25.
+* Check that you can `ssh git@bu25` from k3.
 * Exit from the double ssh back to your laptop, and from the root folder of this repository, run `sh ./deploy/deploy.sh k3 git@bu25 master root`
-* The rest should be automatic!
+* The rest should be automatic! (ignore the warning about backup.dev, and note that haproxy will not start as long as there are no website on your server).
 
-### Adding a website to your server
+### Adding an existing website
+* The IndieHosters architecture is migration-oriented, so it aims to make moving a domain from one server to another very easy.
+* If you already have a domain in backups, say example.com, then it's easy to add it to this new server.
+* Say domain example.com runs the 'static' image. Then ssh into k3, and run:
+
+````bash
+    systemctl enable static@example.com
+    systemctl start static@example.com
+````
+
+* This will automatically do the following things:
+  * Clone the backup repo from bu25
+  * Set up an hourly backup job for the user data (which will live in `/data/domains/example.com` on k3)
+  * Start an nginx container
+  * Note its IP address in etcd
+  * Rewrite the haproxy configuration
+  * (Re)start haproxy
+
+### Adding a new website to your server
 * For each site you want to deploy on the server, e.g. example.com, do the following:
   * Does example.com already exist as a domain name?
     * If yes, then find out to what extent it's currently in use (and needs to be migrated with care). There are a few options:
@@ -47,4 +66,11 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * In case you're going for the 'static' repo, store the html content under `/data/domains/example.com/static/www-content`.
   * Test the site using your /etc/hosts. You should see the data from the git repo, or the static content, or a wordpress start page
     on both http and https.
-  * Switch DNS and monitoring.
+  * If all looks well, switch DNS and monitoring.
+  * If not, check what happened by looking at what's in `/data/domains/example.com`, `data/runtime/domains/example.com`, and `/data/runtime/haproxy` on k3. Note that this part of our scripts is currently a bit complex, we will clean this up in a next version. There are six different scripts that try to initialize the contents of `/data/domains/example.com`:
+    * The git clone from the back up service (will try to initialize an empty git repository)
+    * The local data import process (will try to move the data from `/data/import/example.com` into place
+    * The wordpress image (which we used from the wordpress-stackable Dockerfile published by Tutum)
+    * The mysql image (which we used from the mysql Dockerfile published by Tutum)
+    * The wordpress importer (a one-time systemd task)
+    * The mysql importer (a one-time systemd task)
