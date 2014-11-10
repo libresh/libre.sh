@@ -74,3 +74,4 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
     * The mysql image (which we used from the mysql Dockerfile published by Tutum)
     * The wordpress importer (a one-time systemd task)
     * The mysql importer (a one-time systemd task)
+  * If you're setting up a fresh wordpress site, you have to access the admin panel over http first (e.g. run it `-p 80:80`), and activate the [https plugin](https://wordpress.org/plugins/wordpress-https/) before it will work behind the haproxy SSL-offloader.
