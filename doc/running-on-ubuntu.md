@@ -29,5 +29,6 @@ etcdctl ls
 etcdctl help
 ````
 
+Be aware that this will expose etcd on port 4001, also on the public IP address, so if you are using this in production the it is very important to block this port on the firewall.
 Now follow the [CoreOS-based instructions](deploying-a-server.md)
 
