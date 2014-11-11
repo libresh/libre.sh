@@ -10,7 +10,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   you will be ssh-ing and scp-ing as (the default remote user of our deploy scripts is 'core').
 * Give the new server a name (in this example, we call the server 'k3')
 * Add k3 to your /etc/hosts with the right IP address
-* If you have used this name before, run `./deploy/forget-server-fingerprint.sh k3`
+* If you have used this name before, run `ssh-keygen -R k3`
 * Ssh into your server, and run `ssh-keygen -t rsa`  (use all the default settings, empty passphrase)
 * Set up a backups server at an independent location (at least a different data center, but preferably also a different IaaS provider, the bu25 plan of https://securedragon.net/ is a good option at 3 dollars per month).
 * Set up a git server by following http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (no need to set up any repos like 'project.git' yet).  Let's call the backup server 'bu25' (add this to /etc/hosts on k3).
