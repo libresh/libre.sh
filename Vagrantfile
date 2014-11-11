@@ -68,6 +68,13 @@ SCRIPT
       core.vm.provision :shell, inline: $install_insecure_keys
       core.vm.provision :shell, inline: "mkdir -p /data/runtime/haproxy/approved-certs; cp /data/indiehosters/scripts/unsecure-certs/*.pem /data/runtime/haproxy/approved-certs"
       core.vm.provision :shell, path: "./scripts/setup.sh", args: [HOSTNAME]
+      $start_indiehosters_dev = <<SCRIPT
+sudo mkdir -p /data/import/indiehosters.dev/TLS
+sudo cp /data/indiehosters/scripts/unsecure-certs/indiehosters.dev.pem /data/import/indiehosters.dev/TLS
+sudo systemctl enable static@indiehosters.dev
+sudo systemctl start static@indiehosters.dev
+SCRIPT
+      core.vm.provision :shell, inline: $start_indiehosters_dev
     end
     
   end
