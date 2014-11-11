@@ -2,7 +2,7 @@
 Description=WordPress importer
 
 # Dependency ordering
-After=mysql-importer@%i.service
+After=mysql@%i.service
 Before=wordpress@%i.service
 Before=backup@%i.timer
 

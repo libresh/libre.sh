@@ -12,16 +12,16 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/bash -euxc ' \
   mysql_folder=/data/domains/%i/mysql; \
-  if [ ! -d $mysql_folder ]; then \
-    mkdir -p $mysql_folder; \
-    pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
-    echo MYSQL_PASS=$pass > $mysql_folder/.env; \
-  fi; \
-  if [ -f $mysql_folder/dump.sql ]; then \
-    echo develop import mysql feature; \
-    exit 1; \
-  else \
-    mkdir -p /data/runtime/domains/%i/mysql/db_files; \
+  if [ ! -d /data/runtime/domains/%i/mysql ]; then \
+    if [ -d $mysql_folder ]; then \
+      echo develop import mysql feature; \
+      exit 1; \
+    else \
+      mkdir -p $mysql_folder; \
+      pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
+      echo MYSQL_PASS=$pass > $mysql_folder/.env; \
+      mkdir -p /data/runtime/domains/%i/mysql; \
+    fi; \
   fi'
 
 [Install]
