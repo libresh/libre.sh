@@ -74,4 +74,5 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
     * The mysql image (which we used from the mysql Dockerfile published by Tutum)
     * The wordpress importer (a one-time systemd task)
     * The mysql importer (a one-time systemd task)
+  * It might help to remove /data/domains/example.com, /data/runtime/domains/example.com, and /etc/systemd/system/*/*example.com*, and remove the git@bu25:example.com repo from the backup server, make sure /data/import/example.com/TLS/example.com.pem exists, make sure /data/BACKUP_DESTINATION contains git@bu25 (and not core@backup.dev), shutdown -r now, and retry.
   * If you're setting up a fresh wordpress site, you have to access the admin panel over http first (e.g. run it `-p 80:80`), and activate the [https plugin](https://wordpress.org/plugins/wordpress-https/) before it will work behind the haproxy SSL-offloader.
