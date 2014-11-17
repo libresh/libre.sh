@@ -4,7 +4,8 @@
 Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 
 ### Prepare your orchestration data
-* Get a CoreOS server, for instance from [RackSpace](rackspace.com) or [Vultr](vultr.com).
+* Get a CoreOS or Ubuntu server, for instance from [RackSpace](rackspace.com) or [Vultr](vultr.com).
+* If you chose Ubuntu, follow the [Ubuntu-specific](running-on-ubuntu.md) instructions, then continue here.
 * If you didn't add your public ssh key during the order process (e.g. through your IaaS control panel or a cloud-config file),
   scp your laptop's public ssh key (probably in `~/.ssh/id_rsa.pub`) to `.ssh/authorized_keys` for the remote user
   you will be ssh-ing and scp-ing as (the default remote user of our deploy scripts is 'core').
