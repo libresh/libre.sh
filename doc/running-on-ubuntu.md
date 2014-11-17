@@ -1,3 +1,14 @@
+# Work in progress
+
+
+
+
+We try to support ubuntu 14.10, but this is blocked by [#44](https://github.com/indiehosters/indiehosters/issues/44)
+
+
+
+
+
 To run an IndieHosters on ubuntu 14.10 (earlier versions will not work), run something like:
 
 ````bash

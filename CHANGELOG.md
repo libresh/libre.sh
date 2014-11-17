@@ -1,6 +1,5 @@
 # 0.2.1
 
-* instructions for how to run an IndieHosters server on Ubuntu 14.10 (as an alternative to CoreOS)
 * draft instructions for how to add an application (whether server-wide or per-user)
 * several bugfixes
 
