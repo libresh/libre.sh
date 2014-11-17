@@ -1,3 +1,17 @@
+# 0.2.1
+
+* instructions for how to run an IndieHosters server on Ubuntu 14.10 (as an alternative to CoreOS)
+* draft instructions for how to add an application (whether server-wide or per-user)
+* several bugfixes
+
+# 0.2.0
+
+* a separation between /data/domains and /data/runtime, making site immigration much easier
+* the wordpress image and the mysql image it depends on
+* the backup service which commits all user content, including a mysql dump, to a private git repo, and pushes that out to a remote destination every hour
+* the nginx image from 0.1.0 split into static and static-git
+
+
 # 0.1.0
 
 * Static webhosting
