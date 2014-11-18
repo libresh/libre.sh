@@ -57,7 +57,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * For the 'wordpress' image, all you need is the TLS certificate. Use the 'static-git' image if you already have some static
     content that should go on there, and which you can put in a public git repository somewhere.
   * Unless you already have a TLS certificate for example.com, get one
-    (from StartSSL or elsewhere), and concatenate the certificate
+    (from StartSSL if you own the domain in question, from namecheap or elsewhere if you do not), and concatenate the certificate
     and its unencrypted private key into one file.
   * Make sure the TLS certificate is valid (use `scripts/check-cert.sh` for this), and scp it to `/data/import/example.com/TLS/example.com.pem` on k3.
   * Now ssh into k3, and if for instance 'wordpress' is the image you chose, run:
