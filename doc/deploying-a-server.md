@@ -38,7 +38,9 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * Rewrite the haproxy configuration
   * (Re)start haproxy
 
-* If the domain runs wordpress, then the git clone from backup will fail because of [issue 46](https://github.com/indiehosters/indiehosters/issues/46), so make sure to follow the workaround steps from there.
+* If the domain runs wordpress, then:
+  * the git clone from backup will fail because of [issue 46](https://github.com/indiehosters/indiehosters/issues/46), so make sure to follow the workaround steps from there.
+  * initial wordpress setup will be impossible with the redirect because of [Dockerfiles issue 39](https://github.com/indiehosters/dockerfiles/issues/39), so make sure to follow the workaround steps from there.
 
 ### Adding a new website to your server
 * For each site you want to deploy on the server, e.g. example.com, do the following:
