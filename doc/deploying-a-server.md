@@ -41,6 +41,9 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 * If the domain runs wordpress, then:
   * the git clone from backup will fail because of [issue 46](https://github.com/indiehosters/indiehosters/issues/46), so make sure to follow the workaround steps from there.
   * initial wordpress setup will be impossible with the redirect because of [Dockerfiles issue 39](https://github.com/indiehosters/dockerfiles/issues/39), so make sure to follow the workaround steps from there.
+  * Indiewebifying the WordPress instance is still a manual process, so make sure you know the user's preferred username (you can use this for the SiteName as well), and preferred language.
+  * Configure an arbitrarily long password, and save it in wordpress/login.txt in /data/domains/domain.com/wordpress/login.txt. The user will be logging in with IndieAuth, but it's good to make a not of which password you set.
+  * Activate the IndieWeb plugins/themes/widget as per [Dockerfiles issue 40](https://github.com/indiehosters/dockerfiles/issues/40).
 
 ### Adding a new website to your server
 * For each site you want to deploy on the server, e.g. example.com, do the following:
