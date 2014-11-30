@@ -1,3 +1,7 @@
+# 0.2.2
+
+* add Known as an application
+
 # 0.2.1
 
 * draft instructions for how to add an application (whether server-wide or per-user)

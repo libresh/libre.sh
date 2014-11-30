@@ -38,7 +38,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
   * Rewrite the haproxy configuration
   * (Re)start haproxy
 
-* If the domain runs wordpress, then:
+* If the domain runs wordpress (and similarly if it runs Known), then:
   * the git clone from backup will fail because of [issue 46](https://github.com/indiehosters/indiehosters/issues/46), so make sure to follow the workaround steps from there.
   * initial wordpress setup will be impossible with the redirect because of [Dockerfiles issue 39](https://github.com/indiehosters/dockerfiles/issues/39), so make sure to follow the workaround steps from there.
   * Indiewebifying the WordPress instance is still a manual process, so make sure you know the user's preferred username (you can use this for the SiteName as well), and preferred language.
@@ -60,7 +60,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
         in real time, immediately when you click 'verify' in the StartSSL UI. If they forward the email the next day, then the token
         will already have expired.
     * If no, register it (at Namecheap or elsewhere).
-  * Decide which image to run as the user's main website software (in version 0.2, 'static', 'static-git', and 'wordpress' are supported)
+  * Decide which image to run as the user's main website software (in version 0.2.2, 'static', 'static-git', 'wordpress', and 'known' are supported)
   * For the 'wordpress' image, all you need is the TLS certificate. Use the 'static-git' image if you already have some static
     content that should go on there, and which you can put in a public git repository somewhere.
   * Unless you already have a TLS certificate for example.com, get one
