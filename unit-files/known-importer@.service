@@ -21,7 +21,7 @@ ExecStart=/bin/bash -euxc ' \
   if [ ! -d $known_folder/known-content ]; then \
     mkdir -p $known_folder; \
     cd $known_folder; \
-    tar xvzf /data/indiehosters/blueprints/known-0.6.4.tgz; \
+    tar xvzf /data/indiehosters/blueprints/known-0.6.5.tgz; \
     touch .htaccess; \
   fi; \
   cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $known_folder/.env'
