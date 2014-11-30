@@ -19,6 +19,7 @@ docker pull indiehosters/postfix-forwarder
 docker pull indiehosters/nginx
 docker pull indiehosters/mysql
 docker pull indiehosters/wordpress
+docker pull indiehosters/known
 
 # Install unit-files
 sudo cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
