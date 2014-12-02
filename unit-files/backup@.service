@@ -27,6 +27,4 @@ ExecStart=/bin/bash -euxc ' \
   git config --local user.email "backups@%i"; \
   git config --local user.name "backup service running at %i"; \
   git commit --allow-empty -m"backup %i @ `hostname` - `date`"; \
-  echo "be careful: hidden sync functionnality"; \
-  git pull --rebase; \
   git push -u origin master'
