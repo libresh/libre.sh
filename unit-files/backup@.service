@@ -24,5 +24,5 @@ ExecStart=/bin/bash -euxc ' \
   cd /data/domains/%i/; \
   git add *; \
   git status; \
-  git commit --allow-empty -m"backup %i @ `hostname` - `date`"; \
+  git commit --allow-empty -am"backup %i @ `hostname` - `date`"; \
   git push origin master'
