@@ -24,7 +24,5 @@ ExecStart=/bin/bash -euxc ' \
   cd /data/domains/%i/; \
   git add *; \
   git status; \
-  git config --local user.email "backups@%i"; \
-  git config --local user.name "backup service running at %i"; \
   git commit --allow-empty -m"backup %i @ `hostname` - `date`"; \
-  git push -u origin master'
+  git push origin master'
