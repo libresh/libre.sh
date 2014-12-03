@@ -5,7 +5,7 @@ Make sure you read [getting started](getting-started-as-a-hoster.md) first.
 
 ### Prepare your orchestration data
 * Get a CoreOS server, for instance from [RackSpace](rackspace.com), [Vultr](vultr.com), or [Hetzner](http://serverboerse.de/).
-* We aim to also support Ubuntu 14.10, but this is currently blocked by issue [#44](https://github.com/indiehosters/indiehosters/issues/44)
+* If you prefer another operating system, you can also run our Docker images [using just Docker and bash](using-just-docker-and-bash.md).
 * If you didn't add your public ssh key during the order process (e.g. through your IaaS control panel or a cloud-config file),
   scp your laptop's public ssh key (probably in `~/.ssh/id_rsa.pub`) to `.ssh/authorized_keys` for the remote user
   you will be ssh-ing and scp-ing as (the default remote user of our deploy scripts is 'core').
