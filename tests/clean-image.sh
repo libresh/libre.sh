@@ -2,7 +2,11 @@
 
 image=$1
 
-/data/indiehosters/tests/runtime-clean-image.sh $image
+systemctl stop *@$image.test.timer
+systemctl stop *@$image.test
+systemctl reset-failed
+systemctl list-units | grep -c "$image\.test" | grep 0
+rm -rf /data/import/$image.test
+rm -rf /data/runtime/domains/$image.test
 rm -rf /data/domains/$image.test
-
-ssh core@backup.dev "rm -rf $image.test"
+systemctl disable $image@$image.test

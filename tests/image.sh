@@ -15,26 +15,15 @@ fi
 # start image from import
 systemctl start $image@$image.test
 
-if [ "$image" == "wordpress" ]; then
-  sleep 40
-else
-  sleep 10
-fi
-
 # tests
-systemctl list-units | grep "$image\.test" | grep -c failed | grep 0
-ip=`docker inspect --format {{.NetworkSettings.IPAddress}} $image-$image.test`
-curl -L $ip
+/data/indiehosters/tests/test-image.sh $image
 
 # start image from backup
-/data/indiehosters/tests/runtime-clean-image.sh $image
-if [ "$image" == "wordpress" ]; then
-  echo should fail until implementation of mysql backup importer
-fi
+## make sure to backup first
+systemctl start backup@$image.test
+/data/indiehosters/tests/clean-image.sh $image
+systemctl enable $image@$image.test
 systemctl start $image@$image.test
-sleep 10
 
 # tests
-systemctl list-units | grep "$image\.test" | grep -c failed | grep 0
-ip=`docker inspect --format {{.NetworkSettings.IPAddress}} $image-$image.test`
-curl $ip
+/data/indiehosters/tests/test-image.sh $image

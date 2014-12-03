@@ -53,5 +53,11 @@ vagrant up
 # Set up example.dev as above, and test https://example.dev in your browser
 vagrant ssh core-1
 sudo su
-/data/indiehosters/tests/main.sh
+/data/indiehosters/tests/start.sh
+exit
+exit
+vagrant reload --provision
+vagrant ssh core-1
+sudo su
+/data/indiehosters/tests/finish.sh
 ```
