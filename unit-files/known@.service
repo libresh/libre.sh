@@ -15,6 +15,9 @@ After=mysql@%i.service
 After=%p-importer@%i.service
 Before=%p-discovery@%i.service
 
+# Dependency binding
+BindsTo=mysql@%i.service
+
 [Service]
 Restart=always
 ExecStartPre=-/usr/bin/docker kill %p-%i
