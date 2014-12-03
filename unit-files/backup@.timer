@@ -2,7 +2,7 @@
 Description=Hourly backup of www and mysql content to a git repo
 
 [Timer]
-OnActiveSec=10
+OnActiveSec=20
 OnUnitActiveSec=60min
 
 [Install]
