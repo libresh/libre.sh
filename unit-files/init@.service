@@ -1,0 +1,31 @@
+[Unit]
+Description=Initializer
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=/bin/bash -euxc ' \
+  BACKUP_DESTINATION=`cat /data/BACKUP_DESTINATION`; \
+  echo "Intitializing backups with $BACKUP_DESTINATION"; \
+  if [ ! -d /data/domains/%i/.git ]; then \
+    if [ `ssh $BACKUP_DESTINATION "test -d %i"; echo $?` -eq 0 ]; then \
+      git clone $BACKUP_DESTINATION:%i /data/domains/%i; \
+      cd /data/domains/%i; \
+    else \
+      ssh $BACKUP_DESTINATION "mkdir -p %i;cd %i;git init --bare;"; \
+      if [ ! -d /data/domains/%i ]; then \
+        mkdir /data/domains/%i; \
+      fi; \
+      cd /data/domains/%i; \
+      git init; \
+      git remote add origin $BACKUP_DESTINATION:%i; \
+    fi; \
+    git config --local user.email "backups@`hostname`"; \
+    git config --local user.name "`hostname` hourly backups"; \
+  fi'
+
+ExecStart=/bin/bash -euxc ' \
+  if [ -d /data/import/%i ]; then \
+    cp -r /data/import/%i/* /data/domains/%i; \
+    rm -rf /data/import/%i; \
+  fi'

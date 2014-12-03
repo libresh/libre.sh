@@ -2,6 +2,7 @@
 Description=MySQL importer
 
 # Dependency ordering
+After=init@%i.service
 Before=mysql@%i.service
 
 # Dependency binding
@@ -13,10 +14,7 @@ RemainAfterExit=yes
 ExecStart=/bin/bash -euxc ' \
   mysql_folder=/data/domains/%i/mysql; \
   if [ ! -d /data/runtime/domains/%i/mysql ]; then \
-    if [ -d $mysql_folder ]; then \
-      echo develop import mysql feature; \
-      exit 1; \
-    else \
+    if [ ! -d $mysql_folder ]; then \
       mkdir -p $mysql_folder; \
       pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
       echo MYSQL_PASS=$pass > $mysql_folder/.env; \

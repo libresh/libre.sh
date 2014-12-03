@@ -1,16 +1,17 @@
 [Unit]
 Description=static importer
 
+# Requirements
+Requires=init@%i.service
+
 # Dependency ordering
+After=init@%i.service
 Before=static-git@%i.service
 Before=backup@%i.timer
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-Environment=DOMAIN=%i
-ExecStartPre=/data/indiehosters/scripts/backup-init.sh
-ExecStartPre=/data/indiehosters/scripts/import.sh
 ExecStart=/bin/bash -euxc ' \
   cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem; \
   git_folder=/data/runtime/domains/%i/static-git; \
