@@ -8,6 +8,7 @@ Requires=%p-importer@%i.service
 # Dependency ordering
 After=docker.service
 After=%p-importer@%i.service
+Before=backup@%i.timer
 
 [Service]
 Restart=always
