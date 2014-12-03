@@ -1,6 +1,8 @@
 # 0.2.3
 
 * fixes backup
+* better tests
+* import dump.sql when relevant
 
 # 0.2.2
 
