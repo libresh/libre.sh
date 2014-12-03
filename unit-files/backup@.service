@@ -14,7 +14,7 @@ ExecStartPre=/bin/bash -euxc ' \
         mysqldump \
           --all-databases \
           --events \
-          -u admin \
+          -uadmin \
           -p$mysql_passwd \
           -h db > /data/domains/%i/mysql/dump.sql; \
   fi'
