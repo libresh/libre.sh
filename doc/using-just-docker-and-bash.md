@@ -4,22 +4,24 @@
 
 Given that CoreOS is not available everywhere, and the Ubuntu 14.10 setup with etcdctl inside a Docker instance still has some problems,
 I'll try if I can run all our services (postfix-forwarder, haproxy, and the various web backend containers) on an off-the-shelf Ubuntu server.
-Note that not all servers support Docker, because of kernel modules etcetera; in this case I used Ubuntu 12.04-64 at Gandi,
-and gave it 5GB of disk space and 512Mb of RAM.
+Note that not all servers support Docker, because of kernel modules etcetera; of the images I tried at Gandi, only the Ubuntu 12.04-64 one
+allowed me to actually run `docker ps`, and even on there, I was not able to run `docker run debian apt-get update` because from the looks
+of it, containers are not allowed to contact the outside world. In the end I got an Ubuntu 14.10 server at Rackspace.
+Note that about 5GB of disk space will be used, and when running multiple sites, 1Gb of RAM is probably also well-spent.
 Here's what I did to prepare the server:
 
 ````bash
 apt-get update && apt-get -y upgrade
-apt-get -y install unattended-upgrades curl git
+apt-get -y install unattended-upgrades docker.io git
 
 dpkg-reconfigure -plow unattended-upgrades
 # set unattended upgrades to 'Yes'
 
 ssh-keygen -t rsa
 # select all the defaults by hitting <enter> repeatedly
-
-curl -s https://get.docker.io/ubuntu/ | sh
 ````
+
+Test your server by running `docker run debian apt-get update` (there should be no 'could not resolve' errors).
 
 Then I added the .ssh/id_rsa.pub to .ssh/authorized_keys at both backup server accounts, and ran:
 
