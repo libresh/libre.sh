@@ -32,12 +32,9 @@ How to migrate a domain name from one hosting provider to another depends on the
 are serveral possibilities. In version 0.3 of this migration procedure, we will only consider one basic case, which is quite easy
 to deal with:
 
-* the user either is the registrant or represents the registrant
-* the user is the admin contact and the billing contact
-* the old hoster is the technical contact
-* the domain name registration is in account at a well-known registrar (e.g. NameCheap)
+* the domain name registration is in an account at a well-known registrar (e.g. NameCheap)
 * this registrar account is under control of the old hoster (not of the user directly)
-* the new hoster also has an account at this well-known registrar, or is willing to create one
+* the new hoster also has an account at this same well-known registrar, or is willing to create one
 * the registrar offers a "Transfer to another account" option
 
 The migration process is then as follows:
@@ -54,7 +51,8 @@ The migration process is then as follows:
   * agree on possible transfer of user's prepaid credit, e.g. if they were paying yearly at old hoster
   * double check the new hoster's account identifier at the well-known registrar
 * old hoster transfers the domain name registration into the new hoster's account at the well-known registrar
-* old hoster notifies new hoster and user that this has been done
+* old hoster notifies new hoster and user that this has been done, to reconfirm to the user what the next upcoming renewal date
+is for the domain name registration, and if any account credit was transferred
 
 ### DNS hosting
 
@@ -67,10 +65,10 @@ The old hoster tells the new hoster what the user's forwarding address is.
 
 ### TLS certificate
 
-The old hoster sends the certificate to the new hoster one or more .pem files, where the .pem file containing the private key is
+The old hoster sends the certificate to the new hoster as one or more .pem files, where the .pem file containing the private key is
 encrypted with a passphrase.
 
-The old hoster sends the passphrase over a secure medium, in an unrelated message. For instance, if the .pem files were sent via
+The old hoster sends the passphrase over a different and secure medium, in an unrelated message. For instance, if the .pem files were sent via
 scp, the passphrase may be sent via PGP-encrypted email.
 
 ### Web application (simplistic procedure)
