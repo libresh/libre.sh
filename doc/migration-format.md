@@ -1,33 +1,8 @@
 # IndieHosters migration format
 
-# Version 0.3
+## Deprecated
 
-### General
-
-An IndieHosters migration archive is a directory structure (probably packaged up as a tar file or zip file).
-There should be an 'indiehosters.json' file in the root of the archive. It should contain at least the following fields:
-
- * format: the URL of this spec (probably https://indiehosters.net/spec/0.3)
- * application: a string, which determines what the rest of the folder contents should be imported into.
-
-
-## Known
-
-When migrating a Known application, the 'indiehosters.json' file should furthermore contain the following fields:
-
-  * application: 'known'
-  * version: the version of Known as a string, for instance '0.6.5'
-  * database:
-    * engine: the database engine used, either 'mysql' or 'mongodb'
-    * name: the database name inside the dump file, for instance 'known'
-    * file: the database dump file inside the archive, for instance 'dump.sql'
-  * uploads: the uploads folder name inside the archive, for instance 'uploads/'
-  * plugins: the folder with any non-standard plugins for instance 'plugins/'
-
-
-## WordPress
-
-(to be determined)
+Deprecated by the [web app migration procedure](../proc/webapp.md)
 
 
 ## Version 0.2.2 (deprecated)
