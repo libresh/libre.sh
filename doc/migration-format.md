@@ -1,6 +1,36 @@
 # IndieHosters migration format
 
-## Version 0.2.2
+# Version 0.3
+
+### General
+
+An IndieHosters migration archive is a directory structure (probably packaged up as a tar file or zip file).
+There should be an 'indiehosters.json' file in the root of the archive. It should contain at least the following fields:
+
+ * format: the URL of this spec (probably https://indiehosters.net/spec/0.3)
+ * application: a string, which determines what the rest of the folder contents should be imported into.
+
+
+## Known
+
+When migrating a Known application, the 'indiehosters.json' file should furthermore contain the following fields:
+
+  * application: 'known'
+  * version: the version of Known as a string, for instance '0.6.5'
+  * database:
+    * engine: the database engine used, either 'mysql' or 'mongodb'
+    * name: the database name inside the dump file, for instance 'known'
+    * file: the database dump file inside the archive, for instance 'dump.sql'
+  * uploads: the uploads folder name inside the archive, for instance 'uploads/'
+  * plugins: the folder with any non-standard plugins for instance 'plugins/'
+
+
+## WordPress
+
+(to be determined)
+
+
+## Version 0.2.2 (deprecated)
 
 When a user exports their data for domain.com, they get a zip or tar file that contains different files, depending on which application is
 running on their domain:
@@ -33,28 +63,3 @@ running on their domain:
 * known/ - php files to be placed in the web root
 * known/.env - contains the MySQL password
 * known/login.txt - email address and password for the Known admin panel
-
-
-# Version 0.3 (proposed, not implemented yet)
-
-### General
-
-An IndieHosters migration archive is a directory structure (probably packaged up as a tar file or zip file).
-There should be a 'runme.sh' file in the root of the archive.
-
-
-### Single-tennant usage
-
-When executing `./runme.sh` from the folder on an empty server that supports Docker, a single-tennant server should be started.
-
-
-### Multi-tennant postfix-forwarder support
-
-When executing it on a server that is already running an instance of indiehosters/postfix-forwarder:0.3 on port 25 of the host system,
-any email forwarding rules for this domain should be added to the existing postfix-forwarder instance.
-
-
-### Multi-tennant haproxy support
-
-When executing it on a server that is already running an instance of indiehosters/haproxy:0.3 on ports 80 and 443 of the host system,
-the web app (if any) should be added as a backend to the existing haproxy instance.
