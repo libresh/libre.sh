@@ -23,6 +23,9 @@ ssh-keygen -t rsa
 # Install Docker:
 curl -sSL https://get.docker.com/ | sh
 
+# Install docker-enter ([recommended](https://github.com/jpetazzo/nsenter#nsenter-in-a-can)):
+docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+
 # In this case I also had to:
 /etc/init.d/exim stop
 ````
