@@ -3,12 +3,9 @@ Description=%p
 
 # Requirements
 Requires=docker.service
-Requires=etcd.service
 
 # Dependency ordering
 After=docker.service
-After=etcd.service
-Before=haproxy.service
 
 [Service]
 Restart=always
@@ -16,9 +13,9 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --name %p \
-  -v /data/runtime/haproxy/:/etc/haproxy/ \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  indiehosters/confd
+  -v /data/runtime/postfix/:/data \
+  -p 25:25 \
+  pierreozoux/email-forwarder
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
 

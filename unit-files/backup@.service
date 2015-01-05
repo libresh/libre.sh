@@ -14,7 +14,7 @@ ExecStartPre=/bin/bash -euxc ' \
       --name mysqldump-%i \
       --link mysql-%i:db \
       --env-file /data/domains/%i/mysql/.env \
-      indiehosters/mysql \
+      pierreozoux/mysql \
         mysqldump \
           --all-databases \
           --events \

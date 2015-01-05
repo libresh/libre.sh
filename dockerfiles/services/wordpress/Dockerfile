@@ -1,4 +1,4 @@
-FROM indiehosters/apache
+FROM pierreozoux/apache
 
 # Download latest version of Wordpress into /app
 RUN curl -L https://wordpress.org/wordpress-4.0.tar.gz | tar xz && \

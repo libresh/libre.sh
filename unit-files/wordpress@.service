@@ -28,7 +28,7 @@ ExecStart=/usr/bin/docker run \
   -v /data/domains/%i/%p/wp-content:/app/wp-content \
   -v /data/domains/%i/%p/.htaccess:/app/.htaccess \
   --env-file /data/domains/%i/%p/.env \
-  indiehosters/wordpress
+  pierreozoux/wordpress
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 

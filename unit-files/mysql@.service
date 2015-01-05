@@ -19,7 +19,7 @@ ExecStart=/usr/bin/docker run \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \
   -e STARTUP_SQL="/data/domains/%i/%p/dump.sql" \
   --env-file /data/domains/%i/%p/.env \
-  indiehosters/mysql
+  pierreozoux/mysql
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 

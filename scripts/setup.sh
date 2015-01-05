@@ -13,13 +13,13 @@ if [ -f /tmp/vagrantfile-user-data ]; then
 fi
 
 # Pull relevant docker images
-docker pull indiehosters/haproxy
-docker pull indiehosters/confd
-docker pull indiehosters/postfix-forwarder
-docker pull indiehosters/nginx
-docker pull indiehosters/mysql
-docker pull indiehosters/wordpress
-docker pull indiehosters/known
+docker pull pierreozoux/haproxy
+docker pull pierreozoux/confd
+docker pull pierreozoux/email-forwarder
+docker pull pierreozoux/nginx
+docker pull pierreozoux/mysql
+docker pull pierreozoux/wordpress
+docker pull pierreozoux/known
 
 # Install unit-files
 sudo cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
@@ -32,8 +32,8 @@ mkdir -p /data/runtime/postfix
 
 # Configure and start HAproxy
 cp /data/indiehosters/scripts/unsecure-certs/indiehosters.dev.pem /data/runtime/haproxy/approved-certs/default.pem
-systemctl enable haproxy-confd.service
-systemctl start  haproxy-confd.service
+systemctl enable confd.service
+systemctl start  confd.service
 systemctl enable haproxy.path
 systemctl start  haproxy.path
 
@@ -42,8 +42,8 @@ touch /data/runtime/postfix/hostname
 touch /data/runtime/postfix/destinations
 touch /data/runtime/postfix/forwards
 
-systemctl enable postfix.service
-systemctl start  postfix.service
+systemctl enable email-forwarder.service
+systemctl start  email-forwarder.service
 
 # Adds backup ssh key to the list of known hosts
 ssh -o StrictHostKeyChecking=no `cat /data/BACKUP_DESTINATION` "exit"

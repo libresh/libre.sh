@@ -1,4 +1,4 @@
-FROM indiehosters/apache
+FROM pierreozoux/apache
 
 # Download latest version of Known into /app
 RUN mkdir -p ; cd /app ; curl -L http://assets.withknown.com/releases/known-0.6.5.tgz | tar xz
