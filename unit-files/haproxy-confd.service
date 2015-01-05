@@ -17,7 +17,6 @@ ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --name %p \
   -v /data/runtime/haproxy/:/etc/haproxy/ \
-  -v /data/indiehosters/confd/:/etc/confd/ \
   -v /var/run/docker.sock:/var/run/docker.sock \
   indiehosters/confd
 ExecReload=/usr/bin/docker restart %p

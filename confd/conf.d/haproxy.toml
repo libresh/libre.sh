@@ -1,7 +1,0 @@
-[template]
-src  = "haproxy.cfg.tmpl"
-dest = "/etc/haproxy/haproxy.cfg"
-keys = [
-  "/services"
-]
-reload_cmd = "/docker kill --signal=\"SIGUSR1\" haproxy"

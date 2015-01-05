@@ -3,5 +3,6 @@
   {{range gets $hostnames}}
     {{$hostname := .Key}}
 /etc/haproxy/approved-certs/{{base $hostname}}.pem {{base $hostname}}
+/etc/haproxy/approved-certs/{{base $hostname}}.pem www.{{base $hostname}}
   {{end}}
 {{end}}

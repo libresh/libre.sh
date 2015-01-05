@@ -1,7 +1,0 @@
-[template]
-src  = "crt-list.tmpl"
-dest = "/etc/haproxy/crt-list"
-keys = [
-  "/services"
-]
-reload_cmd = "/docker kill --signal=\"SIGUSR1\" haproxy"
