@@ -1,6 +1,0 @@
-  
-/etc/haproxy/approved-certs/michielbdejong.com.pem michielbdejong.com
-/etc/haproxy/approved-certs/michielbdejong.com.pem www.michielbdejong.com
-  
-/etc/haproxy/approved-certs/otherdomain.com.pem otherdomain.com
-/etc/haproxy/approved-certs/otherdomain.com.pem www.otherdomain.com

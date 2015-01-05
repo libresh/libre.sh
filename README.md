@@ -1,10 +1,7 @@
 ## IndieHosters
 
 This repository contains the configuration and scripts we use to control our servers.
-It can run inside Vagrant or
-[deploy to a server](doc/getting-started-as-a-hoster.md) (FIXME: update those instructions to
-prescribe less folder structure, explain static https+smtp hosting, and check if they currently
-work).
+It can run inside Vagrant or [deploy to a server](doc/getting-started-as-a-hoster.md)
 
 ## Prerequisites to running this code with Vagrant:
 - [vagrant](http://www.vagrantup.com/)
