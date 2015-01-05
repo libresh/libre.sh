@@ -1,0 +1,63 @@
+{{$default_service_value := getv "/services/default"}}
+{{$default_service := json $default_service_value}}
+{{$default_url := printf "/services/%s/%s" $default_service.app $default_service.hostname}}
+{{$default_value := getv $default_url}}
+{{$default := json $default_value}}
+{{$default := json $default_value}}
+global
+  maxconn 4096
+  user haproxy
+  group haproxy
+
+defaults
+  mode http
+  option httplog
+  option dontlognull
+  retries 3
+  timeout connect 5000
+  timeout client 50000
+  timeout server 50000
+
+frontend https-in
+mode http
+  bind *:443 ssl crt-list /etc/haproxy/crt-list crt /etc/haproxy/approved-certs/{{$default_service.hostname}}.pem
+  reqadd X-Forwarded-Proto:\ https
+{{range $app := lsdir "/services"}}
+{{$hostnames := printf "/services/%s/*" $app}}
+  {{range gets $hostnames}}
+    {{$hostname := .Key}}
+    {{$data := json .Value}}
+# {{base $hostname}}:
+  acl https_{{base $hostname}} hdr(host) -i {{base $hostname}}
+  use_backend {{base $hostname}} if https_{{base $hostname}}
+  {{end}}
+{{end}}
+
+default_backend {{$default_service.hostname}}
+
+frontend http-in
+  bind *:80
+{{range $app := lsdir "/services"}}
+{{$hostnames := printf "/services/%s/*" $app}}
+  {{range gets $hostnames}}
+    {{$hostname := .Key}}
+    {{$data := json .Value}}
+# {{base $hostname}}:
+  acl is_{{base $hostname}} hdr(host) -i {{base $hostname}}
+  use_backend {{base $hostname}} if is_{{base $hostname}}
+  {{end}}
+{{end}}
+
+{{range $app := lsdir "/services"}}
+{{$hostnames := printf "/services/%s/*" $app}}
+  {{range gets $hostnames}}
+    {{$hostname := .Key}}
+    {{$data := json .Value}}
+# {{base $hostname}}:
+backend {{base $hostname}}
+  cookie SERVERID insert nocache indirect
+  option httpclose
+  option forwardfor
+  server Server {{$data.ip}}:{{$data.port}} cookie Server
+  {{end}}
+{{end}}
