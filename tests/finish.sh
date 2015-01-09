@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-systemctl list-units | grep failed
+systemctl list-units | grep -c failed | grep 0
 
 applications=( static static-git wordpress known)
 
