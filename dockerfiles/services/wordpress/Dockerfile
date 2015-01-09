@@ -1,7 +1,7 @@
 FROM pierreozoux/apache
 
 # Download latest version of Wordpress into /app
-RUN curl -L https://wordpress.org/wordpress-4.0.tar.gz | tar xz && \
+RUN curl -L https://wordpress.org/wordpress-4.1.tar.gz | tar xz && \
   mv wordpress/* app
 ADD wp-config.php /app/wp-config.php
 
