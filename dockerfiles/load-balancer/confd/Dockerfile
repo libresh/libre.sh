@@ -9,6 +9,8 @@ RUN \
     ca-certificates &&\
   rm -rf /var/lib/apt/lists/*
 
+ADD confd /etc/confd
+
 RUN \
   wget https://github.com/kelseyhightower/confd/releases/download/v0.6.3/confd-0.6.3-linux-amd64 -O confd && \
   chmod +x confd
