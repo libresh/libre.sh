@@ -1,3 +1,17 @@
+# 0.3.0
+
+* adds automation script for user provisionning
+
+# 0.2.4
+
+* improve tests
+* wordpess version 4.1
+* Internal modifications
+  * rename project
+  * rename images
+  * integrate dockerfiles to the project
+  * add hotfixes
+
 # 0.2.3
 
 * fixes backup
