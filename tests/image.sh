@@ -7,7 +7,7 @@ image=$1
 # prepare data
 mkdir -p /data/import/$image.test/TLS
 cp /data/indiehosters/scripts/unsecure-certs/example.dev.pem /data/import/$image.test/TLS/$image.test.pem
-if [ "$image" == "static-git" ]; then
+if [ "$image" == "staticgit" ]; then
   mkdir -p /data/import/$image.test/static-git
   echo "https://github.com/indiehosters/website.git" > /data/import/$image.test/static-git/GITURL
 fi
