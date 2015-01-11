@@ -1,14 +1,13 @@
 #!/bin/bash
 
+if [ ! "$(ls -A /app/wp-content)" ]; then
+  mv /wp-content /app/wp-content
+fi
+
 chown -R root:www-data /app
 chmod -R 650 /app
 chmod -R 770 /app/wp-content/
 chmod -R 660 /app/.htaccess
-
-if [ -f /.mysql_db_created ]; then
-        exec /run.sh
-        exit 1
-fi
 
 DB_HOST=${DB_PORT_3306_TCP_ADDR:-${DB_HOST}}
 DB_HOST=${DB_1_PORT_3306_TCP_ADDR:-${DB_HOST}}
@@ -64,5 +63,5 @@ else
     exit $DB_CONNECTABLE
 fi
 
-touch /.mysql_db_created
 exec /run.sh
+

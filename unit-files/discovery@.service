@@ -4,26 +4,19 @@ Description=%p for %i etcd registration
 # Requirements
 Requires=etcd.service
 
-# Dependency ordering
-After=etcd.service
-After=static@%i.service
-
-# Dependency binding
-BindsTo=static@%i.service
-
 [Service]
 # Start
 ## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c ' \
-  sleep 3; \
+  sleep 30; \
   while true; do \
-    app=`echo %p | cut -d"-" -f1`; \
+    app=`echo %i | cut -d"-" -f1`; \
     ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $app-%i`; \
     curl -f $ip; \
     if [ $? -eq 0 ]; then \
-      etcdctl set /services/$app/%i \'{"ip":"\'$ip\'", "port":"80"}\' --ttl 60; \
+      etcdctl set /services/web/%i \'{"ip":"\'$ip\'", "port":"80"}\' --ttl 60; \
     else \
-      etcdctl rm /services/$app/%i; \
+      etcdctl rm /services/web/%i; \
     fi; \
     sleep 50; \
   done'
@@ -31,4 +24,4 @@ ExecStart=/bin/bash -c ' \
 # Stop
 ExecStop=-/bin/bash -euxc ' \
   app=`echo %p | cut -d"-" -f1`; \
-  /usr/bin/etcdctl rm /services/$app/%i
+  /usr/bin/etcdctl rm /services/web/%i

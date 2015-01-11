@@ -1,14 +1,24 @@
 #!/bin/bash
 
-chown -R root:www-data /app
-chmod -R 650 /app
-chmod -R 770 /app/known-content/
-chmod -R 660 /app/.htaccess
+# Environment creation
+KNOWN_DATABASE="MySQL"
+KNOWN_DBNAME="${DB_NAME}"
+KNOWN_DBUSER="${DB_USER}"
+KNOWN_DBPASS="${DB_PASS}"
+KNOWN_DBHOST="${DB_HOST}"
+KNOWN_FILESYSTEM="local"
+KNOWM_UPLOADPATH="/uploads/"
 
-if [ -f /.mysql_db_created ]; then
-        exec /run.sh
-        exit 1
+# Initialization after docker mount
+if [ ! -s /app/.htaccess ]; then
+  cat /app/htaccess.dist > /app/.htaccess
 fi
+
+chown -R root:www-data /app
+chown -R root:www-data /uploads
+chmod -R 650 /app
+chmod -R 660 /uploads
+chmod -R 660 /app/.htaccess
 
 DB_HOST=${DB_PORT_3306_TCP_ADDR:-${DB_HOST}}
 DB_HOST=${DB_1_PORT_3306_TCP_ADDR:-${DB_HOST}}
@@ -28,15 +38,6 @@ echo "      Database Username:      $DB_USER"
 echo "      Database Password:      $DB_PASS"
 echo "========================================================================"
 
-echo "database = 'MySQL'" > /app/config.ini
-echo "dbhost = '$DB_HOST'" >> /app/config.ini
-echo "dbname = '$DB_NAME'" >> /app/config.ini
-echo "dbuser = '$DB_USER'" >> /app/config.ini
-echo "dbpass = '$DB_PASS'" >> /app/config.ini
-echo "filesystem = 'local'" >> /app/config.ini
-echo "uploadpath = '/uploads/'" >> /app/config.ini
-chown root:www-data /app/config.ini
-chmod 640 /app/config.ini
 
 for ((i=0;i<10;i++))
 do
@@ -57,9 +58,9 @@ if [[ $DB_CONNECTABLE -eq 0 ]]; then
             echo "Cannot create database for known"
             exit RET
         fi
-        if [ -f /initial_db.sql ]; then
+        if [ -f /app/schemas/mysql/mysql.sql ]; then
             echo "=> Loading initial database data to $DB_NAME"
-            RET=$(mysql -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT $DB_NAME < /initial_db.sql)
+            RET=$(mysql -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT $DB_NAME < /app/schemas/mysql/mysql.sql)
             if [[ RET -ne 0 ]]; then
                 echo "Cannot load initial database data for known"
                 exit RET
@@ -74,5 +75,5 @@ else
     exit $DB_CONNECTABLE
 fi
 
-touch /.mysql_db_created
 exec /run.sh
+

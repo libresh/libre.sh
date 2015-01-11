@@ -3,32 +3,41 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=etcd.service
+Requires=init@%i.service
 Requires=mysql@%i.service
-Requires=%p-importer@%i.service
-Requires=%p-discovery@%i.service
+Requires=discovery@%p-%i.service
 Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service
+After=init@%i.service
 After=mysql@%i.service
-After=%p-importer@%i.service
-Before=%p-discovery@%i.service
+Before=discovery@%p-%i.service
+Before=backup@%i.timer
 
 # Dependency binding
 BindsTo=mysql@%i.service
+BindsTo=discovery@%p-%i.service
 
 [Service]
 Restart=always
 ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
+ExecStartPre=/bin/bash -euxc ' \
+  application_folder=/data/domains/%i/%p; \
+  if [ ! -d $application_folder ]; then \
+    mkdir -p $application_folder; \
+    touch $application_folder/.htaccess; \
+  fi; \
+  cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $application_folder/.env'
+
 ExecStart=/usr/bin/docker run \
   --name %p-%i \
   --link mysql-%i:db \
-  -v /data/domains/%i/%p/known-content:/app/known-content \
+  -v /data/domains/%i/%p/wp-content:/app/wp-content \
   -v /data/domains/%i/%p/.htaccess:/app/.htaccess \
   --env-file /data/domains/%i/%p/.env \
-  pierreozoux/known
+  pierreozoux/%p
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 

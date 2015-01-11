@@ -3,19 +3,30 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=%p-importer@%i.service
-Requires=%p-discovery@%i.service
+Requires=init@%i.service
+Requires=discovery@%p-%i.service
 Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service
-After=%p-importer@%i.service
-Before=%p-discovery@%i.service
+After=init@%i.service
+Before=discovery@%p-%i.service
+Before=backup@%i.timer
+
+# Dependency binding
+BindsTo=discovery@%p-%i.service
 
 [Service]
 Restart=always
 ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
+ExecStartPre=/bin/bash -euxc ' \
+  application_folder=/data/domains/%i/static/www-content; \
+  if [ ! -d $application_folder ]; then \
+    mkdir -p $application_folder; \
+    echo Hello %i > $application_folder/index.html; \
+  fi;'
+
 ExecStart=/usr/bin/docker run \
   --name %p-%i \
   -v /data/domains/%i/%p/www-content:/app \

@@ -2,7 +2,8 @@ FROM pierreozoux/apache
 
 # Download latest version of Wordpress into /app
 RUN curl -L https://wordpress.org/wordpress-4.1.tar.gz | tar xz && \
-  mv wordpress/* app
+  mv wordpress/* app && \
+  mv /app/wp-content /wp-content
 ADD wp-config.php /app/wp-config.php
 
 # Add script to create 'wordpress' DB

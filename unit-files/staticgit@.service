@@ -3,20 +3,31 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=%p-importer@%i.service
-Requires=%p-discovery@%i.service
+Requires=init@%i.service
+Requires=discovery@%p-%i.service
 Requires=%p-puller@%i.timer
 Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service
-After=%p-importer@%i.service
-Before=%p-discovery@%i.service
+After=init@%i.service
+Before=discovery@%p-%i.service
+Before=backup@%i.timer
+
+# Dependency binding
+BindsTo=discovery@%p-%i.service
 
 [Service]
 Restart=always
 ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
+ExecStartPre=/bin/bash -euxc ' \
+  application_folder=/data/runtime/domains/%i/static-git; \
+  if [ ! -d $application_folder/www-content/.git ]; then \
+    mkdir -p $application_folder; \
+    git clone `cat /data/domains/%i/static-git/GITURL` $application_folder/www-content; \
+  fi;'
+
 ExecStart=/usr/bin/docker run \
   --name %p-%i \
   -v /data/runtime/domains/%i/%p/www-content:/app \

@@ -3,17 +3,26 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=%p-importer@%i.service
 
 # Dependency ordering
 After=docker.service
-After=%p-importer@%i.service
 Before=backup@%i.timer
 
 [Service]
 Restart=always
 ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
+ExecStartPre=/bin/bash -euxc ' \
+  mysql_folder=/data/domains/%i/mysql; \
+  if [ ! -d /data/runtime/domains/%i/mysql ]; then \
+    if [ ! -d $mysql_folder ]; then \
+      mkdir -p $mysql_folder; \
+      pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
+      echo MYSQL_PASS=$pass > $mysql_folder/.env; \
+      mkdir -p /data/runtime/domains/%i/mysql; \
+    fi; \
+  fi'
+
 ExecStart=/usr/bin/docker run \
   --name %p-%i \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \

@@ -28,4 +28,5 @@ ExecStart=/bin/bash -euxc ' \
   if [ -d /data/import/%i ]; then \
     cp -r /data/import/%i/* /data/domains/%i; \
     rm -rf /data/import/%i; \
-  fi'
+  fi; \
+  cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem;'
