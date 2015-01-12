@@ -15,9 +15,8 @@ if [ ! -s /app/.htaccess ]; then
 fi
 
 chown -R root:www-data /app
-chown -R root:www-data /uploads
 chmod -R 650 /app
-chmod -R 660 /uploads
+chmod -R 770 /app/Uploads
 chmod -R 660 /app/.htaccess
 
 DB_HOST=${DB_PORT_3306_TCP_ADDR:-${DB_HOST}}

@@ -1,8 +1,7 @@
 FROM pierreozoux/apache
 
 # Download latest version of Known into /app
-RUN mkdir /uploads && \
-  mkdir -p /app && \
+RUN mkdir -p /app && \
   cd /app && \
   curl -L http://assets.withknown.com/releases/known-0.6.5.tgz | tar xz
 
@@ -18,5 +17,5 @@ ENV DB_USER admin
 ENV DB_PASS **ChangeMe**
 
 EXPOSE 80
-VOLUME ["/uploads", "/app/.htaccess"]
+VOLUME ["/app/Uploads", "/app/.htaccess"]
 CMD ["/run-known.sh"]
