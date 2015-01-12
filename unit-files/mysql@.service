@@ -29,7 +29,6 @@ ExecStartPre=/bin/bash -euxc ' \
       echo MYSQL_PASS=$pass > $mysql_folder/.env; \
     else \
       cp $mysql_folder/dump.sql /data/runtime/domains/%i/mysql/db_files/; \
-
     fi; \
   fi'
 
