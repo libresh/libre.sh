@@ -4,11 +4,6 @@ if [ ! "$(ls -A /app/wp-content)" ]; then
   cp -av /wp-content/* /app/wp-content/
 fi
 
-chown -R root:www-data /app
-chmod -R 650 /app
-chmod -R 770 /app/wp-content/
-chmod -R 660 /app/.htaccess
-
 DB_HOST=${DB_PORT_3306_TCP_ADDR:-${DB_HOST}}
 DB_HOST=${DB_1_PORT_3306_TCP_ADDR:-${DB_HOST}}
 DB_PORT=${DB_PORT_3306_TCP_PORT:-${DB_PORT}}
@@ -62,6 +57,11 @@ else
     echo "Cannot connect to Mysql"
     exit $DB_CONNECTABLE
 fi
+
+chown -R root:www-data /app
+chmod -R 650 /app
+chmod -R 770 /app/wp-content/
+chmod -R 660 /app/.htaccess
 
 exec /run.sh
 
