@@ -17,7 +17,11 @@ Before=backup@%i.timer
 
 [Service]
 Restart=always
+Type=notify
+NotifyAccess=all
 EnvironmentFile=/data/domains/%i/.env
+Environment=URL=%i
+ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill %i
 ExecStartPre=-/usr/bin/docker rm %i
 ExecStartPre=/bin/bash -euxc ' \
@@ -28,17 +32,14 @@ ExecStartPre=/bin/bash -euxc ' \
   fi; \
   cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $application_folder/.env'
 
-ExecStart=/usr/bin/docker run \
+ExecStart=/opt/bin/systemd-docker --env run \
   --name %i \
   --link mysql-%i:db \
   -v /data/domains/%i/${APPLICATION}/data:${VOLUME} \
   -v /data/domains/%i/${APPLICATION}/.htaccess:/app/.htaccess \
   --env-file /data/domains/%i/${APPLICATION}/.env \
   pierreozoux/${APPLICATION}
-ExecReload=/bin/bash -euxc ' \
-  /usr/bin/docker restart %i; \
-  systemctl restart discovery@%i.service; \
-  systemctl restart backup@%i.timer;'
+ExecReload=/usr/bin/docker restart %i
 
 ExecStop=/bin/bash -euxc ' \
   systemctl stop discovery@%i.service; \
