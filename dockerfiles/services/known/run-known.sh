@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Environment creation
-KNOWN_DATABASE="MySQL"
-KNOWN_DBNAME="${DB_NAME}"
-KNOWN_DBUSER="${DB_USER}"
-KNOWN_DBPASS="${DB_PASS}"
-KNOWN_DBHOST="${DB_HOST}"
-KNOWN_FILESYSTEM="local"
-KNOWM_UPLOADPATH="/uploads/"
-
 # Initialization after docker mount
 if [ ! -s /app/.htaccess ]; then
   cat /app/htaccess.dist > /app/.htaccess
@@ -73,6 +64,15 @@ else
     echo "Cannot connect to Mysql"
     exit $DB_CONNECTABLE
 fi
+
+# Environment creation
+echo "filesystem = 'local'"         > /app/config.ini
+echo "uploadpath = '/app/Uploads'" >> /app/config.ini
+echo "database = 'MySQL'"          >> /app/config.ini
+echo "dbname = '${DB_NAME}'"       >> /app/config.ini
+echo "dbhost = '${DB_HOST}'"       >> /app/config.ini
+echo "dbuser = '${DB_USER}'"       >> /app/config.ini
+echo "dbpass = '${DB_PASS}'"       >> /app/config.ini
 
 exec /run.sh
 
