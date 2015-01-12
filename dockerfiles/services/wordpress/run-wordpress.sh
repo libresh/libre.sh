@@ -1,8 +1,7 @@
 #!/bin/bash
 
 if [ ! "$(ls -A /app/wp-content)" ]; then
-  mv /wp-content/* /app/wp-content/
-  mv /wp-content/.* /app/wp-content/
+  cp -av /wp-content/* /app/wp-content/
 fi
 
 chown -R root:www-data /app
