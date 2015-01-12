@@ -13,6 +13,9 @@ BindsTo=lamp@%i.service
 
 [Service]
 Restart=always
+Type=notify
+NotifyAccess=all
+ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill %p-%i
 ExecStartPre=-/usr/bin/docker rm %p-%i
 ExecStartPre=/bin/bash -euxc ' \
@@ -26,7 +29,7 @@ ExecStartPre=/bin/bash -euxc ' \
     fi; \
   fi'
 
-ExecStart=/usr/bin/docker run \
+ExecStart=/opt/bin/systemd-docker run \
   --name %p-%i \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \
   -e STARTUP_SQL="/data/domains/%i/%p/dump.sql" \
