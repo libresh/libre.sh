@@ -9,5 +9,5 @@ else
 fi
 
 systemctl list-units | grep "$image\.test" | grep -c failed | grep 0
-ip=`docker inspect --format {{.NetworkSettings.IPAddress}} $image-$image.test`
+ip=`docker inspect --format {{.NetworkSettings.IPAddress}} $image.test`
 curl -L $ip

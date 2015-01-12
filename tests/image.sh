@@ -7,13 +7,17 @@ image=$1
 # prepare data
 mkdir -p /data/import/$image.test/TLS
 cp /data/indiehosters/scripts/unsecure-certs/example.dev.pem /data/import/$image.test/TLS/$image.test.pem
-if [ "$image" == "staticgit" ]; then
-  mkdir -p /data/import/$image.test/static-git
-  echo "https://github.com/indiehosters/website.git" > /data/import/$image.test/static-git/GITURL
+echo "APPLICATION=$image" > /data/import/$image.test/.env
+if [ "$image" == "wordpress" ] || [ "$image" == "known" ]; then
+  echo "VOLUME=$(cat /data/indiehosters/dockerfiles/services/$image/VOLUME)" >> /data/import/$image.test/.env
 fi
 
 # start image from import
-systemctl start $image@$image.test
+if [ "$image" == "wordpress" ] || [ "$image" == "known" ]; then
+  systemctl start lamp@$image.test
+else
+  systemctl start $image@$image.test
+fi
 
 # tests
 /data/indiehosters/tests/test-image.sh $image
@@ -22,8 +26,13 @@ systemctl start $image@$image.test
 ## make sure to backup first
 systemctl start backup@$image.test
 /data/indiehosters/tests/clean-image.sh $image
-systemctl enable $image@$image.test
-systemctl start $image@$image.test
+if [ "$image" == "wordpress" ] || [ "$image" == "known" ]; then
+  systemctl enable lamp@$image.test
+  systemctl start lamp@$image.test
+else
+  systemctl enable $image@$image.test
+  systemctl start $image@$image.test
+fi
 
 # tests
 /data/indiehosters/tests/test-image.sh $image
