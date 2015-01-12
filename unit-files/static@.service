@@ -34,7 +34,6 @@ ExecReload=/bin/bash -euxc ' \
   systemctl restart discovery@%i.service; \
   systemctl restart backup@%i.timer;'
 ExecStop=/bin/bash -euxc ' \
-  systemctl stop init@%i.service; \
   systemctl stop discovery@%i.service; \
   systemctl stop backup@%i.timer; \
   /usr/bin/docker stop %i;'

@@ -3,7 +3,6 @@ Description=Initializer
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
 ExecStartPre=/bin/bash -euxc ' \
   BACKUP_DESTINATION=`cat /data/BACKUP_DESTINATION`; \
   echo "Intitializing backups with $BACKUP_DESTINATION"; \
