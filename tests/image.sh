@@ -10,6 +10,7 @@ cp /data/indiehosters/scripts/unsecure-certs/example.dev.pem /data/import/$image
 echo "APPLICATION=$image" > /data/import/$image.test/.env
 if [ "$image" == "wordpress" ] || [ "$image" == "known" ]; then
   echo "VOLUME=$(cat /data/indiehosters/dockerfiles/services/$image/VOLUME)" >> /data/import/$image.test/.env
+  echo "EMAIL=test@test.org" >> /data/import/$image.test/.env
 fi
 
 # start image from import

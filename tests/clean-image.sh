@@ -3,7 +3,7 @@
 image=$1
 if [ "$image" == "wordpress" ] || [ "$image" == "known" ]; then
   systemctl stop lamp@$image.test
-  sleep 15
+  sleep 11
 else
   systemctl stop $image@$image.test
 fi
