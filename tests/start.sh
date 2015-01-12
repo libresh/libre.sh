@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-applications=( static staticgit wordpress known)
+applications=( static wordpress known)
 
 for application in "${applications[@]}"
 do
