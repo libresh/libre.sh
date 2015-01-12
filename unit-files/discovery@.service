@@ -5,13 +5,10 @@ Description=%p for %i etcd registration
 Requires=etcd.service
 
 [Service]
-# Start
-## Test whether service is accessible and then register useful information
 ExecStart=/bin/bash -c ' \
   sleep 30; \
   while true; do \
-    app=`echo %i | cut -d"-" -f1`; \
-    ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $app-%i`; \
+    ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' %i`; \
     curl -f $ip; \
     if [ $? -eq 0 ]; then \
       etcdctl set /services/web/%i \'{"ip":"\'$ip\'", "port":"80"}\' --ttl 60; \
@@ -21,7 +18,5 @@ ExecStart=/bin/bash -c ' \
     sleep 50; \
   done'
 
-# Stop
-ExecStop=-/bin/bash -euxc ' \
-  app=`echo %p | cut -d"-" -f1`; \
-  /usr/bin/etcdctl rm /services/web/%i
+ExecStop=-/usr/bin/etcdctl rm /services/web/%i
+

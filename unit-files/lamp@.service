@@ -4,12 +4,14 @@ Description=%p-%i
 # Requirements
 Requires=docker.service
 Requires=init@%i.service
+Requires=mysql@%i.service
 Requires=discovery@%i.service
 Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service
 After=init@%i.service
+After=mysql@%i.service
 Before=discovery@%i.service
 Before=backup@%i.timer
 
@@ -19,20 +21,25 @@ EnvironmentFile=/data/domains/%i/.env
 ExecStartPre=-/usr/bin/docker kill %i
 ExecStartPre=-/usr/bin/docker rm %i
 ExecStartPre=/bin/bash -euxc ' \
-  application_folder=/data/domains/%i/%p/www-content; \
+  application_folder=/data/domains/%i/${APPLICATION}; \
   if [ ! -d $application_folder ]; then \
     mkdir -p $application_folder; \
-    echo Hello %i > $application_folder/index.html; \
-  fi'
+    touch $application_folder/.htaccess; \
+  fi; \
+  cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $application_folder/.env'
 
 ExecStart=/usr/bin/docker run \
   --name %i \
-  -v /data/domains/%i/%p/www-content:/app \
-  pierreozoux/nginx
+  --link mysql-%i:db \
+  -v /data/domains/%i/${APPLICATION}/data:$(cat /data/indiehosters/dockerfiles/services/${APPLICATION}/VOLUME) \
+  -v /data/domains/%i/${APPLICATION}/.htaccess:/app/.htaccess \
+  --env-file /data/domains/%i/${APPLICATION}/.env \
+  pierreozoux/${APPLICATION}
 ExecReload=/bin/bash -euxc ' \
   /usr/bin/docker restart %i; \
   systemctl restart discovery@%i.service; \
   systemctl restart backup@%i.timer;'
+
 ExecStop=/bin/bash -euxc ' \
   systemctl stop init@%i.service; \
   systemctl stop discovery@%i.service; \

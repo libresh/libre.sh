@@ -8,6 +8,9 @@ Requires=docker.service
 After=docker.service
 Before=backup@%i.timer
 
+# Dependency binding
+BindsTo=lamp@%i.service
+
 [Service]
 Restart=always
 ExecStartPre=-/usr/bin/docker kill %p-%i
