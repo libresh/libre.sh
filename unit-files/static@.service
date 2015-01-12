@@ -15,7 +15,6 @@ Before=backup@%i.timer
 
 [Service]
 Restart=always
-EnvironmentFile=/data/domains/%i/.env
 ExecStartPre=-/usr/bin/docker kill %i
 ExecStartPre=-/usr/bin/docker rm %i
 ExecStartPre=/bin/bash -euxc ' \
