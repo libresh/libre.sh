@@ -1,5 +1,6 @@
 [Unit]
 Description=Initializer
+After=network-online.target
 
 [Service]
 Type=oneshot
@@ -11,7 +12,12 @@ ExecStartPre=/bin/bash -euxc ' \
       git clone $BACKUP_DESTINATION:%i /data/domains/%i; \
       cd /data/domains/%i; \
     else \
-      ssh $BACKUP_DESTINATION "mkdir -p %i;cd %i;git init --bare;"; \
+      ssh $BACKUP_DESTINATION " \
+        if [ ! -d %i ]; then \
+          mkdir -p %i; \
+          cd %i; \
+          git init --bare; \
+        fi"; \
       if [ ! -d /data/domains/%i ]; then \
         mkdir /data/domains/%i; \
       fi; \
