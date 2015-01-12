@@ -25,7 +25,10 @@ ExecStartPre=/bin/bash -euxc ' \
 
 ExecStart=/bin/bash -euxc ' \
   if [ -d /data/import/%i ]; then \
-    cp -r /data/import/%i/* /data/domains/%i; \
+    cp -av /data/import/%i/* /data/domains/%i; \
+    cp /data/import/%i/.env /data/domains/%i/; \
+    cd /data/domains/%i/; \
+    git add .env; \
     rm -rf /data/import/%i; \
   fi; \
   cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem;'
