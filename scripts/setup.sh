@@ -20,7 +20,7 @@ docker pull pierreozoux/nginx
 docker pull pierreozoux/mysql
 docker pull pierreozoux/wordpress
 docker pull pierreozoux/known
-ibuildthecloud/systemd-docker
+docker pull ibuildthecloud/systemd-docker
 
 # Install unit-files
 sudo cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
