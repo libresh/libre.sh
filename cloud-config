@@ -6,7 +6,9 @@ coreos:
     reboot-strategy: best-effort
   etcd:
     addr: 172.17.42.1:4001
+    bind-addr: 172.17.42.1:4001
     peer-addr: 172.17.42.1:7001
+    peer-bind-addr: 172.17.42.1:7001
   units:
     - name: etcd.service
       command: start
