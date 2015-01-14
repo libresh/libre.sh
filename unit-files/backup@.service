@@ -24,6 +24,7 @@ ExecStartPre=/bin/bash -euxc ' \
   fi'
 
 ExecStart=/bin/bash -euxc ' \
+
   echo "Committing everything"; \
   cd /data/domains/%i/; \
   git add *; \
