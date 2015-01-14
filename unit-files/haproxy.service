@@ -12,6 +12,7 @@ Restart=always
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
+  --rm \
   --name %p \
   -v /data/runtime/haproxy:/etc/haproxy \
   -p 80:80 \

@@ -33,6 +33,7 @@ ExecStartPre=/bin/bash -euxc ' \
   fi'
 
 ExecStart=/opt/bin/systemd-docker run \
+  --rm \
   --name %p-%i \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \
   -e STARTUP_SQL=/var/lib/mysql/dump.sql \
