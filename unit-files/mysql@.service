@@ -41,5 +41,3 @@ ExecStart=/opt/bin/systemd-docker run \
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 
-[Install]
-WantedBy=multi-user.target
