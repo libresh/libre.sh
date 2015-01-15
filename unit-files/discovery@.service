@@ -4,6 +4,9 @@ Description=%p for %i etcd registration
 # Requirements
 Requires=etcd.service
 
+# Dependency binding
+BindsTo=web@%i.service
+
 [Service]
 ExecStart=/bin/bash -c ' \
   sleep 30; \

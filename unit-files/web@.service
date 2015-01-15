@@ -1,0 +1,32 @@
+[Unit]
+Description=%p-%i
+
+# Requirements
+Requires=docker.service
+Requires=discovery@%i.service
+Requires=backup@%i.timer
+
+# Dependency ordering
+After=docker.service
+Before=discovery@%i.service
+Before=backup@%i.timer
+
+[Service]
+Restart=always
+Type=notify
+NotifyAccess=all
+EnvironmentFile=/data/domains/%i/.env
+Environment=URL=%i
+ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
+ExecStartPre=-/usr/bin/docker kill %i
+ExecStartPre=-/usr/bin/docker rm %i
+ExecStartPre=/bin/cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem
+ExecStart=/bin/bash -euxc ' \
+  /opt/bin/systemd-docker --env run \
+    --rm \
+    --name %i \
+    ${DOCKER_ARGUMENTS} \
+    pierreozoux/${APPLICATION}'
+ExecReload=/usr/bin/docker restart %i
+ExecStop=/usr/bin/docker stop %i
+

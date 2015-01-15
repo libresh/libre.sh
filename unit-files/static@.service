@@ -2,39 +2,18 @@
 Description=%p-%i
 
 # Requirements
-Requires=docker.service
-Requires=discovery@%i.service
-Requires=backup@%i.timer
+Requires=web@%i.service
 
 # Dependency ordering
-After=docker.service
-Before=discovery@%i.service
-Before=backup@%i.timer
+Before=web@%i.service
 
 [Service]
-Restart=always
-ExecStartPre=cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem
-ExecStartPre=-/usr/bin/docker kill %i
-ExecStartPre=-/usr/bin/docker rm %i
-ExecStartPre=/bin/bash -euxc ' \
+ExecStart=/bin/bash -euxc ' \
   application_folder=/data/domains/%i/%p/www-content; \
   if [ ! -d $application_folder ]; then \
     mkdir -p $application_folder; \
     echo Hello %i > $application_folder/index.html; \
   fi'
-
-ExecStart=/usr/bin/docker run \
-  --name %i \
-  -v /data/domains/%i/%p/www-content:/app \
-  pierreozoux/nginx
-ExecReload=/bin/bash -euxc ' \
-  /usr/bin/docker restart %i; \
-  systemctl restart discovery@%i.service; \
-  systemctl restart backup@%i.timer;'
-ExecStop=/bin/bash -euxc ' \
-  systemctl stop discovery@%i.service; \
-  systemctl stop backup@%i.timer; \
-  /usr/bin/docker stop %i;'
 
 [Install]
 WantedBy=multi-user.target

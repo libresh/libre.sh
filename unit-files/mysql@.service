@@ -6,7 +6,6 @@ Requires=docker.service
 
 # Dependency ordering
 After=docker.service
-After=init@%i.service
 Before=backup@%i.timer
 
 # Dependency binding

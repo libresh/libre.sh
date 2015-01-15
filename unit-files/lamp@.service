@@ -2,48 +2,27 @@
 Description=%p-%i
 
 # Requirements
-Requires=docker.service
 Requires=mysql@%i.service
-Requires=discovery@%i.service
-Requires=backup@%i.timer
+Requires=web@%i.service
 
 # Dependency ordering
-After=docker.service
 After=mysql@%i.service
-Before=discovery@%i.service
-Before=backup@%i.timer
+Before=web@%i.service
+
+# Dependency binding
+BindsTo=web@%i.service
 
 [Service]
-Restart=always
-ExecStartPre=cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem
-Type=notify
-NotifyAccess=all
+Type=oneshot
+RemainAfterExit=yes
 EnvironmentFile=/data/domains/%i/.env
-Environment=URL=%i
-ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
-ExecStartPre=-/usr/bin/docker kill %i
-ExecStartPre=-/usr/bin/docker rm %i
-ExecStartPre=/bin/bash -euxc ' \
+ExecStart=/bin/bash -euxc ' \
   application_folder=/data/domains/%i/${APPLICATION}; \
   if [ ! -d $application_folder ]; then \
     mkdir -p $application_folder; \
     touch $application_folder/.htaccess; \
-  fi; \
-  cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $application_folder/.env'
-
-ExecStart=/opt/bin/systemd-docker --env run \
-  --name %i \
-  --link mysql-%i:db \
-  -v /data/domains/%i/${APPLICATION}/data:${VOLUME} \
-  -v /data/domains/%i/${APPLICATION}/.htaccess:/app/.htaccess \
-  --env-file /data/domains/%i/${APPLICATION}/.env \
-  pierreozoux/${APPLICATION}
-ExecReload=/usr/bin/docker restart %i
-
-ExecStop=/bin/bash -euxc ' \
-  systemctl stop discovery@%i.service; \
-  systemctl stop backup@%i.timer; \
-  /usr/bin/docker stop %i;'
+    cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $application_folder/.env; \
+  fi;'
 
 [Install]
 WantedBy=multi-user.target
