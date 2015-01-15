@@ -53,7 +53,7 @@ if [[ $DB_CONNECTABLE -eq 0 ]]; then
         echo "=> Installation of Wordpress"
         PASS=`openssl rand -base64 15`
         cd /app
-        wp --allow-root core install --url=${URL} --title=${URL} --admin_user=${EMAIL} --admin_password=${PASS} --admin_email=${EMAIL}
+        wp --allow-root core install --url=https://${URL} --title=${URL} --admin_user=${EMAIL} --admin_password=${PASS} --admin_email=${EMAIL}
         wp --allow-root plugin install wordpress-https
         wp --allow-root plugin activate wordpress-https
         echo "=> Done!"
