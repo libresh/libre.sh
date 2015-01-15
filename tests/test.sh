@@ -35,11 +35,12 @@ esac
 if [ "$image" == "static" ]; then
   systemctl start $image@$image.test
   systemctl enable $image@$image.test
+  sleep 20
 else
   systemctl start lamp@$image.test
   systemctl enable lamp@$image.test
+  sleep 60
 fi
-sleep 20
 
 systemctl list-units | grep "$image\.test" | grep -c failed | grep 0
 ip=`docker inspect --format {{.NetworkSettings.IPAddress}} $image.test`
