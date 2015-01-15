@@ -8,6 +8,8 @@ Requires=web@%i.service
 Before=web@%i.service
 
 [Service]
+Type=oneshot
+RemainAfterExit=yes
 ExecStart=/bin/bash -euxc ' \
   application_folder=/data/domains/%i/%p/www-content; \
   if [ ! -d $application_folder ]; then \
