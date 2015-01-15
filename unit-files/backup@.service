@@ -1,8 +1,10 @@
 [Unit]
-Description=Back up domain data to a git repo and push it out
+Description=Back up data from %i
 
 [Service]
 Type=oneshot
+EnvironmentFile=/etc/environment
+ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill mysqldump-%i
 ExecStartPre=-/usr/bin/docker rm mysqldump-%i
 ExecStartPre=/bin/bash -euxc ' \
@@ -24,10 +26,13 @@ ExecStartPre=/bin/bash -euxc ' \
   fi'
 
 ExecStart=/bin/bash -euxc ' \
+  /opt/bin/systemd-docker --env run \
+    --rm \
+    --name duplicity \
+    -h backup.container \
+    -v /root:/root \
+    -v /data/domains/%i:/backup pierreozoux/duplicity \
+      --encrypt-key ${ENCRYPT_KEY} \
+        /backup \
+        sftp://${BACKUP_DESTINATION}/%i' 
 
-  echo "Committing everything"; \
-  cd /data/domains/%i/; \
-  git add *; \
-  git status; \
-  git commit --allow-empty -am"backup %i @ `hostname` - `date`"; \
-  git push origin master'

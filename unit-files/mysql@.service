@@ -27,8 +27,6 @@ ExecStartPre=/bin/bash -euxc ' \
       mkdir -p $mysql_folder; \
       pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`; \
       echo MYSQL_PASS=$pass > $mysql_folder/.env; \
-    else \
-      cp $mysql_folder/dump.sql /data/runtime/domains/%i/mysql/db_files/; \
     fi; \
   fi'
 
@@ -36,7 +34,6 @@ ExecStart=/opt/bin/systemd-docker run \
   --rm \
   --name %p-%i \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \
-  -e STARTUP_SQL=/var/lib/mysql/dump.sql \
   --env-file /data/domains/%i/%p/.env \
   pierreozoux/mysql
 ExecReload=/usr/bin/docker restart %p-%i

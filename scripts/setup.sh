@@ -27,7 +27,6 @@ sudo cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-
 
 # Create Directory structure
 mkdir -p /data/domains
-mkdir -p /data/import
 mkdir -p /data/runtime/haproxy/approved-certs
 mkdir -p /data/runtime/postfix
 

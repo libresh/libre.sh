@@ -3,18 +3,17 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=init@%i.service
 Requires=discovery@%i.service
 Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service
-After=init@%i.service
 Before=discovery@%i.service
 Before=backup@%i.timer
 
 [Service]
 Restart=always
+ExecStartPre=cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem
 ExecStartPre=-/usr/bin/docker kill %i
 ExecStartPre=-/usr/bin/docker rm %i
 ExecStartPre=/bin/bash -euxc ' \
