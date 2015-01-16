@@ -13,6 +13,7 @@ BindsTo=lamp@%i.service
 
 [Service]
 Restart=always
+TimeoutStartSec=0
 Type=notify
 NotifyAccess=all
 ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker

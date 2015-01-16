@@ -13,6 +13,7 @@ Before=backup@%i.timer
 
 [Service]
 Restart=always
+TimeoutStartSec=0
 Type=notify
 NotifyAccess=all
 EnvironmentFile=/data/domains/%i/.env
