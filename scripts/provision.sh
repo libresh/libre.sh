@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Register a user for IndiePaaS
+# Provision an application for a user for IndiePaaS
 #
 # This file:
 #  - Registers the domain name to NameCheap
@@ -7,13 +7,13 @@
 #  - Configures the DNS
 #  - Configures the mail forwarding
 #
-# Version 0.0.1 
+# Version 0.0.2
 #
 # Authors:
 #  - Pierre Ozoux (pierre-o.fr)
 #
 # Usage:
-#  LOG_LEVEL=7 ./register.sh -n example.org -d
+#  LOG_LEVEL=7 ./provision.sh -e test@test.org -a known -u example.org -g -b -c
 #
 # Licensed under AGPLv3
 
@@ -27,7 +27,13 @@ LOG_LEVEL="${LOG_LEVEL:-6}" # 7 = debug -> 0 = emergency
 # Commandline options. This defines the usage page, and is used to parse cli
 # opts & defaults from. The parsing is unforgiving so be precise in your syntax
 read -r -d '' usage <<-'EOF'
-  -n   [arg] Domain name to process. Required.
+  -a   [arg] Application to provision (static, wordpress or known). Required.
+  -e   [arg] Email of the user of the application. Required.
+  -u   [arg] URL to process. Required.
+  -f   [arg] Certificate file to use.
+  -g         Generate the necessary certificate.
+  -b         Buy the associated domain name.
+  -c         Configure DNS on Namecheap.
   -d         Enables debug mode
   -h         This page
 EOF
@@ -49,17 +55,18 @@ function contains () {
 }
 
 function TLD () {
-  echo ${arg_n} | cut -d. -f2,3
+  echo ${arg_u} | cut -d. -f2,3
 }
 
 function SLD () {
-  echo ${arg_n} | cut -d. -f1
+  echo ${arg_u} | cut -d. -f1
 }
 
 function call_API () {
-  output=$(curl -s "https://api.$NAMECHEAP_URL/xml.response\?ApiUser=${NAMECHEAP_API_USER}&ApiKey=${NAMECHEAP_API_KEY}&UserName=${NAMECHEAP_API_USER}&ClientIp=${IP}$1")
+  url="https://api.$NAMECHEAP_URL/xml.response\?ApiUser=${NAMECHEAP_API_USER}&ApiKey=${NAMECHEAP_API_KEY}&UserName=${NAMECHEAP_API_USER}&ClientIp=${IP}$1"
+  output=$(curl -s ${url})
 
-  if [ -z $(echo ${output} | grep 'Status="OK"') ]; then
+  if [ $(echo ${output} | grep -c 'Status="OK"') -eq 0 ]; then
     error "API call failed. Please read the output"
     echo ${output}
     exit 1
@@ -69,17 +76,54 @@ function call_API () {
 
 }
 
-function create_domain_name () {
+function scaffold () {
+  supported_applications=( "static" "wordpress" "known" )
+  if [ $(contains "${supported_applications[@]}" "${arg_a}") == "n" ]; then
+    error "Application ${arg_a} is not yet supported."
+    exit 1
+  fi
 
-  not_supported_extensions=("us" "eu" "nu" "asia" "ca" "co.uk" "me.uk" "org.uk" "com.au" "net.au" "org.au" "es" "nom.es" "com.es" "org.es" "de" "fr" "")
+  info "ceating application folder"
+  mkdir -p ${FOLDER}
+
+  info "creating .env"
+  echo "EMAIL=${arg_e}" > ${FOLDER}/.env
+  case "${arg_a}" in
+  "static" )
+    echo APPLICATION=nginx >> ${FOLDER}/.env
+    echo DOCKER_ARGUMENTS="-v ${APP_FODLER}/www-content:/app" >> ${FOLDER}/.env
+    ;;
+  "wordpress" )
+    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
+    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
+      -v ${APP_FODLER}/data:/app/wp-content \
+      -v ${APP_FODLER}/.htaccess:/app/.htaccess \
+      --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
+    ;;
+  "known" )
+    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
+    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
+      -v ${APP_FODLER}/data:/app/Uploads \
+      -v ${APP_FODLER}/.htaccess:/app/.htaccess \
+      --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
+    ;;
+  esac
+
+  info "Scaffold created with success."
+
+}
+
+function buy_domain_name () {
+
+  not_supported_extensions=( "us" "eu" "nu" "asia" "ca" "co.uk" "me.uk" "org.uk" "com.au" "net.au" "org.au" "es" "nom.es" "com.es" "org.es" "de" "fr" )
   if [ $(contains "${not_supported_extensions[@]}" "$(TLD)") == "y" ]; then
-    error "Extension .${extension} is not yet supported.."
+    error "Extension .$(TLD) is not yet supported.."
     exit 1
   fi 
 
   info "Buying Domain name."
   arguments="&Command=namecheap.domains.create\
-&DomainName=${arg_n}\
+&DomainName=${arg_u}\
 &Years=1\
 &AuxBillingFirstName=${FirstName}\
 &AuxBillingLastName=${LastName}\
@@ -122,36 +166,47 @@ function create_domain_name () {
 
   info "Changing email forwarding."
   arguments="&Command=namecheap.domains.dns.setEmailForwarding\
-&DomainName=${arg_n}\
+&DomainName=${arg_u}\
 &mailbox1=hostmaster\
 &ForwardTo1=${EmailAddress}"
 
   call_API ${arguments}
 }
 
+function provision_certificate () {
+  filename=$(basename "${arg_f}")
+  extension="${filename##*.}"
+  if [ "${extension}" != "pem" ]; then
+    error "File extension must be pem."
+    exit 1
+  fi
+
+  info "Provisionning certificate."
+  cp -Ra $(dirname ${arg_f}) ${TLS_FOLDER}
+  cd ${TLS_FOLDER}
+  mv *.pem ${arg_u}.pem
+}
+
 function generate_certificate () {
-
-  TLS_FOLDER=/data/import/${arg_n}/TLS
-
-  info "Creating import folder."
+  info "creating TLS ans CSR folder."
   mkdir -p ${TLS_FOLDER}/CSR
-  
+
   info "Generating the key."
-  openssl genrsa -out ${TLS_FOLDER}//CSR/${arg_n}.key 4096
+  openssl genrsa -out ${TLS_FOLDER}/CSR/${arg_u}.key 4096
 
   info "Creating the request."
   openssl req -new \
-    -key ${TLS_FOLDER}/CSR/${arg_n}.key \
-    -out ${TLS_FOLDER}/CSR/${arg_n}.csr \
-    -subj "/C=${CountryCode}/ST=${City}/L=${City}/O=${arg_n}/OU=/CN=${arg_n}/emailAddress=${EmailAddress}"
+    -key ${TLS_FOLDER}/CSR/${arg_u}.key \
+    -out ${TLS_FOLDER}/CSR/${arg_u}.csr \
+    -subj "/C=${CountryCode}/ST=${City}/L=${City}/O=${arg_u}/OU=/CN=${arg_u}/emailAddress=${EmailAddress}"
 
   info "Here is your CSR, paste it in your Certificate authority interface."
   echo ""
-  cat ${TLS_FOLDER}/CSR/${arg_n}.csr
+  cat ${TLS_FOLDER}/CSR/${arg_u}.csr
 
   echo ""
-  info "You should have received a certificate"
-  info "Please paste your certificate now"
+  info "You should have received a certificate."
+  info "Please paste your certificate now:"
   IFS= read -d '' -n 1 certificate
   while IFS= read -d '' -n 1 -t 2 c
   do
@@ -162,16 +217,16 @@ function generate_certificate () {
     echo ${certificate}
   fi
 
-  echo ${certificate} > ${TLS_FOLDER}/CSR/${arg_n}.cert
+  echo ${certificate} > ${TLS_FOLDER}/CSR/${arg_u}.cert
 
-  info "Concat certificate, CA and key into pem file"
-  cat ${TLS_FOLDER}/CSR/${arg_n}.cert /data/indiehosters/scripts/sub.class2.server.ca.pem ${TLS_FOLDER}/CSR/${arg_n}.key > ${TLS_FOLDER}/${arg_n}.pem
+  info "Concat certificate, CA and key into pem file."
+  cat ${TLS_FOLDER}/CSR/${arg_u}.cert /data/indiehosters/scripts/sub.class2.server.ca.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
 }
 
 function configure_dns () {
   info "Configuring DNS."
   arguments="&Command=namecheap.domains.dns.setHosts\
-&DomainName=${arg_n}\
+&DomainName=${arg_u}\
 &SLD=$(SLD)\
 &TLD=$(TLD)\
 &HostName1=@\
@@ -179,14 +234,15 @@ function configure_dns () {
 &Address1=${IP}\
 &HostName2=www\
 &RecordType2=CNAME\
-&Address2=${arg_n}\
+&Address2=${arg_u}\
 &HostName3=mail\
 &RecordType3=A\
 &Address3=${IP}\
 &HostName4=@\
 &RecordType4=MX\
-&Address4=mail.${arg_n}\
-&MXPref4=10"
+&Address4=mail.${arg_u}\
+&MXPref4=10\
+&EmailType=mx"
 
   call_API ${arguments}
 
@@ -225,11 +281,6 @@ function help () {
   echo "" 1>&2
   exit 1
 }
-
-function cleanup_before_exit () {
-  info "Cleaning up. Done"
-}
-trap cleanup_before_exit EXIT
 
 ### Parse commandline options
 #####################################################################
@@ -299,8 +350,10 @@ fi
 ### Validation (decide what's required for running your script and error out)
 #####################################################################
 
-[ -z "${arg_n}" ]     && help      "Setting a domain name with -n is required"
-[ -z "${LOG_LEVEL}" ] && emergency "Cannot continue without LOG_LEVEL. "
+[ -z "${arg_a}" ]     && help      "Application is required."
+[ -z "${arg_e}" ]     && help      "Email is required."
+[ -z "${arg_u}" ]     && help      "URL is required."
+[ -z "${LOG_LEVEL}" ] && emergency "Cannot continue without LOG_LEVEL."
 
 
 ### Runtime
@@ -320,6 +373,14 @@ if [[ "${OSTYPE}" == "darwin"* ]]; then
   info "You are on OSX"
 fi
 
-create_domain_name
-generate_certificate
-configure_dns
+FOLDER=/data/domains/${arg_u}
+APP_FODLER=${FOLDER}/${arg_a}
+TLS_FOLDER=${FOLDER}/TLS
+
+[ ${arg_b} -eq 1 ] && buy_domain_name
+scaffold
+[ ${arg_g} -eq 1 ] && generate_certificate
+[ ! -z "${arg_f}" ] && provision_certificate
+[ ${arg_c} -eq 1 ] && configure_dns
+
+exit 0
