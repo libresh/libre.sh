@@ -35,11 +35,9 @@ cp /data/hostname /etc/mailname
 /usr/sbin/postconf -e "myhostname=`cat /data/hostname`"
 
 # put all relevant domains in /data/destinations.
-/usr/sbin/postconf -e "mydestination=`cat /data/destinations`"
+/usr/sbin/postconf -e "virtual_alias_domains=`cat /data/destinations`"
 
 #put your forwarding addresses in /data/forwards.
-echo "virtual_maps = hash:/etc/postfix/virtual, regexp:/etc/postfix/virtual-regexp" >> /etc/postfix/main.cf
-cp /data/forwards /etc/postfix/virtual-regexp
-postmap /etc/postfix/virtual-regexp
-touch /etc/postfix/virtual
+cp /data/forwards /etc/postfix/virtual
+/usr/sbin/postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual"
 postmap /etc/postfix/virtual

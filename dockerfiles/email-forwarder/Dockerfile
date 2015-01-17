@@ -1,7 +1,5 @@
 FROM debian:jessie
-MAINTAINER Michiel de Jong <michiel@indiehosters.net>
 
-# Borrows from https://docs.docker.com/articles/dockerfile_best-practices/
 # Borrows from https://registry.hub.docker.com/u/previousnext/postfix
 # Borrows from https://registry.hub.docker.com/u/catatnight/postfix
 
@@ -16,7 +14,7 @@ RUN apt-get update \
 		supervisor \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY assets/install.sh /opt/install.sh
+COPY install.sh /opt/install.sh
 
 VOLUME ["/etc/postfix", "/var/spool/mail", "/var/log"]
 
