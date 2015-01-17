@@ -206,18 +206,9 @@ function generate_certificate () {
 
   echo ""
   info "You should have received a certificate."
-  info "Please paste your certificate now:"
-  IFS= read -d '' -n 1 certificate
-  while IFS= read -d '' -n 1 -t 2 c
-  do
-    certificate+=$c
-  done
+  info "Please paste your certificate now: (finish with ctrl-d)"
 
-  if [ "${arg_d}" = "1" ]; then
-    echo ${certificate}
-  fi
-
-  echo ${certificate} > ${TLS_FOLDER}/CSR/${arg_u}.crt
+  cat > ${TLS_FOLDER}/CSR/${arg_u}.crt
 
   info "Concat certificate, CA and key into pem file."
   cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/scripts/sub.class2.server.ca.pem /data/indiehosters/scripts/ca.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
