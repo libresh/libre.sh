@@ -217,10 +217,10 @@ function generate_certificate () {
     echo ${certificate}
   fi
 
-  echo ${certificate} > ${TLS_FOLDER}/CSR/${arg_u}.cert
+  echo ${certificate} > ${TLS_FOLDER}/CSR/${arg_u}.crt
 
   info "Concat certificate, CA and key into pem file."
-  cat ${TLS_FOLDER}/CSR/${arg_u}.cert /data/indiehosters/scripts/sub.class2.server.ca.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
+  cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/scripts/sub.class2.server.ca.pem /data/indiehosters/scripts/ca.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
 }
 
 function configure_dns () {
