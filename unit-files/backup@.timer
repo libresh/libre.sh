@@ -1,5 +1,5 @@
 [Unit]
-Description=Hourly backup of www and mysql content to a git repo
+Description=Hourly backup of www and mysql content.
 
 # Dependency binding
 BindsTo=web@%i.service
