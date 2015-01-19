@@ -27,7 +27,7 @@ ExecStartPre=/bin/bash -euxc ' \
   fi'
 
 ExecStart=/bin/bash -euxc ' \
-  /opt/bin/systemd-docker --env run \
+  /bin/docker run \
     --rm \
     --name duplicity \
     -h backup.container \
