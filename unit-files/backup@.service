@@ -29,7 +29,7 @@ ExecStartPre=/bin/bash -euxc ' \
 ExecStart=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
-    --name duplicity \
+    --name backup-%i \
     -h backup.container \
     -v /root:/root \
     -v /data/domains/%i:/backup pierreozoux/duplicity \
