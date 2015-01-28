@@ -73,6 +73,7 @@ echo "dbname = '${DB_NAME}'"       >> /app/config.ini
 echo "dbhost = '${DB_HOST}'"       >> /app/config.ini
 echo "dbuser = '${DB_USER}'"       >> /app/config.ini
 echo "dbpass = '${DB_PASS}'"       >> /app/config.ini
+echo "url = 'https://${URL}/'"     >> /app/config.ini
 
 exec /run.sh
 
