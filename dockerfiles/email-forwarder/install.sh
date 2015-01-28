@@ -25,6 +25,8 @@ cat >> /opt/postfix.sh <<EOF
 service postfix start
 touch /var/log/mail.log
 tail -f /var/log/mail.log
+postmap /etc/postfix/virtual
+service postfix restart
 EOF
 chmod +x /opt/postfix.sh
 
@@ -40,4 +42,3 @@ cp /data/hostname /etc/mailname
 #put your forwarding addresses in /data/forwards.
 cp /data/forwards /etc/postfix/virtual
 /usr/sbin/postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual"
-postmap /etc/postfix/virtual
