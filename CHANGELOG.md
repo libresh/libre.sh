@@ -1,6 +1,9 @@
 # 0.3.0
 
 * adds automation script for user provisionning
+* moves backup to duplicity
+* big simplification
+* some fixes
 
 # 0.2.4
 
