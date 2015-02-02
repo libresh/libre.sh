@@ -42,3 +42,6 @@ cp /data/hostname /etc/mailname
 #put your forwarding addresses in /data/forwards.
 cp /data/forwards /etc/postfix/virtual
 /usr/sbin/postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual"
+
+# accept mails from docker networked machines:
+/usr/sbin/postconf -e "mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.42.0/24"
