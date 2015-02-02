@@ -45,3 +45,4 @@ cp /data/forwards /etc/postfix/virtual
 
 # accept mails from docker networked machines:
 /usr/sbin/postconf -e "mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.42.0/24"
+
