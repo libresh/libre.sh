@@ -11,7 +11,7 @@ docker run\
   -v /haproxy-config:/etc/haproxy\
   -p 80:80\
   -p 443:443\
-  indiehosters/haproxy
+  pierreozoux/haproxy
 ```
 
-Have a look to [indiehosters/confd](https://registry.hub.docker.com/u/indiehosters/confd/) to have automatic configuration of HAproxy backed by `etcd` or `consul`.
+Have a look to [pierreozoux/confd](https://registry.hub.docker.com/u/pierreozoux/confd/) to have automatic configuration of HAproxy backed by `etcd` or `consul`.
