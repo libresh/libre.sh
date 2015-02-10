@@ -18,7 +18,7 @@ COPY install.sh install.sh
 
 RUN chmod 755 /install.sh
 
-VOLUME ["/etc/postfix", "/var/spool/mail", "/var/log"]
+VOLUME ["/var/spool/mail", "/var/log"]
 
 EXPOSE 25
 
