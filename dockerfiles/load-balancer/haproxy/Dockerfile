@@ -13,3 +13,4 @@ ENTRYPOINT ["haproxy"]
 CMD ["-d", "-f", "/etc/haproxy/haproxy.cfg"]
 EXPOSE 80
 EXPOSE 443
+

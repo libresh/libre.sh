@@ -23,3 +23,4 @@ VOLUME ["/etc/postfix", "/var/spool/mail", "/var/log"]
 EXPOSE 25
 
 CMD /install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+

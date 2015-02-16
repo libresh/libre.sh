@@ -38,3 +38,4 @@ cp /data/forwards /etc/postfix/virtual
 
 # configure virtual
 postmap /etc/postfix/virtual
+
