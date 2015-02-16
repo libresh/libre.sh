@@ -14,10 +14,12 @@ RUN apt-get update \
 		supervisor \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY install.sh /opt/install.sh
+COPY install.sh install.sh
+
+RUN chmod 755 /install.sh
 
 VOLUME ["/etc/postfix", "/var/spool/mail", "/var/log"]
 
 EXPOSE 25
 
-CMD /opt/install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+CMD /install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf

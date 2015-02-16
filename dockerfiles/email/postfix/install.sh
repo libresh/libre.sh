@@ -11,24 +11,14 @@ cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
 nodaemon=true
 
 [program:postfix]
-command=/opt/postfix.sh
+process_name = master
+command = /etc/init.d/postfix start
+startsecs = 0
+autorestart = false
 
 [program:rsyslog]
 command=/usr/sbin/rsyslogd -n
 EOF
-
-############
-# postfix
-############
-cat >> /opt/postfix.sh <<EOF
-#!/bin/bash
-service postfix start
-touch /var/log/mail.log
-tail -f /var/log/mail.log
-postmap /etc/postfix/virtual
-service postfix restart
-EOF
-chmod +x /opt/postfix.sh
 
 # put the same FQDN in /data/hostname and in reverse DNS
 # for the public IP address on which this server will be
@@ -46,3 +36,5 @@ cp /data/forwards /etc/postfix/virtual
 # accept mails from docker networked machines:
 /usr/sbin/postconf -e "mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.42.0/24"
 
+# configure virtual
+postmap /etc/postfix/virtual
