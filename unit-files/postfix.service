@@ -19,6 +19,7 @@ ExecStart=/usr/bin/docker run \
   --name %p \
   -v /data/runtime/dev/log:/dev/log \
   -v /data/runtime/postfix/:/data \
+  -v /data/runtime/postfix-spool/:/var/spool/postfix \
   -p 25:25 \
   pierreozoux/postfix
 ExecReload=/usr/bin/docker restart %p
