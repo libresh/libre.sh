@@ -1,2 +1,3 @@
 .vagrant
 docker-haproxy-confd
+*.swp
