@@ -74,6 +74,8 @@ echo "dbhost = '${DB_HOST}'"       >> /app/config.ini
 echo "dbuser = '${DB_USER}'"       >> /app/config.ini
 echo "dbpass = '${DB_PASS}'"       >> /app/config.ini
 echo "url = 'https://${URL}/'"     >> /app/config.ini
+echo "smtp_host = 172.17.42.1"     >> /app/config.ini
+echo "smtp_port = 25"              >> /app/config.ini
 
 exec /run.sh
 
