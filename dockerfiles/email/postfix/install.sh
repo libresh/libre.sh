@@ -29,7 +29,7 @@ cp /data/hostname /etc/mailname
 # put all relevant domains in /data/destinations.
 /usr/sbin/postconf -e "virtual_alias_domains=`cat /data/destinations`"
 
-#put your forwarding addresses in /data/forwards.
+# put your forwarding addresses in /data/forwards.
 cp /data/forwards /etc/postfix/virtual
 /usr/sbin/postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual"
 
