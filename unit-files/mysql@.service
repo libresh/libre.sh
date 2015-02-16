@@ -34,6 +34,7 @@ ExecStartPre=/bin/bash -euxc ' \
 ExecStart=/opt/bin/systemd-docker run \
   --rm \
   --name %p-%i \
+  -v /data/runtime/domains/%i/log/mysql:/var/log/mysql \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \
   --env-file /data/domains/%i/%p/.env \
   pierreozoux/mysql

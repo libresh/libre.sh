@@ -6,6 +6,7 @@ Requires=docker.service
 
 # Dependency ordering
 After=docker.service
+After=rsyslog.service
 
 [Service]
 Restart=always
@@ -16,6 +17,7 @@ ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --rm \
   --name %p \
+  -v /data/runtime/dev/log:/dev/log \
   -v /data/runtime/postfix/:/data \
   -p 25:25 \
   pierreozoux/postfix

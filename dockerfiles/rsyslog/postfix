@@ -1,0 +1,14 @@
+/var/log/mail.*
+{
+    rotate 4
+    weekly
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+    postrotate
+        reload rsyslog >/dev/null 2>&1 || true
+    endscript
+}
+

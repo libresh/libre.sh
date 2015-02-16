@@ -27,6 +27,7 @@ ExecStart=/bin/bash -euxc ' \
   /opt/bin/systemd-docker --env run \
     --rm \
     --name %i \
+    -v /data/runtime/domains/%i/log/apache2:/var/log/apache2 \
     ${DOCKER_ARGUMENTS} \
     pierreozoux/${APPLICATION}'
 ExecReload=/usr/bin/docker restart %i

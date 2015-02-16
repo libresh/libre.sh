@@ -16,8 +16,6 @@ command = /etc/init.d/postfix start
 startsecs = 0
 autorestart = false
 
-[program:rsyslog]
-command=/usr/sbin/rsyslogd -n
 EOF
 
 # put the same FQDN in /data/hostname and in reverse DNS

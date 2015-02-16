@@ -10,7 +10,6 @@ RUN apt-get update \
 	&& echo "postfix postfix/root_address string 'ROOTMAIL@EXAMPLE.COM'" | debconf-set-selections \
 	&& apt-get install -q -y \
 		postfix \
-		rsyslog \
 		supervisor \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -18,7 +17,7 @@ COPY install.sh install.sh
 
 RUN chmod 755 /install.sh
 
-VOLUME ["/var/spool/mail", "/var/log"]
+VOLUME ["/var/spool/mail"]
 
 EXPOSE 25
 

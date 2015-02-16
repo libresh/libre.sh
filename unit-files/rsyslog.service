@@ -6,7 +6,6 @@ Requires=docker.service
 
 # Dependency ordering
 After=docker.service
-After=rsyslog.service
 
 [Service]
 Restart=always
@@ -16,12 +15,13 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --rm \
-  --name %p \
-  -v /data/runtime/dev/log:/dev/log \
-  -v /data/runtime/haproxy:/etc/haproxy \
-  -p 80:80 \
-  -p 443:443 \
-  pierreozoux/haproxy
+  --name rsyslog \
+  -v /data/runtime/dev:/dev \
+  -v /data/runtime/log:/var/log \
+  pierreozoux/rsyslog
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target
 
