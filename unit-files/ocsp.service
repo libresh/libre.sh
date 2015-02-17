@@ -1,0 +1,11 @@
+[Unit]
+Description=Get the OCSP data from the cert provider
+
+[Service]
+Type=oneshot
+TimeoutStartSec=0
+ExecStart=/bin/bash -euxc ' \
+  for cert in `ls /data/runtime/haproxy/approved-certs/*.pem`;do \
+    /data/indiehosters/scripts/ocsp.sh $cert; \
+  done'
+

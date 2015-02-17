@@ -1,0 +1,6 @@
+[Unit]
+Description=Daily timer for OCSP stapling
+
+[Timer]
+OnUnitActiveSec=1day
+
