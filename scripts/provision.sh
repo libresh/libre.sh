@@ -83,10 +83,10 @@ function scaffold () {
     exit 1
   fi
 
-  info "ceating application folder"
+  info "Creating application folder"
   mkdir -p ${FOLDER}
 
-  info "creating .env"
+  info "Creating .env"
   echo "EMAIL=${arg_e}" > ${FOLDER}/.env
   case "${arg_a}" in
   "static" )
