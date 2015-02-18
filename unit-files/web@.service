@@ -11,8 +11,9 @@ Before=backup@%i.timer
 
 [Service]
 Restart=always
-RestartSec=20
-TimeoutStartSec=0
+RestartSec=10
+TimeoutStartSec=60
+TimeoutStopSec=15
 Type=notify
 NotifyAccess=all
 EnvironmentFile=/data/domains/%i/.env
