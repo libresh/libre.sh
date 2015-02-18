@@ -3,10 +3,12 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
+Requires=discovery@%i.service
 Requires=backup@%i.timer
 
 # Dependency ordering
 After=docker.service
+Before=discovery@%i.service
 Before=backup@%i.timer
 
 [Service]
@@ -29,9 +31,6 @@ ExecStart=/bin/bash -euxc ' \
     -v /data/runtime/domains/%i/log/apache2:/var/log/apache2 \
     ${DOCKER_ARGUMENTS} \
     pierreozoux/${APPLICATION}'
-ExecStartPost=/bin/bash -c ' \
-  ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' %i`; \
-  /usr/bin/etcdctl --peers 172.17.42.1:4001 set /services/web/%i \'{"ip":"\'$ip\'", "port":"80"}\'
+ExecReload=/usr/bin/docker restart %i
 ExecStop=/usr/bin/docker stop %i
-ExecStopPost=-/usr/bin/etcdctl --peers 172.17.42.1:4001 rm /services/web/%i
 
