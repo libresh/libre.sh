@@ -79,7 +79,7 @@ function call_API () {
 }
 
 function scaffold () {
-  supported_applications=( "static" "wordpress" "known" "owncloud")
+  supported_applications=( "static" "wordpress" "known" "owncloud" "piwik")
   if [ $(contains "${supported_applications[@]}" "${arg_a}") == "n" ]; then
     error "Application ${arg_a} is not yet supported."
     exit 1
@@ -117,6 +117,13 @@ function scaffold () {
       -v ${APP_FOLDER}/data:/var/www/owncloud/data \
       --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
     ;;
+  "piwik" )
+    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
+    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
+      -v ${APP_FOLDER}/config:/piwik/config \
+      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
+    ;;
+
 
   esac
 
