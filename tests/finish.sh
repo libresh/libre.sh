@@ -6,5 +6,6 @@ applications=( static wordpress known )
 
 for application in "${applications[@]}"
 do
+  curl -Lk $application.test
   /data/indiehosters/tests/clean.sh $application
 done
