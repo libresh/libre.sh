@@ -21,4 +21,4 @@ RUN \
 
 VOLUME ["/etc/confd/", "/etc/haproxy"]
 ENTRYPOINT ["/confd"]
-CMD ["-interval=60", "-node=172.17.42.1:4001", "-watch=true"]
+CMD ["-interval=60", "-node=172.17.42.1:4001", "-watch=true", "-verbose=true"]
