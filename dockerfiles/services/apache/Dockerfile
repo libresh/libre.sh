@@ -12,6 +12,9 @@ RUN apt-get update \
 		php-pear \
 		php5-curl \
 		php5-gd \
+                php5-json \
+                php5-mcrypt \
+                php5-imagick \
 		php5-mysql \
 		php5-xmlrpc \
                 ssmtp \
