@@ -77,7 +77,7 @@ function call_API () {
 }
 
 function scaffold () {
-  supported_applications=( "static" "wordpress" "known" )
+  supported_applications=( "static" "wordpress" "known" "owncloud")
   if [ $(contains "${supported_applications[@]}" "${arg_a}") == "n" ]; then
     error "Application ${arg_a} is not yet supported."
     exit 1
@@ -107,6 +107,15 @@ function scaffold () {
       -v ${APP_FODLER}/.htaccess:/app/.htaccess \
       --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
     ;;
+  "owncloud" )
+    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
+    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
+      -v ${APP_FODLER}/apps:/app/apps \
+      -v ${APP_FODLER}/config:/app/config \
+      -v ${APP_FODLER}/data:/app/data \
+      --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
+    ;;
+
   esac
 
   info "Scaffold created with success."
