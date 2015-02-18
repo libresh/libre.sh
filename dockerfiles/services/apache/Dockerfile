@@ -35,3 +35,4 @@ COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 CMD ["/run.sh"]
 EXPOSE 80
+
