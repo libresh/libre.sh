@@ -6,6 +6,7 @@
 #  - Generates the TLS certificate associated
 #  - Configures the DNS
 #  - Configures the mail forwarding
+#  - Starts the application
 #
 # Version 0.0.2
 #
@@ -31,10 +32,11 @@ read -r -d '' usage <<-'EOF'
   -e   [arg] Email of the user of the application. Required.
   -u   [arg] URL to process. Required.
   -f   [arg] Certificate file to use.
-  -g         Generate the necessary certificate.
-  -b         Buy the associated domain name.
-  -c         Configure DNS on Namecheap.
+  -g         Generates the necessary certificate.
+  -b         Buys the associated domain name.
+  -c         Configures DNS on Namecheap.
   -d         Enables debug mode
+  -s         Starts the application
   -h         This page
 EOF
 
@@ -248,6 +250,21 @@ function configure_dns () {
 
 }
 
+function start_application () {
+  case "${arg_a}" in
+  "static" )
+    service_file="static"
+    ;;
+  * )
+    service_file="lamp"
+    ;;
+  esac
+
+  # Enable and start application (Sorry Systemd)
+  systemctl enable ${service_file}@${arg_u}
+  systemctl start ${service_file}@${arg_u}
+}
+
 function _fmt ()      {
   local color_ok="\x1b[32m"
   local color_bad="\x1b[31m"
@@ -382,5 +399,7 @@ scaffold
 [ ${arg_g} -eq 1 ] && generate_certificate
 [ ! -z "${arg_f}" ] && provision_certificate
 [ ${arg_c} -eq 1 ] && configure_dns
+[ ${arg_s} -eq 1 ] && start_application
+
 
 exit 0
