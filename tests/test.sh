@@ -1,7 +1,5 @@
 #!/bin/bash -eux
 
-cp /data/indiehosters/unit-files/* /etc/systemd/system && sudo systemctl daemon-reload
-
 image=$1
 
 # prepare data
@@ -10,7 +8,7 @@ image=$1
 if [ "$image" == "static" ]; then
   systemctl start $image@$image.test
   systemctl enable $image@$image.test
-  sleep 20
+  sleep 30
 else
   systemctl start lamp@$image.test
   systemctl enable lamp@$image.test
@@ -18,5 +16,5 @@ else
 fi
 
 systemctl list-units | grep "$image\.test" | grep -c failed | grep 0
-curl -L $image.test
+curl -Lk $image.test
 

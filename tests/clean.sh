@@ -4,6 +4,8 @@ image=$1
 
 systemctl stop web@$image.test
 
+sleep 20
+
 systemctl list-units | grep -c "$image\.test" | grep 0
 
 rm -rf /data/runtime/domains/$image.test
