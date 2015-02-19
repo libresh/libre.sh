@@ -1,7 +1,7 @@
 FROM pierreozoux/apache
 
 # Download latest version of Wordpress into /app
-RUN curl -L https://wordpress.org/wordpress-4.1.tar.gz | tar xz && \
+RUN curl -L https://wordpress.org/latest.tar.gz | tar xz && \
   mv wordpress/* app && \
   mv /app/wp-content /wp-content && \
   curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
