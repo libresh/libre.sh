@@ -93,29 +93,29 @@ function scaffold () {
   case "${arg_a}" in
   "static" )
     echo APPLICATION=nginx >> ${FOLDER}/.env
-    echo DOCKER_ARGUMENTS="-v ${APP_FODLER}/www-content:/app" >> ${FOLDER}/.env
+    echo DOCKER_ARGUMENTS="-v ${APP_FOLDER}/www-content:/app" >> ${FOLDER}/.env
     ;;
   "wordpress" )
     echo APPLICATION=${arg_a} >> ${FOLDER}/.env
     echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FODLER}/data:/app/wp-content \
-      -v ${APP_FODLER}/.htaccess:/app/.htaccess \
-      --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
+      -v ${APP_FOLDER}/data:/app/wp-content \
+      -v ${APP_FOLDER}/.htaccess:/app/.htaccess \
+      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
     ;;
   "known" )
     echo APPLICATION=${arg_a} >> ${FOLDER}/.env
     echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FODLER}/data:/app/Uploads \
-      -v ${APP_FODLER}/.htaccess:/app/.htaccess \
-      --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
+      -v ${APP_FOLDER}/data:/app/Uploads \
+      -v ${APP_FOLDER}/.htaccess:/app/.htaccess \
+      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
     ;;
   "owncloud" )
     echo APPLICATION=${arg_a} >> ${FOLDER}/.env
     echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FODLER}/apps:/app/apps \
-      -v ${APP_FODLER}/config:/app/config \
-      -v ${APP_FODLER}/data:/app/data \
-      --env-file ${APP_FODLER}/.env" >> ${FOLDER}/.env
+      -v ${APP_FOLDER}/apps:/var/www/owncloud/apps \
+      -v ${APP_FOLDER}/config:/var/www/owncloud/config \
+      -v ${APP_FOLDER}/data:/var/www/owncloud/data \
+      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
     ;;
 
   esac
@@ -391,7 +391,7 @@ if [[ "${OSTYPE}" == "darwin"* ]]; then
 fi
 
 FOLDER=/data/domains/${arg_u}
-APP_FODLER=${FOLDER}/${arg_a}
+APP_FOLDER=${FOLDER}/${arg_a}
 TLS_FOLDER=${FOLDER}/TLS
 
 [ ${arg_b} -eq 1 ] && buy_domain_name
