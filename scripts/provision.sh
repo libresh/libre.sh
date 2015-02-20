@@ -86,7 +86,7 @@ function scaffold () {
   fi
 
   info "Creating application folder"
-  mkdir -p ${FOLDER}
+  mkdir -p ${APP_FOLDER}
 
   info "Creating .env"
   echo "EMAIL=${arg_e}" > ${FOLDER}/.env
@@ -96,6 +96,7 @@ function scaffold () {
     echo DOCKER_ARGUMENTS="-v ${APP_FOLDER}/www-content:/app" >> ${FOLDER}/.env
     ;;
   "wordpress" )
+    touch ${APP_FOLDER}/.htaccess
     echo APPLICATION=${arg_a} >> ${FOLDER}/.env
     echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
       -v ${APP_FOLDER}/data:/app/wp-content \
@@ -103,6 +104,7 @@ function scaffold () {
       --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
     ;;
   "known" )
+    touch ${APP_FOLDER}/.htaccess
     echo APPLICATION=${arg_a} >> ${FOLDER}/.env
     echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
       -v ${APP_FOLDER}/data:/app/Uploads \

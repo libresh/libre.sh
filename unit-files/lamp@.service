@@ -18,9 +18,7 @@ RemainAfterExit=yes
 EnvironmentFile=/data/domains/%i/.env
 ExecStart=/bin/bash -euxc ' \
   application_folder=/data/domains/%i/${APPLICATION}; \
-  if [ ! -d $application_folder ]; then \
-    mkdir -p $application_folder; \
-    touch $application_folder/.htaccess; \
+  if [ ! -f $application_folder/.env ]; then \
     cat /data/domains/%i/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > $application_folder/.env; \
   fi;'
 
