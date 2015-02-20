@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-applications=( static wordpress known )
+applications=( static wordpress known piwik owncloud )
 
 for application in "${applications[@]}"
 do

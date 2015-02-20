@@ -8,7 +8,7 @@ image=$1
 if [ "$image" == "static" ]; then
   sleep 30
 else
-  sleep 60
+  sleep 70
 fi
 
 systemctl list-units | grep "$image\.test" | grep -c failed | grep 0
