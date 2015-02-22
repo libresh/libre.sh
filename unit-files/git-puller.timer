@@ -4,3 +4,6 @@ Description=Git pull every 5 minutes
 [Timer]
 OnUnitActiveSec=5min
 
+[Install]
+WantedBy=multi-user.target
+

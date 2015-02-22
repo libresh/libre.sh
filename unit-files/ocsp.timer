@@ -4,3 +4,6 @@ Description=Daily timer for OCSP stapling
 [Timer]
 OnUnitActiveSec=1day
 
+[Install]
+WantedBy=multi-user.target
+
