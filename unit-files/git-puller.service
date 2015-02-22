@@ -6,7 +6,7 @@ Type=oneshot
 TimeoutStartSec=0
 ExecStart=/bin/bash -euxc ' \
   for directory in `find /data/domains/ -name .git -type d -prune`;do \
-    cd $directory; \
+    cd $directory; cd ..;\
     git pull; \
   done'
 
