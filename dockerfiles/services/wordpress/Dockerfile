@@ -23,3 +23,4 @@ ENV DB_PASS **ChangeMe**
 EXPOSE 80
 VOLUME ["/app/wp-content", "/app/.htaccess"]
 CMD ["/run-wordpress.sh"]
+
