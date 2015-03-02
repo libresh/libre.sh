@@ -73,7 +73,8 @@ then
   
   if [ -z ${SITE_URL+x} ]
   then
-    SITE_URL="http://${URL}"
+    PRIMARY_DOMAIN=`echo $URL | cut -d. -f2,3`
+    SITE_URL="http://${PRIMARY_DOMAIN}"
   fi
   
   if [ -z ${SITE_TIMEZONE+x} ]
