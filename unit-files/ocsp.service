@@ -6,7 +6,7 @@ Type=oneshot
 TimeoutStartSec=0
 ExecStart=/bin/bash -euxc ' \
   for cert in `ls /data/runtime/haproxy/approved-certs/*.pem`;do \
-    /data/indiehosters/scripts/ocsp.sh $cert; \
+    /data/indiehosters/utils/ocsp.sh $cert; \
   done; \
   systemctl restart haproxy; \
   rm /tmp/*.crt'

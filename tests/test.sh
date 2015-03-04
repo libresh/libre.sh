@@ -3,7 +3,7 @@
 image=$1
 
 # prepare data
-/data/indiehosters/scripts/provision.sh -s -e test@test.org -a $image -u $image.test -f /data/indiehosters/tests/unsecure-certs/indiehosters.dev.pem
+/data/indiehosters/utils/provision.sh -s -e test@test.org -a $image -u $image.test -f /data/indiehosters/tests/unsecure-certs/indiehosters.dev.pem
 
 if [ "$image" == "static" ]; then
   sleep 30
