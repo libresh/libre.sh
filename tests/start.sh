@@ -1,6 +1,8 @@
 #!/bin/bash -eux
 
-applications=( static wordpress known piwik owncloud )
+ROOT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
+
+applications=( `cat $ROOT_DIR/SUPPORTED_APPLICATIONS` )
 
 for application in "${applications[@]}"
 do

@@ -1,8 +1,10 @@
 #!/bin/bash -eux
 
+ROOT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
+
 systemctl list-units | grep -c failed | grep 0
 
-applications=( static wordpress known piwik owncloud )
+applications=( `cat $ROOT_DIR/SUPPORTED_APPLICATIONS` )
 
 for application in "${applications[@]}"
 do
