@@ -11,3 +11,4 @@ do
   curl -Lk $application.test
   /data/indiehosters/tests/clean.sh $application
 done
+
