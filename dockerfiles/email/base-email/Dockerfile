@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get install -q -y \
       python3 \
+      mysql-client \
       wget curl && \
       rm -rf /var/lib/apt/lists/*
 

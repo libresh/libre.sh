@@ -23,7 +23,7 @@ RUN \
     smtpd_banner="\$myhostname ESMTP Hi, I'm a hosted by an IndieHoster (Debian/Postfix; see https://indiehosters.net/)" \
     mydestination=localhost && \
   /opt/editconf.py /etc/postfix/master.cf -s -w \
-    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3-o cleanup_service_name=authclean" \
+    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3 -o cleanup_service_name=authclean" \
     "authclean=unix  n       -       -       -       0       cleanup -o header_checks=pcre:/etc/postfix/outgoing_mail_header_filters" && \
  /opt/editconf.py /etc/postfix/main.cf \
     smtpd_tls_security_level=may\
@@ -35,12 +35,10 @@ RUN \
   /opt/editconf.py /etc/postfix/main.cf \
     smtpd_relay_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination && \
   /opt/editconf.py /etc/postfix/main.cf \
-    #smtp_tls_security_level=dane \
-    #smtp_dns_support_level=dnssec \
     smtp_tls_CAfile=/etc/ssl/certs/ca-certificates.crt \
     smtp_tls_loglevel=2 && \
   /opt/editconf.py /etc/postfix/main.cf virtual_transport=lmtp:[127.0.0.1]:10025 && \
-  /opt/editconf.py /etc/postfix/main.cf virtual_transport=lmtp:unix:private/dovecot-lmtp && \
+  /opt/editconf.py /etc/postfix/main.cf virtual_transport=lmtp:unix:dovecot/lmtp && \
   /opt/editconf.py /etc/postfix/main.cf \
     smtpd_sender_restrictions="reject_non_fqdn_sender,reject_unknown_sender_domain,reject_rhsbl_sender dbl.spamhaus.org" \
     smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,"reject_rbl_client zen.spamhaus.org",reject_unlisted_recipient,#"check_policy_service inet:127.0.0.1:10023" && \
@@ -48,7 +46,7 @@ RUN \
     message_size_limit=134217728 && \
   /opt/editconf.py /etc/postfix/main.cf \
     smtpd_sasl_type=dovecot \
-    smtpd_sasl_path=private/auth \
+    smtpd_sasl_path=dovecot/auth \
     smtpd_sasl_auth_enable=yes && \
   /opt/editconf.py /etc/postfix/main.cf \
     virtual_mailbox_domains=mysql:/etc/postfix/virtual-mailbox-domains.cf \
@@ -57,6 +55,10 @@ RUN \
     local_recipient_maps=\$virtual_mailbox_maps && \
   /opt/editconf.py /etc/postfix/main.cf \
     mynetworks="127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.42.0/24"
+
+#RUN /opt/editconf.py /etc/postfix/main.cf \
+#smtp_tls_security_level=dane \
+#smtp_dns_support_level=dnssec
 
 VOLUME ["/var/spool/postfix/"]
 

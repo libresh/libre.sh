@@ -2,7 +2,6 @@ FROM pierreozoux/base-email
 
 RUN apt-get update && \
     apt-get install -q -y \
-      python3 \
       dovecot-core \
       dovecot-imapd \
       dovecot-lmtpd \
@@ -17,8 +16,8 @@ COPY init.sql /init.sql
 COPY startup.sh /startup.sh
 
 RUN \
-  groupadd -r postfix \
-  && useradd -r -g postfix postfix \
+  groupadd -r postfix && \
+  useradd -r -g postfix postfix && \
   chmod u+x /startup.sh && \
   /opt/editconf.py /etc/dovecot/conf.d/10-master.conf \
     default_process_limit=250 && \
@@ -51,7 +50,7 @@ RUN \
 
 ENTRYPOINT ["/startup.sh"]
 
-VOLUME ["/var/spool/postfix/private/auth", "/var/spool/postfix/private/dovecot-lmtp"]
+VOLUME ["/var/spool/postfix/dovecot"]
 
 EXPOSE 993
 
