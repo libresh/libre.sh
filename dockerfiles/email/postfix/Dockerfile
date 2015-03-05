@@ -1,25 +1,64 @@
-FROM debian:jessie
+FROM pierreozoux/base-email
 
-# Borrows from https://registry.hub.docker.com/u/previousnext/postfix
-# Borrows from https://registry.hub.docker.com/u/catatnight/postfix
+RUN apt-get update && \
+    apt-get install -q -y \
+      postfix \
+      postfix-pcre \
+      postfix-mysql \
+      supervisor \
+      ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update \
-	&& echo "postfix postfix/main_mailer_type string 'Internet site'" | debconf-set-selections \
-	&& echo "postfix postfix/mailname string 'HOSTNAME.EXAMPLE.COM'" | debconf-set-selections \
-	&& echo "postfix postfix/root_address string 'ROOTMAIL@EXAMPLE.COM'" | debconf-set-selections \
-	&& apt-get install -q -y \
-		postfix \
-		supervisor \
-	&& rm -rf /var/lib/apt/lists/*
+COPY install.sh /install.sh
+COPY postfix_outgoing_mail_header_filters /etc/postfix/outgoing_mail_header_filters
+COPY virtual-mailbox-domains.cf /etc/postfix/virtual-mailbox-domains.cf
+COPY virtual-mailbox-maps.cf /etc/postfix/virtual-mailbox-maps.cf
+COPY virtual-alias-maps.cf /etc/postfix/virtual-alias-maps.cf
 
-COPY install.sh install.sh
-
-RUN chmod 755 /install.sh
+RUN \
+  chmod u+x /install.sh && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    inet_interfaces=all \
+    myhostname=##HOSTNAME##\
+    smtpd_banner="\$myhostname ESMTP Hi, I'm a hosted by an IndieHoster (Debian/Postfix; see https://indiehosters.net/)" \
+    mydestination=localhost && \
+  /opt/editconf.py /etc/postfix/master.cf -s -w \
+    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3-o cleanup_service_name=authclean" \
+    "authclean=unix  n       -       -       -       0       cleanup -o header_checks=pcre:/etc/postfix/outgoing_mail_header_filters" && \
+ /opt/editconf.py /etc/postfix/main.cf \
+    smtpd_tls_security_level=may\
+    smtpd_tls_auth_only=yes \
+    smtpd_tls_cert_file=/ssl/ssl_certificate.pem \
+    smtpd_tls_key_file=/ssl/ssl_private_key.pem \
+    smtpd_tls_dh1024_param_file=/ssl/dh2048.pem \
+    smtpd_tls_received_header=yes && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    smtpd_relay_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    #smtp_tls_security_level=dane \
+    #smtp_dns_support_level=dnssec \
+    smtp_tls_CAfile=/etc/ssl/certs/ca-certificates.crt \
+    smtp_tls_loglevel=2 && \
+  /opt/editconf.py /etc/postfix/main.cf virtual_transport=lmtp:[127.0.0.1]:10025 && \
+  /opt/editconf.py /etc/postfix/main.cf virtual_transport=lmtp:unix:private/dovecot-lmtp && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    smtpd_sender_restrictions="reject_non_fqdn_sender,reject_unknown_sender_domain,reject_rhsbl_sender dbl.spamhaus.org" \
+    smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,"reject_rbl_client zen.spamhaus.org",reject_unlisted_recipient,#"check_policy_service inet:127.0.0.1:10023" && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    message_size_limit=134217728 && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    smtpd_sasl_type=dovecot \
+    smtpd_sasl_path=private/auth \
+    smtpd_sasl_auth_enable=yes && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    virtual_mailbox_domains=mysql:/etc/postfix/virtual-mailbox-domains.cf \
+    virtual_mailbox_maps=mysql:/etc/postfix/virtual-mailbox-maps.cf \
+    virtual_alias_maps=mysql:/etc/postfix/virtual-alias-maps.cf \ 
+    local_recipient_maps=\$virtual_mailbox_maps && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    mynetworks="127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.42.0/24"
 
 VOLUME ["/var/spool/postfix/"]
-
-EXPOSE 25
 
 CMD /install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 

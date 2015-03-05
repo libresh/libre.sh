@@ -1,0 +1,6 @@
+user = ##DB_USER##
+password = ##DB_PASS##
+hosts = db
+dbname = servermail
+query = SELECT destination FROM virtual_aliases WHERE source='%s'
+

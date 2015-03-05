@@ -3,10 +3,12 @@ Description=%p
 
 # Requirements
 Requires=docker.service
+Requires=dovecot.service
 
 # Dependency ordering
 After=docker.service
 After=rsyslog.service
+After=dovecot.service
 
 [Service]
 Restart=always
@@ -20,7 +22,9 @@ ExecStart=/usr/bin/docker run \
   -v /data/runtime/dev/log:/dev/log \
   -v /data/runtime/postfix/:/data \
   -v /data/runtime/postfix-spool/:/var/spool/postfix \
+  --volumes-from=dovecot \
   -p 25:25 \
+  -p 587:587 \
   pierreozoux/postfix
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p

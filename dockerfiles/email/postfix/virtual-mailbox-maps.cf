@@ -1,0 +1,6 @@
+user = ##DB_USER##
+password = ##DB_PASS##
+hosts = db
+dbname = servermail
+query = SELECT 1 FROM virtual_users WHERE email='%s'
+
