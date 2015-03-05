@@ -15,7 +15,7 @@ BACKUP_IP=`cat /etc/hosts | grep backup.test | cut -d" " -f1`
 $ROOT_DIR/scripts/create_vultr.sh server.test
 cat $ROOT_DIR/configs/server.config | sed s/##BACKUP_IP##/$BACKUP_IP/g > /tmp/server.config
 scp /tmp/server.config root@server.test:/var/lib/coreos-install/user_data
-scp install.sh root@server.test:/tmp/install.sh
+scp $ROOT_DIR/scripts/install.sh root@server.test:/tmp/install.sh
 ssh root@server.test /tmp/install.sh
 IP=`cat /etc/hosts | grep server.test | cut -d" " -f1`
 
