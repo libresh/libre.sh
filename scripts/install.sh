@@ -43,3 +43,4 @@ TRUST_VALUE=':5:'
 echo $TRUSTVAR$TRUST_VALUE > /tmp/trust
 gpg2 --import-ownertrust < /tmp/trust
 
+docker run --rm -v /opt/bin:/target jpetazzo/nsenter
