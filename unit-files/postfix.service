@@ -3,10 +3,12 @@ Description=%p
 
 # Requirements
 Requires=docker.service
+Requires=dovecot.service
 
 # Dependency ordering
 After=docker.service
 After=rsyslog.service
+After=dovecot.service
 
 [Service]
 Restart=always
@@ -17,10 +19,15 @@ ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --rm \
   --name %p \
+  --env-file=/data/domains/mail/.env \
   -v /data/runtime/dev/log:/dev/log \
-  -v /data/runtime/postfix/:/data \
-  -v /data/runtime/postfix-spool/:/var/spool/postfix \
+  -v /data/runtime/postfix:/data \
+  -v /data/runtime/mail:/var/mail \
+  -v /data/domains/mail/TLS:/ssl \
+  --volumes-from=dovecot \
   -p 25:25 \
+  -p 587:587 \
+  -link=mysql-mail:db \
   pierreozoux/postfix
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
