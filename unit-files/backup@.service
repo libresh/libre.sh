@@ -33,6 +33,7 @@ ExecStart=/bin/bash -euxc ' \
     -h backup.container \
     -v /root:/root \
     -v /data/domains/%i:/backup pierreozoux/duplicity \
+      --full-if-older-than 1W \
       --encrypt-key ${ENCRYPT_KEY} \
         /backup \
         sftp://${BACKUP_DESTINATION}/%i' 
