@@ -40,6 +40,6 @@ systemctl start  haproxy.path
 gpg --import /root/key.pub
 TRUSTVAR=`gpg --fingerprint root | grep Key|cut -d= -f2|sed 's/ //g'`
 TRUST_VALUE=':5:'
-echo $TRUSTVAR$TRUST_VALUE >> /tmp/trust
-gpg --import-ownertrust /tmp/trust
+echo $TRUSTVAR$TRUST_VALUE > /tmp/trust
+gpg2 --import-ownertrust < /tmp/trust
 
