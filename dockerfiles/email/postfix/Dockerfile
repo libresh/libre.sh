@@ -54,7 +54,7 @@ RUN \
     virtual_alias_maps=mysql:/etc/postfix/virtual-alias-maps.cf \ 
     local_recipient_maps=\$virtual_mailbox_maps && \
   /opt/editconf.py /etc/postfix/main.cf \
-    mynetworks="127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.17.42.0/24"
+    mynetworks="127.0.0.0/8 172.17.42.0/24"
 
 #RUN /opt/editconf.py /etc/postfix/main.cf \
 #smtp_tls_security_level=dane \
