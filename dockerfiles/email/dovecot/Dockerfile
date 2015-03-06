@@ -8,7 +8,7 @@ RUN apt-get update && \
       dovecot-mysql && \
     rm -rf /var/lib/apt/lists/*
 
-COPY 99-local.conf /etc/dovecot/conf.d/99-local.conf
+COPY 99-local-lmtp.conf /etc/dovecot/conf.d/99-local-lmtp.conf
 COPY auth-sql.conf.ext /etc/dovecot/conf.d/auth-sql.conf.ext
 COPY dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext 
 COPY 99-local-auth.conf /etc/dovecot/conf.d/99-local-auth.conf

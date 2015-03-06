@@ -23,7 +23,8 @@ RUN \
     smtpd_banner="\$myhostname ESMTP Hi, I'm a hosted by an IndieHoster (Debian/Postfix; see https://indiehosters.net/)" \
     mydestination=localhost && \
   /opt/editconf.py /etc/postfix/master.cf -s -w \
-    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3 -o cleanup_service_name=authclean" \
+    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3 -o cleanup_service_name=authclean" && \
+  /opt/editconf.py /etc/postfix/master.cf -s -w \
     "authclean=unix  n       -       -       -       0       cleanup -o header_checks=pcre:/etc/postfix/outgoing_mail_header_filters" && \
  /opt/editconf.py /etc/postfix/main.cf \
     smtpd_tls_security_level=may\
@@ -41,7 +42,7 @@ RUN \
   /opt/editconf.py /etc/postfix/main.cf virtual_transport=lmtp:unix:dovecot/lmtp && \
   /opt/editconf.py /etc/postfix/main.cf \
     smtpd_sender_restrictions="reject_non_fqdn_sender,reject_unknown_sender_domain,reject_rhsbl_sender dbl.spamhaus.org" \
-    smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,"reject_rbl_client zen.spamhaus.org",reject_unlisted_recipient,#"check_policy_service inet:127.0.0.1:10023" && \
+    smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,"reject_rbl_client zen.spamhaus.org",reject_unlisted_recipient && \
   /opt/editconf.py /etc/postfix/main.cf \
     message_size_limit=134217728 && \
   /opt/editconf.py /etc/postfix/main.cf \

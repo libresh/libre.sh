@@ -11,7 +11,7 @@ touch /data/domains/mail/nginx/.env
 pass=`echo $RANDOM  ${date} | md5sum | base64 | cut -c-10`
 echo MYSQL_PASS=$pass > /data/domains/mail/mysql/.env
 cat /data/domains/mail/mysql/.env | sed s/MYSQL_PASS/DB_PASS/ > /data/domains/mail/.env;
-echo HOSTNAME=dovecot.test >> /data/domains/mail/.env
+echo HOSTNAME=pierre-o.fr >> /data/domains/mail/.env
 echo APPLICATION=nginx >> /data/domains/mail/.env
 echo DOCKER_ARGUMENTS="-v /data/domains/mail/static/www-content:/app" >> /data/domains/mail.env
 
