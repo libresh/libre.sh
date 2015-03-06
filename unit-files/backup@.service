@@ -34,6 +34,7 @@ ExecStart=/bin/bash -euxc ' \
     -v /root:/root \
     -v /data/domains/%i:/backup pierreozoux/duplicity \
       --encrypt-key ${ENCRYPT_KEY} \
+        --ssh-options="-oStrictHostKeyChecking=no" \
         /backup \
         sftp://${BACKUP_DESTINATION}/%i' 
 

@@ -36,11 +36,16 @@ systemctl start  confd
 systemctl enable haproxy.path
 systemctl start  haproxy.path
 
+source /etc/environment
+# Put the backup server in known_hosts files using RSA algo
+# https://github.com/paramiko/paramiko/issues/243
+ssh -o "StrictHostKeyChecking no" -o "BatchMode yes" -o "HostKeyAlgorithms=ssh-rsa" $BACKUP_DESTINATION exit
+
 # Import backup encryption key
 gpg --import /root/key.pub
 TRUSTVAR=`gpg --fingerprint root | grep Key|cut -d= -f2|sed 's/ //g'`
-TRUST_VALUE=':5:'
-echo $TRUSTVAR$TRUST_VALUE > /tmp/trust
-gpg2 --import-ownertrust < /tmp/trust
+TRUST_VALUE=':6:'
+echo $TRUSTVAR$TRUST_VALUE | gpg --import-ownertrust
 
 docker run --rm -v /opt/bin:/target jpetazzo/nsenter
+
