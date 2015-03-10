@@ -24,5 +24,8 @@ openssl dhparam -out /data/domains/mail/TLS/dh2048.pem 2048
 
 cp /data/domains/mail/TLS/ssl_certificate.pem /data/domains/mail/TLS/mail.pem
 
+systemctl enable dovecot
+systemctl enable postfix
 systemctl start dovecot
+systemctl start postfix
 

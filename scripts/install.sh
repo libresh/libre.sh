@@ -29,8 +29,6 @@ cp /data/indiehosters/tests/unsecure-certs/indiehosters.dev.pem /data/runtime/ha
 
 systemctl enable rsyslog
 systemctl start  rsyslog
-systemctl enable postfix
-systemctl start  postfix
 systemctl enable confd
 systemctl start  confd
 systemctl enable haproxy.path
