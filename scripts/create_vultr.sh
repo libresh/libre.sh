@@ -37,6 +37,7 @@ do
   fi
 done
 
+echo Writing $LABEL to /etc/hosts file, needs your root password:
 sudo -- sh -c "echo $IP $LABEL \#$SUBID >> /etc/hosts"
 
 while :

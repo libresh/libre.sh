@@ -19,7 +19,7 @@ There is a script that provision 2 VMs on Vutlr for tests purpose.
 
 ```
 export VULTR_API_KEY=
-./scripts/start.sh #need root access to modify your /etc/hosts
+./scripts/start.sh
 ssh root@server.test
 cd /data/indiehosters
 ./tests/start.sh
@@ -28,7 +28,7 @@ reboot
 ssh root@server.test
 ./tests/stop.sh
 exit
-./scripts/stop.sh #need root access to modify your /etc/hosts
+./scripts/stop.sh
 ```
 
 Most of the tests are "visual", but by reading them, it gives you an idea on how to start and stop services.

@@ -25,6 +25,7 @@ echo "We'll now modify your /etc/hosts to add the test application name"
 applications=( `cat $ROOT_DIR/SUPPORTED_APPLICATIONS` )
 for application in "${applications[@]}"
 do
+  echo Writing $LABEL to /etc/hosts file, needs your root password:
   sudo -- sh -c "echo $IP $application.test  >> /etc/hosts"
 done
 
