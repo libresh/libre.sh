@@ -18,8 +18,8 @@ There is a script that provision 2 VMs on Vutlr for tests purpose.
 /!\ This is still in dev, use it at your own risk /!\
 
 ```
-export VULTR_API_KEY=
-./script/start.sh #need root access to modify your /etc/hosts
+#need root access to modify your /etc/hosts:
+sudo export VULTR_API_KEY= abcd ./scripts/start.sh
 ssh root@server.test
 cd /data/indiehosters
 ./tests/start.sh
