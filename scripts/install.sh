@@ -6,7 +6,7 @@ docker pull pierreozoux/rsyslog
 docker pull pierreozoux/haproxy
 docker pull pierreozoux/confd
 docker pull pierreozoux/postfix
-#docker pull pierreozoux/dovecot
+docker pull pierreozoux/dovecot
 docker pull pierreozoux/nginx
 docker pull pierreozoux/mysql
 docker pull pierreozoux/wordpress
