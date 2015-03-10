@@ -23,7 +23,7 @@ export VULTR_API_KEY=
 ssh root@server.test
 cd /data/indiehosters
 ./tests/start.sh
-./tests/dovecot.sh
+./tests/email.sh
 reboot
 ssh root@server.test
 ./tests/stop.sh
