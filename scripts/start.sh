@@ -36,3 +36,6 @@ do
   sudo -- sh -c "echo $IP $application.test  >> /etc/hosts"
 done
 
+# cleaning
+rm /tmp/server.config
+
