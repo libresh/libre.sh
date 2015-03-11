@@ -2,6 +2,13 @@
 
 ROOT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
 
+# check if there are already running servers
+if [ "$(cat /etc/hosts | grep -q '.test' ; echo $?)" -eq 0 ]; then
+  echo "It looks like some servers are still running."
+  echo "please run ./script.stop.sh first if you want to create new servers."
+  exit 1
+fi
+
 # Create backup for tests
 
 $ROOT_DIR/scripts/create_vultr.sh backup.test
