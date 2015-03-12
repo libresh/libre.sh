@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     sed -i 's/error_log.*/error_log \/dev\/stdout info;/g' /etc/nginx/nginx.conf && \
     sed -i 's/^pid/daemon off;\npid/g' /etc/nginx/nginx.conf && \
     sed -i "s/.*sendmail_path.*/sendmail_path = \/usr\/sbin\/ssmtp -t/g" /etc/php5/fpm/php.ini && \
+    sed -i 's/;default_charset.*/default_charset = "UTF-8"/g' /etc/php5/fpm/php.ini && \
     sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/fpm/php.ini
 
 ADD basic.conf /etc/nginx/conf.d/basic.conf
