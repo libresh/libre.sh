@@ -2,18 +2,18 @@
 
 /usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
 
-docker pull pierreozoux/rsyslog
-docker pull pierreozoux/haproxy
-docker pull pierreozoux/confd
-docker pull pierreozoux/postfix
-docker pull pierreozoux/dovecot
-docker pull pierreozoux/nginx
-docker pull pierreozoux/mysql
-docker pull pierreozoux/wordpress
-docker pull pierreozoux/known
-docker pull pierreozoux/piwik
-docker pull pierreozoux/owncloud
-docker pull pierreozoux/duplicity
+docker pull indiepaas/rsyslog
+docker pull indiepaas/haproxy
+docker pull indiepaas/confd
+docker pull indiepaas/postfix
+docker pull indiepaas/dovecot
+docker pull indiepaas/nginx
+docker pull indiepaas/mysql
+docker pull indiepaas/wordpress
+docker pull indiepaas/known
+docker pull indiepaas/piwik
+docker pull indiepaas/owncloud
+docker pull indiepaas/duplicity
 docker pull ibuildthecloud/systemd-docker
 
 # Create Directory structure
