@@ -37,7 +37,7 @@ ExecStart=/opt/bin/systemd-docker run \
   -v /data/runtime/domains/%i/log/mysql:/var/log/mysql \
   -v /data/runtime/domains/%i/%p/db_files:/var/lib/mysql \
   --env-file /data/domains/%i/%p/.env \
-  pierreozoux/mysql
+  indiepaas/mysql
 ExecReload=/usr/bin/docker restart %p-%i
 ExecStop=/usr/bin/docker stop %p-%i
 

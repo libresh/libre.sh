@@ -1,4 +1,4 @@
-FROM pierreozoux/apache
+FROM indiepaas/apache
 
 # Download latest version of Wordpress into /app
 RUN curl -L https://wordpress.org/latest.tar.gz | tar xz && \

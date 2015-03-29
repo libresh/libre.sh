@@ -1,4 +1,4 @@
-FROM pierreozoux/apache
+FROM indiepaas/apache
 
 # Download latest version of Known into /app
 RUN mkdir -p /app && \

@@ -21,7 +21,7 @@ ExecStart=/usr/bin/docker run \
   --name %p \
   -v /data/runtime/haproxy/:/etc/haproxy/ \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  pierreozoux/confd
+  indiepaas/confd
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
 

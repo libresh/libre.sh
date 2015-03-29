@@ -1,4 +1,4 @@
-FROM pierreozoux/nginx-php
+FROM indiepaas/nginx-php
 
 # install owncloud
 RUN echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_7.0/ /' >> /etc/apt/sources.list.d/owncloud.list && \
