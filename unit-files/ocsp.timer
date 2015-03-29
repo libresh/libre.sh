@@ -2,6 +2,7 @@
 Description=Daily timer for OCSP stapling
 
 [Timer]
+OnBootSec=15min
 OnUnitActiveSec=1day
 
 [Install]
