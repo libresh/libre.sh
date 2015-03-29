@@ -30,7 +30,7 @@ ExecStart=/bin/bash -euxc ' \
     --env-file=/data/domains/mail/.env \
     --link mysql-mail:db \
     -p 993:993 \
-    pierreozoux/dovecot'
+    indiepaas/dovecot'
 ExecReload=/usr/bin/docker restart dovecot
 ExecStop=/usr/bin/docker stop dovecot
 

@@ -17,7 +17,7 @@ ExecStartPre=/bin/bash -euxc ' \
       --name mysqldump-%i \
       --link mysql-%i:db \
       --env-file /data/domains/%i/mysql/.env \
-      pierreozoux/mysql \
+      indiepaas/mysql \
         mysqldump \
           --all-databases \
           --events \
@@ -32,7 +32,7 @@ ExecStart=/bin/bash -euxc ' \
     --name backup-%i \
     -h backup.container \
     -v /root:/root \
-    -v /data/domains/%i:/backup pierreozoux/duplicity \
+    -v /data/domains/%i:/backup indiepaas/duplicity \
       --full-if-older-than 1W \
       --encrypt-key ${ENCRYPT_KEY} \
         /backup \
