@@ -1,4 +1,4 @@
-FROM pierreozoux/base-email
+FROM indiepaas/base-email
 
 RUN apt-get update && \
     apt-get install -q -y \

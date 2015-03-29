@@ -21,7 +21,7 @@ ExecStart=/usr/bin/docker run \
   -v /data/runtime/haproxy:/etc/haproxy \
   -p 80:80 \
   -p 443:443 \
-  pierreozoux/haproxy
+  indiepaas/haproxy
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p
 

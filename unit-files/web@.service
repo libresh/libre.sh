@@ -30,7 +30,7 @@ ExecStart=/bin/bash -euxc ' \
     --name %i \
     -v /data/runtime/domains/%i/log/apache2:/var/log/apache2 \
     ${DOCKER_ARGUMENTS} \
-    pierreozoux/${APPLICATION}'
+    indiepaas/${APPLICATION}'
 ExecReload=/usr/bin/docker restart %i
 ExecStop=/usr/bin/docker stop %i
 
