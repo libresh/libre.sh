@@ -14,6 +14,7 @@ COPY postfix_outgoing_mail_header_filters /etc/postfix/outgoing_mail_header_filt
 COPY virtual-mailbox-domains.cf /etc/postfix/virtual-mailbox-domains.cf
 COPY virtual-mailbox-maps.cf /etc/postfix/virtual-mailbox-maps.cf
 COPY virtual-alias-maps.cf /etc/postfix/virtual-alias-maps.cf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN \
   chmod u+x /install.sh && \
