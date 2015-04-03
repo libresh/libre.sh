@@ -28,7 +28,7 @@ ExecStart=/usr/bin/docker run \
   --volumes-from=dovecot \
   -p 25:25 \
   -p 587:587 \
-  -link=mysql-mail:db \
+  --link=mysql-mail:db \
   indiepaas/postfix
 ExecReload=/usr/bin/docker restart %p
 ExecStop=/usr/bin/docker stop %p

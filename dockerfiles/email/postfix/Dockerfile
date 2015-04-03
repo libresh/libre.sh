@@ -67,13 +67,13 @@ RUN \
     "smtpd_milters=inet:127.0.0.1:8891 inet:127.0.0.1:8893"\
     non_smtpd_milters=\$smtpd_milters \
     milter_default_action=accept && \
-  echo "MinimumKeyBits          1024" >> /etc/opendkim && \
-  echo "ExternalIgnoreList      refile:/etc/opendkim/TrustedHosts" >> /etc/opendkim && \
-  echo "InternalHosts           refile:/etc/opendkim/TrustedHosts" >> /etc/opendkim && \
-  echo "KeyTable                refile:/etc/opendkim/KeyTable" >> /etc/opendkim && \
-  echo "SigningTable            refile:/etc/opendkim/SigningTable" >> /etc/opendkim && \
-  echo "Socket                  inet:8891@localhost" >> /etc/opendkim && \
-  echo "RequireSafeKeys         false" >> /etc/opendkim
+  echo "MinimumKeyBits          1024" >> /etc/opendkim.conf && \
+  echo "ExternalIgnoreList      refile:/etc/opendkim/TrustedHosts" >> /etc/opendkim.conf && \
+  echo "InternalHosts           refile:/etc/opendkim/TrustedHosts" >> /etc/opendkim.conf && \
+  echo "KeyTable                refile:/etc/opendkim/KeyTable" >> /etc/opendkim.conf && \
+  echo "SigningTable            refile:/etc/opendkim/SigningTable" >> /etc/opendkim.conf && \
+  echo "Socket                  inet:8891@localhost" >> /etc/opendkim.conf && \
+  echo "RequireSafeKeys         false" >> /etc/opendkim.conf
 
 #RUN /opt/editconf.py /etc/postfix/main.cf \
 #smtp_tls_security_level=dane \

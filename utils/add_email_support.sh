@@ -19,8 +19,16 @@ mkdir -p /data/domains/mail/opendkim/keys/$DOMAIN
 /usr/bin/docker run \
   --rm \
   --name opendkim-genkey \
+  -v /data/domains/mail/opendkim:/etc/opendkim \
   indiepaas/postfix \
-    /usr/bin/opendkim-genkey -D /etc/opendkim/keys/$DOMAIN/ -d $DOMAIN -s mail && chown -R opendkim: /etc/opendkim/keys
+    /usr/bin/opendkim-genkey -D /etc/opendkim/keys/$DOMAIN/ -d $DOMAIN -s mail
+
+/usr/bin/docker run \
+  --rm \
+  --name opendkim-genkey \
+  -v /data/domains/mail/opendkim:/etc/opendkim \
+  indiepaas/postfix \
+  /bin/chown -R opendkim /etc/opendkim/keys
 
 mv /data/domains/mail/opendkim/keys/$DOMAIN/mail.private /data/domains/mail/opendkim/keys/$DOMAIN/mail
 
