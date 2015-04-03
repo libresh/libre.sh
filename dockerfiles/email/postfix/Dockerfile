@@ -6,7 +6,10 @@ RUN apt-get update && \
       postfix-pcre \
       postfix-mysql \
       supervisor \
-      ca-certificates && \
+      ca-certificates \
+      opendkim \
+      opendkim-tools \
+      opendmarc && \
     rm -rf /var/lib/apt/lists/*
 
 COPY install.sh /install.sh
@@ -14,6 +17,7 @@ COPY postfix_outgoing_mail_header_filters /etc/postfix/outgoing_mail_header_filt
 COPY virtual-mailbox-domains.cf /etc/postfix/virtual-mailbox-domains.cf
 COPY virtual-mailbox-maps.cf /etc/postfix/virtual-mailbox-maps.cf
 COPY virtual-alias-maps.cf /etc/postfix/virtual-alias-maps.cf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN \
   chmod u+x /install.sh && \
@@ -23,7 +27,7 @@ RUN \
     smtpd_banner="\$myhostname ESMTP Hi, I'm a hosted by an IndieHoster (Debian/Postfix; see https://indiehosters.net/)" \
     mydestination=localhost && \
   /opt/editconf.py /etc/postfix/master.cf -s -w \
-    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3 -o cleanup_service_name=authclean" && \
+    "submission=inet n       -       -       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_milters=inet:127.0.0.1:8891 -o smtpd_tls_ciphers=high -o smtpd_tls_protocols=!SSLv2,!SSLv3 -o cleanup_service_name=authclean" && \
   /opt/editconf.py /etc/postfix/master.cf -s -w \
     "authclean=unix  n       -       -       -       0       cleanup -o header_checks=pcre:/etc/postfix/outgoing_mail_header_filters" && \
  /opt/editconf.py /etc/postfix/main.cf \
@@ -55,7 +59,21 @@ RUN \
     virtual_alias_maps=mysql:/etc/postfix/virtual-alias-maps.cf \ 
     local_recipient_maps=\$virtual_mailbox_maps && \
   /opt/editconf.py /etc/postfix/main.cf \
-    mynetworks="127.0.0.0/8 172.17.42.0/24"
+    mynetworks="127.0.0.0/8 172.17.42.0/24" && \
+  /opt/editconf.py /etc/opendmarc.conf -s \
+    "Syslog=true" \
+    "Socket=inet:8893@[127.0.0.1]" && \
+  /opt/editconf.py /etc/postfix/main.cf \
+    "smtpd_milters=inet:127.0.0.1:8891 inet:127.0.0.1:8893"\
+    non_smtpd_milters=\$smtpd_milters \
+    milter_default_action=accept && \
+  echo "MinimumKeyBits          1024" >> /etc/opendkim && \
+  echo "ExternalIgnoreList      refile:/etc/opendkim/TrustedHosts" >> /etc/opendkim && \
+  echo "InternalHosts           refile:/etc/opendkim/TrustedHosts" >> /etc/opendkim && \
+  echo "KeyTable                refile:/etc/opendkim/KeyTable" >> /etc/opendkim && \
+  echo "SigningTable            refile:/etc/opendkim/SigningTable" >> /etc/opendkim && \
+  echo "Socket                  inet:8891@localhost" >> /etc/opendkim && \
+  echo "RequireSafeKeys         false" >> /etc/opendkim
 
 #RUN /opt/editconf.py /etc/postfix/main.cf \
 #smtp_tls_security_level=dane \

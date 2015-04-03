@@ -16,18 +16,10 @@ sed -i "s/##HOSTNAME##/$HOSTNAME/" /etc/postfix/main.cf
 
 /opt/mysql-check.sh
 
+if [ ! -f /etc/opendkim/TrustedHosts ]; then
+  mkdir -p /etc/opendkim
+  echo "127.0.0.1" > /etc/opendkim/TrustedHosts
+fi
+
 chown -R postfix:postfix /var/spool/postfix/dovecot
-
-#supervisor
-cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
-[supervisord]
-nodaemon=true
-
-[program:postfix]
-process_name = master
-command = /etc/init.d/postfix start
-startsecs = 0
-autorestart = false
-
-EOF
 

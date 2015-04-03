@@ -19,7 +19,7 @@ docker pull ibuildthecloud/systemd-docker
 # Create Directory structure
 mkdir -p /data/domains
 mkdir -p /data/runtime/haproxy/approved-certs
-git clone https://github.com/pierreozoux/IndiePaaS.git /data/indiehosters
+git clone https://github.com/indiepaas/IndiePaaS.git /data/indiehosters
 
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload

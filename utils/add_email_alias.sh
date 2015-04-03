@@ -9,7 +9,7 @@ MYSQL_PASS=`cat /data/domains/mail/mysql/.env | cut -d= -f2`
   --rm \
   --name add_email_support_to_$DOMAIN \
   --link mysql-mail:db \
-  pierreozoux/mysql \
+  indiepaas/mysql \
     mysql \
       -uadmin \
       -p$MYSQL_PASS \
