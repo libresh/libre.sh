@@ -16,7 +16,10 @@ sed -i "s/##HOSTNAME##/$HOSTNAME/" /etc/postfix/main.cf
 
 /opt/mysql-check.sh
 
-chown -R postfix:postfix /var/spool/postfix/dovecot
+if [ ! -f /etc/opendkim/TrustedHosts ]; then
+  mkdir -p /etc/opendkim
+  echo "127.0.0.1" > /etc/opendkim/TrustedHosts
+fi
 
-EOF
+chown -R postfix:postfix /var/spool/postfix/dovecot
 

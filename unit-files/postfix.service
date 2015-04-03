@@ -24,6 +24,7 @@ ExecStart=/usr/bin/docker run \
   -v /data/runtime/postfix:/data \
   -v /data/runtime/mail:/var/mail \
   -v /data/domains/mail/TLS:/ssl \
+  -v /data/domains/mail/opendkim:/etc/opendkim \
   --volumes-from=dovecot \
   -p 25:25 \
   -p 587:587 \
