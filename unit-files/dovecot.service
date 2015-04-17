@@ -25,6 +25,7 @@ ExecStart=/bin/bash -euxc ' \
   /opt/bin/systemd-docker --env run \
     --rm \
     --name dovecot \
+    -v /data/domains/mail/dovecot/mail:/mail \
     -v /data/domains/mail/TLS:/ssl \
     -v /data/runtime/dev/log:/dev/log \
     --env-file=/data/domains/mail/.env \
