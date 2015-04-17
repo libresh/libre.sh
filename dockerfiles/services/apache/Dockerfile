@@ -18,6 +18,7 @@ RUN apt-get update \
 		php5-mysql \
 		php5-xmlrpc \
                 ssmtp \
+    unzip \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Add image configuration and scripts
