@@ -3,7 +3,7 @@ FROM indiepaas/apache
 # Download latest version of Known into /app
 RUN mkdir -p /app && \
   cd /app && \
-  curl -L http://assets.withknown.com/releases/known-0.7.5.tgz | tar xz
+  curl -L http://assets.withknown.com/releases/known-latest.tgz | tar xz
 
 # Add script to create 'known' DB
 ADD run-known.sh /run-known.sh
