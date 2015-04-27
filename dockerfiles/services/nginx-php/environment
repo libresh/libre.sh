@@ -1,6 +1,0 @@
-#!/bin/bash -eux
-
-DB_HOST=db
-DB_PORT=${DB_PORT_3306_TCP_PORT:-${DB_PORT}}
-DB_PORT=${DB_1_PORT_3306_TCP_PORT:-${DB_PORT}}
-
