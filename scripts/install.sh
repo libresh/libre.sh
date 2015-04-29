@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-/usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
+/usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-user_data
 
 docker pull indiepaas/rsyslog
 docker pull indiepaas/haproxy
