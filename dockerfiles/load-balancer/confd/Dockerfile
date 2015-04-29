@@ -19,7 +19,6 @@ RUN \
   wget https://get.docker.com/builds/Linux/x86_64/docker-1.2.0 -O docker && \
   chmod +x docker
 
-VOLUME ["/etc/confd/", "/etc/haproxy"]
 ENTRYPOINT ["/confd"]
 CMD ["-interval=60", "-node=172.17.42.1:4001", "-watch=true", "-verbose=true"]
 

@@ -8,7 +8,6 @@ RUN \
   apt-get install -y haproxy && \
   rm -rf /var/lib/apt/lists/*
 
-VOLUME ["/etc/haproxy"]
 ENTRYPOINT ["haproxy"]
 CMD ["-f", "/etc/haproxy/haproxy.cfg"]
 EXPOSE 80
