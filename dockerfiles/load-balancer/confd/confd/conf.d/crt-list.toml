@@ -4,5 +4,5 @@ dest = "/etc/haproxy/crt-list"
 keys = [
   "/services"
 ]
-reload_cmd = "/docker exec haproxy service haproxy reload"
+reload_cmd = "/docker exec haproxy /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -D -p /var/run/haproxy.pid -st $(sleep 1 && /docker exec haproxy cat /var/run/haproxy.pid)"
 
