@@ -4,4 +4,5 @@ dest = "/etc/haproxy/crt-list"
 keys = [
   "/services"
 ]
-reload_cmd = "/docker kill --signal=\"SIGUSR1\" haproxy"
+reload_cmd = "/docker exec haproxy service haproxy reload"
+

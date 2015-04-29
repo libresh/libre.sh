@@ -16,7 +16,7 @@ RUN \
   chmod +x confd
 
 RUN \
-  wget https://get.docker.com/builds/Linux/x86_64/docker-1.2.0 -O docker && \
+  wget https://get.docker.com/builds/Linux/x86_64/docker-1.5.0 -O docker && \
   chmod +x docker
 
 ENTRYPOINT ["/confd"]
