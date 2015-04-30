@@ -6,7 +6,6 @@ Requires=docker.service
 
 # Dependency ordering
 After=docker.service
-After=rsyslog.service
 
 [Service]
 Restart=always
