@@ -3,6 +3,7 @@ FROM indiepaas/nginx-php
 RUN apt-get update && apt-get install -y \
       php5-gd \
       php5-geoip \
+      php5-cli \
       php-apc && \
     rm -rf /var/lib/apt/lists/* && \
     curl "http://builds.piwik.org/piwik-latest.tar.gz" | tar xz && \

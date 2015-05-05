@@ -5,10 +5,6 @@ source /etc/environment
 echo ">> adding softlink from /piwik to /"
 rm -rf /usr/share/nginx/html
 ln -s /piwik /usr/share/nginx/html
-mkdir /usr/share/nginx/html/tmp
-
-chown -R www-data:www-data /usr/share/nginx/html/
-chmod -R 755 /usr/share/nginx/html/tmp
 
 if [ -z ${DB_PASS+x} ] || [ -z ${DB_USER+x} ]
 then
@@ -207,6 +203,11 @@ then
   sleep 5
   
 fi
+
+/piwik/console core:update --yes
+
+chown -R www-data:www-data /piwik
+chmod -R 755 /piwik/tmp
 
 echo ">> update CorePlugins"
 curl "http://${URL}/index.php?updateCorePlugins=1" \
