@@ -6,6 +6,13 @@
 if [ -f /var/www/owncloud/config/config.php ]
 then
   echo ">> owncloud already configured - skipping initialization"
+  ## Update Database if this is run after an update
+  echo ">> update database if necessary"
+  cd /var/www/owncloud
+  chmod o+x occ
+  /opt/mysql-check.sh
+  sudo -u www-data ./occ upgrade || (( $? == 3 ))
+  cd -
   exit 0
 fi
 
