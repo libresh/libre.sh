@@ -20,14 +20,6 @@ RUN mkdir -p /app && \
   mv Markdown-master/ Markdown && \
   rm markdown.zip
 
-#Temp fix for twitter
-RUN  cd /app/IdnoPlugins && \
-  rm -rf Twitter/ && \
-  apt-get update && apt-get -yq install git &&  rm -rf /var/lib/apt/lists/* && \
-  git clone https://github.com/idno/Twitter.git && \
-  cd Twitter/ && \
-  git checkout bf87e2219aa61b7abee6bfccc8b3dfd175929bba
-
 # Add script to create 'known' DB
 ADD run-known.sh /run-known.sh
 RUN chmod 755 /run-known.sh
