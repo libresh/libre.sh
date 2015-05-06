@@ -34,3 +34,4 @@ ENV DB_PASS **ChangeMe**
 EXPOSE 80
 VOLUME ["/app/Uploads", "/app/.htaccess"]
 CMD ["/run-known.sh"]
+
