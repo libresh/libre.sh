@@ -1,0 +1,23 @@
+[Unit]
+Description=Back up data from %i
+
+[Service]
+Type=oneshot
+TimeoutStartSec=0
+Nice=0
+WorkingDirectory=/data/domains/%i/
+EnvironmentFile=/etc/environment
+ExecStartPre=/bin/bash -euxc 'sleep `shuf -i 0-400 -n 1`'
+ExecStartPre=/bin/bash -euxc '/data/domains/%i/BACKUP'
+ExecStart=/bin/bash -euxc ' \
+  /bin/docker run \
+    --rm \
+    --name backup-%i \
+    -h backup.container \
+    -v /root:/root \
+    -v /data/domains/%i:/backup indiepaas/duplicity \
+      --full-if-older-than 1W \
+      --encrypt-key ${ENCRYPT_KEY} \
+        /backup \
+        sftp://${BACKUP_DESTINATION}/%i'
+

@@ -46,4 +46,7 @@ TRUST_VALUE=':6:'
 echo $TRUSTVAR$TRUST_VALUE | gpg --import-ownertrust
 
 docker run --rm -v /opt/bin:/target jpetazzo/nsenter
+curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /opt/bin/docker-compose
+chmod +x /opt/bin/docker-compose
+update_engine_client -update
 
