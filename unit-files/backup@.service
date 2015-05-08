@@ -4,11 +4,13 @@ Description=Back up data from %i
 [Service]
 Type=oneshot
 TimeoutStartSec=0
+Nice=0
 EnvironmentFile=/etc/environment
 ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill mysqldump-%i
 ExecStartPre=-/usr/bin/docker rm mysqldump-%i
-ExecStartPre=/bin/bash -euxc ' \
+ExecStartPre=/bin/bash -euxc 'sleep `shuf -i 0-400 -n 1`'
+ExecStartPre=/bin/bash -euxc '\
   if [ -d /data/domains/%i/mysql ]; then \
     echo "Backing up mysql databases for %i"; \
     mysql_passwd=`cat /data/domains/%i/mysql/.env | cut -d= -f2`; \
