@@ -25,7 +25,7 @@ VPSPLANID=${2:-29}
 SSHKEYID=`curl -s https://api.vultr.com/v1/sshkey/list\?api_key\=$VULTR_API_KEY | cut -d\" -f2`
 echo Got your ssh key ID $SSHKEYID:
 
-SUBID=`curl -s -d "DCID=24&VPSPLANID=$VPSPLANID&OSID=179&label=$LABEL&SSHKEYID=$SSHKEYID" https://api.vultr.com/v1/server/create\?api_key\=$VULTR_API_KEY | cut -d\" -f4`
+SUBID=`curl -s -d "DCID=9&VPSPLANID=$VPSPLANID&OSID=179&label=$LABEL&SSHKEYID=$SSHKEYID" https://api.vultr.com/v1/server/create\?api_key\=$VULTR_API_KEY | cut -d\" -f4`
 echo Got your SUB ID $SUBID:
 
 while :
