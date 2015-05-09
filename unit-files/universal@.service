@@ -17,3 +17,6 @@ ExecStartPre=/bin/cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-
 ExecStart=/bin/bash -euxc '/data/domains/%i/RUN'
 ExecStop=/data/domains/%i/STOP
 
+[Install]
+WantedBy=multi-user.target
+
