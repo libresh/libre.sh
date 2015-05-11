@@ -4,9 +4,11 @@ RUN apt-get update && apt-get install -y \
       php5-gd \
       php5-geoip \
       php5-cli \
+      zip \
       php-apc && \
     rm -rf /var/lib/apt/lists/* && \
-    curl "http://builds.piwik.org/piwik-latest.tar.gz" | tar xz && \
+    curl -O "http://builds.piwik.org/piwik.zip" && \
+    unzip piwik.zip && \
     mv /piwik/config /piwik-config && \
     sed -i 's/# exec CMD/# exec CMD\n\/opt\/startup-piwik.sh/g' /opt/entrypoint.sh
 
