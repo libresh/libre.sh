@@ -6,6 +6,14 @@ Type=oneshot
 TimeoutStartSec=0
 WorkingDirectory=/data/domains/%i/
 EnvironmentFile=/etc/environment
+ExecStartPre=/bin/bash -euxc ' \
+  /bin/docker run \
+    --rm \
+    --name clean-%i \
+    -v /root:/root \
+    indiepaas/duplicity \
+      remove-older-than 4W --force \
+      sftp://${BACKUP_DESTINATION}/%i'
 ExecStartPre=/bin/bash -euxc '/data/domains/%i/BACKUP'
 ExecStart=/bin/bash -euxc ' \
   /bin/docker run \

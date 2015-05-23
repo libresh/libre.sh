@@ -8,6 +8,14 @@ EnvironmentFile=/etc/environment
 ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill mysqldump-%i
 ExecStartPre=-/usr/bin/docker rm mysqldump-%i
+ExecStartPre=/bin/bash -euxc ' \
+  /bin/docker run \
+    --rm \
+    --name clean-%i \
+    -v /root:/root \
+    indiepaas/duplicity \
+      remove-older-than 4W --force \
+      sftp://${BACKUP_DESTINATION}/%i'
 ExecStartPre=/bin/bash -euxc '\
   if [ -d /data/domains/%i/mysql ]; then \
     echo "Backing up mysql databases for %i"; \
