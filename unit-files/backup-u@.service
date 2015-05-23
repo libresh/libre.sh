@@ -20,6 +20,7 @@ ExecStart=/bin/bash -euxc ' \
     --rm \
     --name backup-%i \
     -h backup.container \
+    --cpu-shares=100 \
     -v /root:/root \
     -v /data/domains/%i:/backup indiepaas/duplicity \
       --full-if-older-than 1W \

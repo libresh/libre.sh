@@ -33,11 +33,11 @@ ExecStartPre=/bin/bash -euxc '\
           -p$mysql_passwd \
           -h db > /data/domains/%i/mysql/dump.sql; \
   fi'
-
 ExecStart=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
     --name backup-%i \
+    --cpu-shares=100 \
     -h backup.container \
     -v /root:/root \
     -v /data/domains/%i:/backup indiepaas/duplicity \
