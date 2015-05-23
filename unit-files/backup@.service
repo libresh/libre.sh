@@ -4,7 +4,6 @@ Description=Back up data from %i
 [Service]
 Type=oneshot
 TimeoutStartSec=0
-Nice=0
 EnvironmentFile=/etc/environment
 ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill mysqldump-%i

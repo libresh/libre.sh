@@ -4,7 +4,6 @@ Description=Back up data from %i
 [Service]
 Type=oneshot
 TimeoutStartSec=0
-Nice=0
 WorkingDirectory=/data/domains/%i/
 EnvironmentFile=/etc/environment
 ExecStartPre=/bin/bash -euxc 'sleep `shuf -i 0-400 -n 1`'
