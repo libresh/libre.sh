@@ -6,7 +6,6 @@ Type=oneshot
 TimeoutStartSec=0
 WorkingDirectory=/data/domains/%i/
 EnvironmentFile=/etc/environment
-ExecStartPre=/bin/bash -euxc 'sleep `shuf -i 0-400 -n 1`'
 ExecStartPre=/bin/bash -euxc '/data/domains/%i/BACKUP'
 ExecStart=/bin/bash -euxc ' \
   /bin/docker run \

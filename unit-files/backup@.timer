@@ -7,4 +7,5 @@ BindsTo=web@%i.service
 [Timer]
 OnActiveSec=20
 OnUnitActiveSec=60min
+AccuracySec=50min
 
