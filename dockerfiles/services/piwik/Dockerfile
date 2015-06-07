@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y \
     unzip piwik.zip && \
     mv /piwik/config /piwik-config && \
     sed -i 's/;always_populate_raw_post_data = -1/always_populate_raw_post_data=-1/g' /etc/php5/fpm/php.ini && \
+    cd /piwik/misc/ && \
+    curl http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz > GeoLiteCity.dat.gz && \
+    gunzip GeoLiteCity.dat.gz && \
+    mv GeoLiteCity.dat GeoIPCity.dat && \
     sed -i 's/# exec CMD/# exec CMD\n\/opt\/startup-piwik.sh/g' /opt/entrypoint.sh
 
 # install nginx piwik config

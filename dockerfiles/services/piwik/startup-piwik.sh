@@ -242,3 +242,12 @@ if ! grep -q adapter /piwik/config/config.ini.php; then
   sed -i  '/\[database\]/a adapter=MYSQLI' /piwik/config/config.ini.php
 fi
 
+# Fix IP behind proxy
+if ! grep -q proxy_client_headers /piwik/config/config.ini.php; then
+  sed -i  '/\[General\]/a proxy_client_headers[] = HTTP_X_FORWARDED_FOR' /piwik/config/config.ini.php
+fi
+
+if ! grep -q proxy_host_headers /piwik/config/config.ini.php; then
+  sed -i  '/\[General\]/a proxy_host_headers[] = HTTP_X_FORWARDED_HOST' /piwik/config/config.ini.php
+fi
+
