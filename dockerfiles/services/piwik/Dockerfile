@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl -O "http://builds.piwik.org/piwik.zip" && \
     unzip piwik.zip && \
     mv /piwik/config /piwik-config && \
+    sed -i 's/;always_populate_raw_post_data = -1/always_populate_raw_post_data=-1/g' /etc/php5/fpm/php.ini && \
     sed -i 's/# exec CMD/# exec CMD\n\/opt\/startup-piwik.sh/g' /opt/entrypoint.sh
 
 # install nginx piwik config
