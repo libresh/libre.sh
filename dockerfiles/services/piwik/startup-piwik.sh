@@ -237,3 +237,8 @@ Add the following JS-Code to your Site -> don't forget to change the URLs ;)
 <!-- End Piwik Code -->
 EOF
 
+# Put the right MySQL adapter
+if ! grep -q adapter /piwik/config/config.ini.php; then
+  sed -i  '/\[database\]/a adapter=MYSQLI' /piwik/config/config.ini.php
+fi
+
