@@ -15,7 +15,7 @@ Before=backup-u@%i.timer
 WorkingDirectory=/data/domains/%i/
 ExecStartPre=/bin/cp /data/domains/%i/TLS/%i.pem /data/runtime/haproxy/approved-certs/%i.pem
 ExecStart=/bin/bash -euxc '/data/domains/%i/RUN'
-ExecStop=/data/domains/%i/STOP
+ExecStop=/bin/bash -euxc '/data/domains/%i/STOP'
 
 [Install]
 WantedBy=multi-user.target
