@@ -37,7 +37,7 @@ ExecStart=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
     --name backup-%i \
-    --cpu-shares=100 \
+    --cpu-shares=40 \
     -h backup.container \
     -v /root:/root \
     -v /data/domains/%i:/backup indiepaas/duplicity \
