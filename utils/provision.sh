@@ -33,6 +33,7 @@ read -r -d '' usage <<-'EOF'
   -u   [arg] URL to process. Required.
   -f   [arg] Certificate file to use.
   -g         Generates the necessary certificate.
+  -p         Paste certificate from previous run.
   -b         Buys the associated domain name.
   -c         Configures DNS on Namecheap.
   -d         Enables debug mode
@@ -234,6 +235,17 @@ function generate_certificate () {
   cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
 }
 
+function paste_certificate () {
+  echo ""
+  info "You should have received a certificate."
+  info "Please paste your certificate now: (finish with ctrl-d)"
+  
+  cat > ${TLS_FOLDER}/CSR/${arg_u}.crt
+
+  info "Concat certificate, CA and key into pem file."
+  cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
+}
+
 function configure_dns () {
   info "Configuring DNS."
   arguments="&Command=namecheap.domains.dns.setHosts\
@@ -406,6 +418,7 @@ TLS_FOLDER=${FOLDER}/TLS
 [ ${arg_b} -eq 1 ] && buy_domain_name
 scaffold
 [ ${arg_g} -eq 1 ] && generate_certificate
+[ ${arg_p} -eq 1 ] && paste_certificate
 [ ! -z "${arg_f}" ] && provision_certificate
 [ ${arg_c} -eq 1 ] && configure_dns
 [ ${arg_s} -eq 1 ] && start_application
