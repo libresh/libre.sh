@@ -8,6 +8,8 @@ EnvironmentFile=/etc/environment
 ExecStartPre=/usr/bin/docker run --rm -v /opt/bin:/opt/bin ibuildthecloud/systemd-docker
 ExecStartPre=-/usr/bin/docker kill mysqldump-%i
 ExecStartPre=-/usr/bin/docker rm mysqldump-%i
+ExecStartPre=-/usr/bin/docker rm clean-%i
+ExecStartPre=-/usr/bin/docker rm backup-%i
 ExecStartPre=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
