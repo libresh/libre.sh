@@ -13,7 +13,7 @@ RemainAfterExit=yes
 Environment=URL=%i
 ExecStart=/bin/bash -euxc ' \
   sleep 3; \
-  container_name=`echo ${URL}_web_1 | sed "s/\.//g"`; \
+  container_name=`echo ${URL}_web_1 | sed "s/\.//g" | sed "s/-//g"`; \
   ip=`docker inspect --format \'{{.NetworkSettings.IPAddress}}\' $container_name`; \
   etcdctl --peers 172.17.42.1:4001 set /services/web/%i \'{"ip":"\'$ip\'", "port":"80"}\';'
 ExecStop=-/usr/bin/etcdctl rm /services/web/%i
