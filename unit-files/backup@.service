@@ -16,7 +16,7 @@ ExecStartPre=/bin/bash -euxc ' \
     --name clean-%i \
     -v /root:/root \
     indiepaas/duplicity \
-      remove-older-than 4W --force \
+      remove-older-than 2W --force \
       sftp://${BACKUP_DESTINATION}/%i'
 ExecStartPre=/bin/bash -euxc '\
   if [ -d /data/domains/%i/mysql ]; then \
