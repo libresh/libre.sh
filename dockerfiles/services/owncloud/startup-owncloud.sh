@@ -1,4 +1,11 @@
 #!/bin/bash -eux
+
+### configure email
+sed -i s/##MAIL_HOST##/${MAIL_HOST}/ /etc/ssmtp/ssmtp.conf
+sed -i s/##MAIL_PORT##/${MAIL_PORT}/ /etc/ssmtp/ssmtp.conf
+sed -i s/##MAIL_USER##/${MAIL_USER}/ /etc/ssmtp/ssmtp.conf
+sed -i s/##MAIL_PASS##/${MAIL_PASS}/ /etc/ssmtp/ssmtp.conf
+
 ###
 # Check Pre Install
 ###
