@@ -18,7 +18,6 @@ RUN mkdir -p /app && \
   curl -L https://github.com/idno/Markdown/archive/master.zip -o markdown.zip && \
   unzip markdown.zip && \
   mv Markdown-master/ Markdown && \
-  rm markdown.zip
   rm markdown.zip && \
   curl -L https://github.com/mapkyca/KnownAppNet/archive/master.zip -o app-net.zip && \
   unzip app-net.zip && \
