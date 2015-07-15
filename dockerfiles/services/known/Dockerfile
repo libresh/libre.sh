@@ -19,9 +19,9 @@ RUN mkdir -p /app && \
   unzip markdown.zip && \
   mv Markdown-master/ Markdown && \
   rm markdown.zip && \
-  curl -L https://github.com/mapkyca/KnownAppNet/archive/master.zip -o app-net.zip && \
+  curl -L https://github.com/pierreozoux/KnownAppNet/archive/master.zip -o app-net.zip && \
   unzip app-net.zip && \
-  mv KnownAppNet-master KnownAppNet && \
+  mv KnownAppNet-master AppNet && \
   rm app-net.zip
 
 # Add script to create 'known' DB
