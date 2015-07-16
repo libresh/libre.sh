@@ -15,6 +15,7 @@ RUN echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community
     sed -i 's/^post_max_size =.*/post_max_size = 0/g' /etc/php5/fpm/php.ini && \
     sed -i 's/^upload_max_filesize =.*/upload_max_filesize = 25G/g' /etc/php5/fpm/php.ini && \
     sed -i 's/^max_file_uploads =.*/max_file_uploads = 100/g' /etc/php5/fpm/php.ini && \
+    sed -i 's/;env[PATH]/env\[PATH\]/g' /etc/php5/fpm/pool.d/www.conf && \
     sed -i 's/# exec CMD/# exec CMD\n\/opt\/startup-owncloud.sh/g' /opt/entrypoint.sh
 
 # install nginx owncloud config
