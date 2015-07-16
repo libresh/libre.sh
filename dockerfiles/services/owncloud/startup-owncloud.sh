@@ -1,5 +1,8 @@
 #!/bin/bash -eux
 
+echo ">> copy apps into apps folder."
+cp -R --remove-destination /owncloud-apps/* /var/www/owncloud/apps/
+
 ### configure email
 sed -i s/##MAIL_HOST##/${MAIL_HOST}/ /etc/ssmtp/ssmtp.conf
 sed -i s/##MAIL_PORT##/${MAIL_PORT}/ /etc/ssmtp/ssmtp.conf
@@ -83,8 +86,6 @@ fi
 ###
 # Headless initialization
 ###
-echo ">> copy apps into apps folder."
-cp -R /owncloud-apps/* /var/www/owncloud/apps/
 
 echo ">>Setting Permissions:"
 ocpath='/var/www/owncloud'
