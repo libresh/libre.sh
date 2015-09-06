@@ -26,6 +26,9 @@ mode http
   # HSTS (15768000 seconds = 6 months)
   rspadd  Strict-Transport-Security:\ max-age=15768000
   reqadd X-Forwarded-Proto:\ https
+  acl autoconfig hdr_beg(host) -i autoconfig
+  use_backend mail.indie.host if autoconfig
+
 {{range $app := lsdir "/services"}}
 {{$hostnames := printf "/services/%s/*" $app}}
   {{range gets $hostnames}}
