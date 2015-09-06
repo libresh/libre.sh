@@ -14,6 +14,7 @@ ExecStartPre=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
     --name clean-%i \
+    -e PASSPHRASE \
     -v /root:/root \
     indiepaas/duplicity \
       remove-older-than 2W --force \
@@ -40,6 +41,7 @@ ExecStart=/bin/bash -euxc ' \
     --rm \
     --name backup-%i \
     --cpu-shares=40 \
+    -e PASSPHRASE \
     -h backup.container \
     -v /root:/root \
     -v /data/domains/%i:/backup indiepaas/duplicity \
