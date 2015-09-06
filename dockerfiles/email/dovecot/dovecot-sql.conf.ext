@@ -1,5 +1,0 @@
-driver = mysql
-connect = host=##DB_HOST## dbname=servermail user=##DB_USER## password=##DB_PASS##
-default_pass_scheme = SHA512-CRYPT
-password_query = SELECT email as user, password FROM virtual_users WHERE email='%u';
-
