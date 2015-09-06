@@ -17,7 +17,7 @@ ExecStartPre=/bin/bash -euxc ' \
     -e PASSPHRASE \
     -v /root:/root \
     indiepaas/duplicity \
-      remove-older-than 2W --force \
+      remove-older-than 10D --force \
       sftp://${BACKUP_DESTINATION}/%i'
 ExecStartPre=/bin/bash -euxc '\
   if [ -d /data/domains/%i/mysql ]; then \
