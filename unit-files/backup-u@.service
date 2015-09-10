@@ -20,6 +20,7 @@ ExecStart=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
     --name backup-%i \
+    -e PASSPHRASE \
     -h backup.container \
     --cpu-shares=40 \
     -e PASSPHRASE \
