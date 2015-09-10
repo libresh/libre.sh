@@ -1,2 +1,0 @@
-#!/bin/bash -eux
-/opt/bin/docker-compose stop
