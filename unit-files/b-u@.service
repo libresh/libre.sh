@@ -1,0 +1,32 @@
+[Unit]
+Description=Back up data from %i
+
+[Service]
+Type=oneshot
+TimeoutStartSec=0
+WorkingDirectory=/data/domains/%i/
+EnvironmentFile=/etc/environment
+ExecStartPre=/bin/bash -euxc ' \
+  /bin/docker run \
+    --rm \
+    --name clean-%i \
+    -e PASSPHRASE \
+    -v /root:/root \
+    indiepaas/duplicity \
+      remove-older-than 10D --force \
+      sftp://${BACKUP_DESTINATION}/%i'
+ExecStartPre=/bin/bash -euxc '/data/domains/%i/BACKUP'
+ExecStart=/bin/bash -euxc ' \
+  /bin/docker run \
+    --rm \
+    --name backup-%i \
+    -e PASSPHRASE \
+    -h backup.container \
+    --cpu-shares=40 \
+    -v /root:/root \
+    -v /data/domains/%i:/backup indiepaas/duplicity \
+      --full-if-older-than 1W \
+      --encrypt-key ${ENCRYPT_KEY} \
+        /backup \
+        sftp://${BACKUP_DESTINATION}/%i'
+
