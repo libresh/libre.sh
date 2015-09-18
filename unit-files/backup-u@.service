@@ -24,9 +24,12 @@ ExecStart=/bin/bash -euxc ' \
     -h backup.container \
     --cpu-shares=40 \
     -e PASSPHRASE \
+    -v /dev/random:/dev/random \
+    -v /dev/urandom:/dev/urandom \
     -v /root:/root \
     -v /data/domains/%i:/backup indiepaas/duplicity \
-      --full-if-older-than 1W \
+      --volsize 500 \
+      --asynchronous-upload \
       --encrypt-key ${ENCRYPT_KEY} \
         /backup \
         sftp://${BACKUP_DESTINATION}/%i'
