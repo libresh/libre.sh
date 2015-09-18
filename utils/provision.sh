@@ -6,9 +6,8 @@
 #  - Generates the TLS certificate associated
 #  - Configures the DNS
 #  - Configures the mail forwarding
-#  - Starts the application
 #
-# Version 0.0.2
+# Version 0.0.3
 #
 # Authors:
 #  - Pierre Ozoux (pierre-o.fr)
@@ -28,110 +27,31 @@ LOG_LEVEL="${LOG_LEVEL:-6}" # 7 = debug -> 0 = emergency
 # Commandline options. This defines the usage page, and is used to parse cli
 # opts & defaults from. The parsing is unforgiving so be precise in your syntax
 read -r -d '' usage <<-'EOF'
-  -a   [arg] Application to provision (static, wordpress or known). Required.
-  -e   [arg] Email of the user of the application. Required.
+  -e   [arg] Email of the user of the application.
   -u   [arg] URL to process. Required.
   -f   [arg] Certificate file to use.
   -g         Generates the necessary certificate.
   -p         Paste certificate from previous run.
   -b         Buys the associated domain name.
+  -i         Configure OpenDKIM.
   -c         Configures DNS on Namecheap.
   -d         Enables debug mode
-  -s         Starts the application
   -h         This page
 EOF
 
 ### Functions
 #####################################################################
 
-function contains () {
-  local n=$#
-  local value=${!n}
-  for ((i=1;i < $#;i++)) {
-    if [ "${!i}" == "${value}" ]; then
-      echo "y"
-      return 0
-    fi
-  }
-  echo "n"
-  return 1
-}
-
-function TLD () {
-  echo ${arg_u} | cut -d. -f2,3
-}
-
-function SLD () {
-  echo ${arg_u} | cut -d. -f1
-}
-
-function call_API () {
-  url="https://api.$NAMECHEAP_URL/xml.response\?ApiUser=${NAMECHEAP_API_USER}&ApiKey=${NAMECHEAP_API_KEY}&UserName=${NAMECHEAP_API_USER}&ClientIp=${IP}$1"
-  output=$(curl -s ${url})
-
-  if [ $(echo ${output} | grep -c 'Status="OK"') -eq 0 ]; then
-    error "API call failed. Please read the output"
-    echo ${output}
-    exit 1
-  else
-    info "API call is a success."
-  fi
-
-}
+source /data/indiehosters/utils/helpers.sh
+source /data/indiehosters/utils/configure_dkim_dns.sh
 
 function scaffold () {
-  supported_applications=( "static" "wordpress" "known" "owncloud" "piwik")
-  if [ $(contains "${supported_applications[@]}" "${arg_a}") == "n" ]; then
-    error "Application ${arg_a} is not yet supported."
-    exit 1
-  fi
-
+  [ -z "${arg_e}" ]     && help      "Email is required."
   info "Creating application folder"
   mkdir -p ${APP_FOLDER}
 
   info "Creating .env"
   echo "EMAIL=${arg_e}" > ${FOLDER}/.env
-  case "${arg_a}" in
-  "static" )
-    echo APPLICATION=nginx >> ${FOLDER}/.env
-    echo DOCKER_ARGUMENTS="-v ${APP_FOLDER}/www-content:/app" >> ${FOLDER}/.env
-    ;;
-  "wordpress" )
-    touch ${APP_FOLDER}/.htaccess
-    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
-    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FOLDER}/data:/app/wp-content \
-      -v ${APP_FOLDER}/.htaccess:/app/.htaccess \
-      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
-    ;;
-  "known" )
-    touch ${APP_FOLDER}/.htaccess
-    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
-    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FOLDER}/data:/app/Uploads \
-      -v ${APP_FOLDER}/.htaccess:/app/.htaccess \
-      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
-    ;;
-  "owncloud" )
-    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
-    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FOLDER}/apps:/var/www/owncloud/apps \
-      -v ${APP_FOLDER}/config:/var/www/owncloud/config \
-      -v ${APP_FOLDER}/data:/var/www/owncloud/data \
-      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
-    ;;
-  "piwik" )
-    echo APPLICATION=${arg_a} >> ${FOLDER}/.env
-    echo DOCKER_ARGUMENTS="--link mysql-${arg_u}:db \
-      -v ${APP_FOLDER}/config:/piwik/config \
-      --env-file ${APP_FOLDER}/.env" >> ${FOLDER}/.env
-    ;;
-
-
-  esac
-
-  info "Scaffold created with success."
-
 }
 
 function buy_domain_name () {
@@ -195,6 +115,7 @@ function buy_domain_name () {
 }
 
 function provision_certificate () {
+  scaffold
   filename=$(basename "${arg_f}")
   extension="${filename##*.}"
   if [ "${extension}" != "pem" ]; then
@@ -209,6 +130,7 @@ function provision_certificate () {
 }
 
 function generate_certificate () {
+  scaffold
   info "creating TLS ans CSR folder."
   mkdir -p ${TLS_FOLDER}/CSR
 
@@ -233,91 +155,19 @@ function generate_certificate () {
 
   info "Concat certificate, CA and key into pem file."
   cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
+
+  /data/indiehosters/utils/append_crt_list.sh ${arg_u}
 }
 
 function paste_certificate () {
   echo ""
   info "You should have received a certificate."
-  info "Please paste your certificate now: (finish with ctrl-d)"
+  info "Please paste your certificate now: (finish with enter and ctrl-d)"
   
   cat > ${TLS_FOLDER}/CSR/${arg_u}.crt
 
   info "Concat certificate, CA and key into pem file."
   cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
-}
-
-function configure_dns () {
-  info "Configuring DNS."
-  arguments="&Command=namecheap.domains.dns.setHosts\
-&DomainName=${arg_u}\
-&SLD=$(SLD)\
-&TLD=$(TLD)\
-&HostName1=@\
-&RecordType1=A\
-&Address1=${IP}\
-&HostName2=www\
-&RecordType2=CNAME\
-&Address2=${arg_u}\
-&HostName3=mail\
-&RecordType3=A\
-&Address3=${IP}\
-&HostName4=@\
-&RecordType4=MX\
-&Address4=mail.${arg_u}\
-&MXPref4=10\
-&EmailType=mx"
-
-  call_API ${arguments}
-
-}
-
-function start_application () {
-  case "${arg_a}" in
-  "static" )
-    service_file="static"
-    ;;
-  * )
-    service_file="lamp"
-    ;;
-  esac
-
-  # Enable and start application (Sorry Systemd)
-  systemctl enable ${service_file}@${arg_u}
-  systemctl start ${service_file}@${arg_u}
-}
-
-function _fmt ()      {
-  local color_ok="\x1b[32m"
-  local color_bad="\x1b[31m"
-
-  local color="${color_bad}"
-  if [ "${1}" = "debug" ] || [ "${1}" = "info" ] || [ "${1}" = "notice" ]; then
-    color="${color_ok}"
-  fi
-
-  local color_reset="\x1b[0m"
-  if [[ "${TERM}" != "xterm"* ]] || [ -t 1 ]; then
-    # Don't use colors on pipes or non-recognized terminals
-    color=""; color_reset=""
-  fi
-  echo -e "$(date -u +"%Y-%m-%d %H:%M:%S UTC") ${color}$(printf "[%9s]" ${1})${color_reset}";
-}
-function emergency () {                             echo "$(_fmt emergency) ${@}" 1>&2 || true; exit 1; }
-function alert ()     { [ "${LOG_LEVEL}" -ge 1 ] && echo "$(_fmt alert) ${@}" 1>&2 || true; }
-function critical ()  { [ "${LOG_LEVEL}" -ge 2 ] && echo "$(_fmt critical) ${@}" 1>&2 || true; }
-function error ()     { [ "${LOG_LEVEL}" -ge 3 ] && echo "$(_fmt error) ${@}" 1>&2 || true; }
-function warning ()   { [ "${LOG_LEVEL}" -ge 4 ] && echo "$(_fmt warning) ${@}" 1>&2 || true; }
-function notice ()    { [ "${LOG_LEVEL}" -ge 5 ] && echo "$(_fmt notice) ${@}" 1>&2 || true; }
-function info ()      { [ "${LOG_LEVEL}" -ge 6 ] && echo "$(_fmt info) ${@}" 1>&2 || true; }
-function debug ()     { [ "${LOG_LEVEL}" -ge 7 ] && echo "$(_fmt debug) ${@}" 1>&2 || true; }
-
-function help () {
-  echo "" 1>&2
-  echo " ${@}" 1>&2
-  echo "" 1>&2
-  echo "  ${usage}" 1>&2
-  echo "" 1>&2
-  exit 1
 }
 
 ### Parse commandline options
@@ -388,8 +238,6 @@ fi
 ### Validation (decide what's required for running your script and error out)
 #####################################################################
 
-[ -z "${arg_a}" ]     && help      "Application is required."
-[ -z "${arg_e}" ]     && help      "Email is required."
 [ -z "${arg_u}" ]     && help      "URL is required."
 [ -z "${LOG_LEVEL}" ] && emergency "Cannot continue without LOG_LEVEL."
 
@@ -407,21 +255,14 @@ set -o nounset
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`
 set -o pipefail
 
-if [[ "${OSTYPE}" == "darwin"* ]]; then
-  info "You are on OSX"
-fi
-
 FOLDER=/data/domains/${arg_u}
-APP_FOLDER=${FOLDER}/${arg_a}
 TLS_FOLDER=${FOLDER}/TLS
 
 [ ${arg_b} -eq 1 ] && buy_domain_name
-scaffold
 [ ${arg_g} -eq 1 ] && generate_certificate
 [ ${arg_p} -eq 1 ] && paste_certificate
 [ ! -z "${arg_f}" ] && provision_certificate
+[ ${arg_i} -eq 1 ] && provision_dkim
 [ ${arg_c} -eq 1 ] && configure_dns
-[ ${arg_s} -eq 1 ] && start_application
-
 
 exit 0
