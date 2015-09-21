@@ -27,7 +27,6 @@ LOG_LEVEL="${LOG_LEVEL:-6}" # 7 = debug -> 0 = emergency
 # Commandline options. This defines the usage page, and is used to parse cli
 # opts & defaults from. The parsing is unforgiving so be precise in your syntax
 read -r -d '' usage <<-'EOF'
-  -e   [arg] Email of the user of the application.
   -u   [arg] URL to process. Required.
   -f   [arg] Certificate file to use.
   -g         Generates the necessary certificate.
@@ -46,12 +45,9 @@ source /data/indiehosters/utils/helpers.sh
 source /data/indiehosters/utils/configure_dkim_dns.sh
 
 function scaffold () {
-  [ -z "${arg_e}" ]     && help      "Email is required."
   info "Creating application folder"
   mkdir -p ${APP_FOLDER}
 
-  info "Creating .env"
-  echo "EMAIL=${arg_e}" > ${FOLDER}/.env
 }
 
 function buy_domain_name () {
