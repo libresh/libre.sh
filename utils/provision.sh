@@ -46,8 +46,7 @@ source /data/indiehosters/utils/configure_dkim_dns.sh
 
 function scaffold () {
   info "Creating application folder"
-  mkdir -p ${APP_FOLDER}
-
+  mkdir -p ${FOLDER}
 }
 
 function buy_domain_name () {
