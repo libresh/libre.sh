@@ -143,16 +143,7 @@ function generate_certificate () {
   echo ""
   cat ${TLS_FOLDER}/CSR/${arg_u}.csr
 
-  echo ""
-  info "You should have received a certificate."
-  info "Please paste your certificate now: (finish with ctrl-d)"
-
-  cat > ${TLS_FOLDER}/CSR/${arg_u}.crt
-
-  info "Concat certificate, CA and key into pem file."
-  cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
-
-  /data/indiehosters/utils/append_crt_list.sh ${arg_u}
+  paste_certificate
 }
 
 function paste_certificate () {
@@ -164,6 +155,8 @@ function paste_certificate () {
 
   info "Concat certificate, CA and key into pem file."
   cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
+  
+  /data/indiehosters/utils/append_crt_list.sh ${arg_u}
 }
 
 ### Parse commandline options
