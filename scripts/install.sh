@@ -5,14 +5,6 @@
 docker pull indiepaas/rsyslog
 docker pull indiepaas/haproxy
 docker pull indiepaas/confd
-docker pull indiepaas/postfix
-docker pull indiepaas/dovecot
-docker pull indiepaas/nginx
-docker pull indiepaas/mysql
-docker pull indiepaas/wordpress
-docker pull indiepaas/known
-docker pull indiepaas/piwik
-docker pull indiepaas/owncloud
 docker pull indiepaas/duplicity
 docker pull ibuildthecloud/systemd-docker
 
@@ -23,9 +15,6 @@ git clone https://github.com/indiepaas/IndiePaaS.git /data/indiehosters
 
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
-
-# Configure and start HAproxy
-cp /data/indiehosters/tests/unsecure-certs/indiehosters.dev.pem /data/runtime/haproxy/approved-certs/default.pem
 
 systemctl enable rsyslog
 systemctl start  rsyslog
@@ -45,8 +34,6 @@ TRUSTVAR=`gpg --fingerprint root | grep Key|cut -d= -f2|sed 's/ //g'`
 TRUST_VALUE=':6:'
 echo $TRUSTVAR$TRUST_VALUE | gpg --import-ownertrust
 
-docker run --rm -v /opt/bin:/target jpetazzo/nsenter
 curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /opt/bin/docker-compose
 chmod +x /opt/bin/docker-compose
 update_engine_client -update
-
