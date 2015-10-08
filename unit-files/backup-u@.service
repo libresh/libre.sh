@@ -16,7 +16,7 @@ ExecStartPre=/bin/bash -euxc ' \
     -v /root:/root \
     indiepaas/duplicity \
       remove-older-than 10D --force \
-      sftp://${BACKUP_DESTINATION}/%i'
+      sftp://${BACKUP_DESTINATION}//data/%i'
 ExecStartPre=/bin/bash -euxc '/data/domains/%i/BACKUP'
 ExecStart=/bin/bash -euxc ' \
   /bin/docker run \
@@ -34,5 +34,5 @@ ExecStart=/bin/bash -euxc ' \
       --asynchronous-upload \
       --encrypt-key ${ENCRYPT_KEY} \
         /backup \
-        sftp://${BACKUP_DESTINATION}/%i'
+        sftp://${BACKUP_DESTINATION}//data/%i'
 
