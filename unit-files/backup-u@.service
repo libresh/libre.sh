@@ -6,6 +6,8 @@ Type=oneshot
 TimeoutStartSec=0
 WorkingDirectory=/data/domains/%i/
 EnvironmentFile=/etc/environment
+ExecStartPre=-/bin/docker rm clean-%i
+ExecStartPre=-/bin/docker rm backup-%i
 ExecStartPre=/bin/bash -euxc ' \
   /bin/docker run \
     --rm \
