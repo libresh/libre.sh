@@ -5,7 +5,7 @@ Description=Git pull on every git repo
 Type=oneshot
 TimeoutStartSec=0
 ExecStart=/bin/bash -euxc ' \
-  for directory in `find /data/domains/ -name .git -type d -prune -not -path "*/owncloud/data/*"`;do \
+  for directory in `find /data/domains/ -mindepth 3 -name .git -type d -prune -not -path "*/owncloud/data/*"`;do \
     cd $directory; cd ..;\
     git pull; \
   done'
