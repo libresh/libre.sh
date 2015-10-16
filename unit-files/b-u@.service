@@ -34,4 +34,3 @@ ExecStart=/bin/bash -euxc ' \
       --encrypt-key ${ENCRYPT_KEY} \
         /backup \
         sftp://${BACKUP_DESTINATION}//data/%i'
-
