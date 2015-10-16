@@ -29,6 +29,8 @@ LOG_LEVEL="${LOG_LEVEL:-6}" # 7 = debug -> 0 = emergency
 read -r -d '' usage <<-'EOF'
   -u   [arg] URL to process. Required.
   -f   [arg] Certificate file to use.
+  -a   [arg] Application to install. (in the form github.com/indiehosters/wordress)
+  -s         Start the application right away.
   -g         Generates the necessary certificate.
   -p         Paste certificate from previous run.
   -b         Buys the associated domain name.
@@ -41,6 +43,7 @@ EOF
 ### Functions
 #####################################################################
 
+source /etc/environment
 source /data/indiehosters/utils/helpers.sh
 source /data/indiehosters/utils/configure_dkim_dns.sh
 
@@ -122,6 +125,7 @@ function provision_certificate () {
   cp -Ra $(dirname ${arg_f}) ${TLS_FOLDER}
   cd ${TLS_FOLDER}
   mv *.pem ${arg_u}.pem
+  /data/indiehosters/utils/append_crt_list.sh ${arg_u}
 }
 
 function generate_certificate () {
@@ -156,6 +160,22 @@ function paste_certificate () {
   cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
   
   /data/indiehosters/utils/append_crt_list.sh ${arg_u}
+}
+
+function application () {
+  export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
+  export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
+  export URL=${arg_u}
+  /data/indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
+
+  git clone https://${arg_a}.git /data/domains/${arg_u}
+  cd /data/domains/${arg_u}
+  ./install
+}
+
+function start () {
+  systemctl start u@${arg_u}
+  systemctl enable u@${arg_u}
 }
 
 ### Parse commandline options
@@ -247,10 +267,12 @@ FOLDER=/data/domains/${arg_u}
 TLS_FOLDER=${FOLDER}/TLS
 
 [ ${arg_b} -eq 1 ] && buy_domain_name
+[ ! -z "${arg_a}" ] && application
 [ ${arg_g} -eq 1 ] && generate_certificate
 [ ${arg_p} -eq 1 ] && paste_certificate
 [ ! -z "${arg_f}" ] && provision_certificate
 [ ${arg_i} -eq 1 ] && provision_dkim
 [ ${arg_c} -eq 1 ] && configure_dns
+[ ${arg_s} -eq 1 ] && start
 
 exit 0
