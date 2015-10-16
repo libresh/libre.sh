@@ -3,10 +3,12 @@ Description=Back up data from %i
 
 [Service]
 Type=oneshot
-TimeoutStartSec=0
+TimeoutStartSec=120
 WorkingDirectory=/data/domains/%i/
 EnvironmentFile=/etc/environment
+ExecStartPre=-/bin/docker kill clean-%i
 ExecStartPre=-/bin/docker rm clean-%i
+ExecStartPre=-/bin/docker kill backup-%i
 ExecStartPre=-/bin/docker rm backup-%i
 ExecStartPre=/bin/bash -euxc ' \
   /bin/docker run \
