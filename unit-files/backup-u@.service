@@ -17,7 +17,7 @@ ExecStartPre=/bin/bash -euxc ' \
     -e PASSPHRASE \
     -v /root:/root \
     indiepaas/duplicity \
-      remove-older-than 10D --force \
+      remove-older-than 10D \
       sftp://${BACKUP_DESTINATION}//data/%i'
 ExecStartPre=/bin/bash -euxc '/data/domains/%i/BACKUP'
 ExecStart=/bin/bash -euxc ' \
@@ -33,6 +33,7 @@ ExecStart=/bin/bash -euxc ' \
     -v /root:/root \
     -v /data/domains/%i:/backup indiepaas/duplicity \
       --volsize 500 \
+      --full-if-older-than 7D \
       --asynchronous-upload \
       --encrypt-key ${ENCRYPT_KEY} \
         /backup \
