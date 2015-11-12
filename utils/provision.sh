@@ -122,9 +122,9 @@ function provision_certificate () {
   fi
 
   info "Provisionning certificate."
-  cp -Ra $(dirname ${arg_f}) ${TLS_FOLDER}
+  mkdir -p ${TLS_FOLDER}
   cd ${TLS_FOLDER}
-  mv *.pem ${arg_u}.pem
+  cp ${arg_f} ${arg_u}.pem
   /data/indiehosters/utils/append_crt_list.sh ${arg_u}
 }
 
