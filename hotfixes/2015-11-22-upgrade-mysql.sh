@@ -1,0 +1,1 @@
+systemctl list-units | grep failed | grep b-u | xargs systemctl status | grep -a2 'SHOW VARIABLES' | grep .service | cut -d'@' -f2 | cut -d'.' -f1,2 | sed "s/\.//g" | sed "s/-//g" | sed "s/$/_db_1/" | xargs -I % docker exec % bash -c 'mysql_upgrade -uroot -p$MYSQL_ROOT_PASSWORD'
