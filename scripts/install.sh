@@ -2,7 +2,6 @@
 
 /usr/bin/coreos-cloudinit --from-file=/var/lib/coreos-user_data
 
-docker pull indiepaas/rsyslog
 docker pull indiepaas/haproxy
 docker pull indiepaas/confd
 docker pull indiepaas/duplicity
@@ -16,8 +15,6 @@ git clone https://github.com/indiepaas/IndiePaaS.git /data/indiehosters
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
 
-systemctl enable rsyslog
-systemctl start  rsyslog
 systemctl enable confd
 systemctl start  confd
 systemctl enable haproxy.path
