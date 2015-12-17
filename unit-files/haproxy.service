@@ -16,6 +16,7 @@ ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
   --rm \
   --name %p \
+  -v /dev/log:/dev/log \
   -v /data/runtime/haproxy:/etc/haproxy \
   -p 80:80 \
   -p 443:443 \
