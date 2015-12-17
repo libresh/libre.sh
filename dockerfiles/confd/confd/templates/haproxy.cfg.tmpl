@@ -27,6 +27,7 @@ mode http
   rspadd  Strict-Transport-Security:\ max-age=15768000
   reqadd X-Forwarded-Proto:\ https
   acl autoconfig hdr_beg(host) -i autoconfig
+  acl letsencrypt path_beg /.well-known/acme
 
 {{range $app := lsdir "/services"}}
 {{$hostnames := printf "/services/%s/*" $app}}
@@ -40,6 +41,7 @@ mode http
   {{end}}
 {{end}}
 
+  use_backend letsencrypt if letsencrypt !https_letsencrypt.indie.host
   use_backend autoconfig  if autoconfig
 
 frontend http-in
@@ -57,6 +59,11 @@ backend {{base $hostname}}
   server Server {{$data.ip}}:{{$data.port}} cookie Server
   {{end}}
 {{end}}
+
+backend letsencrypt
+  cookie SERVERID insert nocache indirect
+  server Server letsencrypt.indie.host:443 cookie Server ssl verify none
+
 backend autoconfig
   cookie SERVERID insert nocache indirect
   server Server mail.indie.host:443 cookie Server ssl verify none
