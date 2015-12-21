@@ -1,6 +1,0 @@
-[Path]
-PathExists=/data/runtime/haproxy/haproxy.cfg
-
-[Install]
-WantedBy=multi-user.target
-

@@ -1,8 +1,0 @@
-[template]
-src  = "haproxy.cfg.tmpl"
-dest = "/etc/haproxy/haproxy.cfg"
-keys = [
-  "/services"
-]
-reload_cmd = "/docker exec haproxy /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -D -p /var/run/haproxy.pid -st $(/docker exec haproxy cat /var/run/haproxy.pid)"
-

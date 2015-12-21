@@ -28,11 +28,8 @@ LOG_LEVEL="${LOG_LEVEL:-6}" # 7 = debug -> 0 = emergency
 # opts & defaults from. The parsing is unforgiving so be precise in your syntax
 read -r -d '' usage <<-'EOF'
   -u   [arg] URL to process. Required.
-  -f   [arg] Certificate file to use.
   -a   [arg] Application to install. (in the form github.com/indiehosters/wordress)
   -s         Start the application right away.
-  -g         Generates the necessary certificate.
-  -p         Paste certificate from previous run.
   -b         Buys the associated domain name.
   -i         Configure OpenDKIM.
   -c         Configures DNS on Namecheap.
@@ -46,11 +43,6 @@ EOF
 source /etc/environment
 source /data/indiehosters/utils/helpers.sh
 source /data/indiehosters/utils/configure_dkim_dns.sh
-
-function scaffold () {
-  info "Creating application folder"
-  mkdir -p ${FOLDER}
-}
 
 function buy_domain_name () {
 
@@ -110,56 +102,6 @@ function buy_domain_name () {
 &ForwardTo1=${EmailAddress}"
 
   call_API ${arguments}
-}
-
-function provision_certificate () {
-  scaffold
-  filename=$(basename "${arg_f}")
-  extension="${filename##*.}"
-  if [ "${extension}" != "pem" ]; then
-    error "File extension must be pem."
-    exit 1
-  fi
-
-  info "Provisionning certificate."
-  mkdir -p ${TLS_FOLDER}
-  cd ${TLS_FOLDER}
-  cp ${arg_f} ${arg_u}.pem
-  /data/indiehosters/utils/append_crt_list.sh ${arg_u}
-}
-
-function generate_certificate () {
-  scaffold
-  info "creating TLS ans CSR folder."
-  mkdir -p ${TLS_FOLDER}/CSR
-
-  info "Generating the key."
-  openssl genrsa -out ${TLS_FOLDER}/CSR/${arg_u}.key 4096
-
-  info "Creating the request."
-  openssl req -new \
-    -key ${TLS_FOLDER}/CSR/${arg_u}.key \
-    -out ${TLS_FOLDER}/CSR/${arg_u}.csr \
-    -subj "/C=${CountryCode}/ST=${City}/L=${City}/O=${arg_u}/OU=/CN=${arg_u}/emailAddress=${EmailAddress}"
-
-  info "Here is your CSR, paste it in your Certificate authority interface."
-  echo ""
-  cat ${TLS_FOLDER}/CSR/${arg_u}.csr
-
-  paste_certificate
-}
-
-function paste_certificate () {
-  echo ""
-  info "You should have received a certificate."
-  info "Please paste your certificate now: (finish with enter and ctrl-d)"
-  
-  cat > ${TLS_FOLDER}/CSR/${arg_u}.crt
-
-  info "Concat certificate, CA and key into pem file."
-  cat ${TLS_FOLDER}/CSR/${arg_u}.crt /data/indiehosters/certs/sub.class2.server.sha2.ca.pem /data/indiehosters/certs/ca-sha2.pem ${TLS_FOLDER}/CSR/${arg_u}.key > ${TLS_FOLDER}/${arg_u}.pem
-  
-  /data/indiehosters/utils/append_crt_list.sh ${arg_u}
 }
 
 function application () {
@@ -268,9 +210,6 @@ TLS_FOLDER=${FOLDER}/TLS
 
 [ ${arg_b} -eq 1 ] && buy_domain_name
 [ ! -z "${arg_a}" ] && application
-[ ${arg_g} -eq 1 ] && generate_certificate
-[ ${arg_p} -eq 1 ] && paste_certificate
-[ ! -z "${arg_f}" ] && provision_certificate
 [ ${arg_i} -eq 1 ] && provision_dkim
 [ ${arg_c} -eq 1 ] && configure_dns
 [ ${arg_s} -eq 1 ] && start
