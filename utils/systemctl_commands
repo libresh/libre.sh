@@ -1,0 +1,4 @@
+#!/bin/bash
+
+domain=`pwd | cut -d'/' -f4`
+systemctl `basename "$0"` u@$domain
