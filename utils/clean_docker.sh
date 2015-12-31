@@ -1,5 +1,7 @@
 #!/bin/bash
 
-docker rm `docker ps -a -q`
-docker rmi `docker images -a -q`
-/opt/bin/docker-volumes rm `/opt/bin/docker-volumes list | grep docker | cut -d"|" -f1`
+docker rm -v $(docker ps -a -q -f status=exited)
+
+docker rmi $(docker images -f "dangling=true" -q)
+
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker:/var/lib/docker --rm martin/docker-cleanup-volumes
