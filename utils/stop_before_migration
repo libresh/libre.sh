@@ -1,11 +1,12 @@
 #!/bin/bash -eux
 
-domain=`pwd | cut -d/ -f 4`
-
+domain=$1
+ip=$2
+cd /data/domains/$domain
 ./BACKUP
 
 systemctl stop u@$domain
 systemctl disable u@$domain
 
 tar cvzf /home/core/${domain}.tgz .
-etcdctl --peers 172.17.42.1:4001 set /services/web/$domain '{"ip":"5.9.101.242", "port":"80"}'
+etcdctl --peers 172.17.42.1:4001 set /services/web/$domain '{"ip":"'$ip'", "port":"443"}'
