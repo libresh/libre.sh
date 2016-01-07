@@ -1,12 +1,14 @@
 ssh root@machine
 
-fdisk -l
+
+fdisk -l (find your ssd)
 wget https://raw.github.com/coreos/init/master/bin/coreos-install
-vi cloud-config 
-###
+cat > cloud-config << EOF
 #cloud-config
 
 hostname: k6
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCTDu9fp/BkVv7afu4HWBf9Ou/Bu0A0wmT8ELx6w2LguywKVYytubS++j1cuZ90BmK7pso22gJL8JA+z3I4YSzzX07E+/Tauug/xqWY88nk2yykIbRdYwnBQ545yDoK9b2MG+3Ih9NFNo4CTe0hfm9OC8Ztd+6/tJI85JUNjISSEuGhwkfCHUKwu5kUQDLCJg5hzbq0mpE/CAnXiX6Vs2vJL2RHuvM37CzuqjFqJq+k7OYW1Dz32PrFxOefCHCHXI5Oq2a6lWcBLHmYPx8KDk5li7XSm3HirPoPOpSgfZmFtTM7bbJmOjlJgD27tDUgM94yZoRB9qFSM3103CX1qRfLfDd/e9BDI6jbG/Jdq4Zt1PdOb4V6ee86DzO+PIOqv0P9tImMAwZDve9EfcaNjqNhWeY4oUbEuvsZ5R5BrFGvg10D7WsVs1iIJ//XYaiC+D5PG6iDjXsvR7j+auLGGMOjZNEvIJcqDmtTi2mQsZ4n9Y9M0zAKCKIGkKS+JQqZZUToRA7YV+C7JniTlxg4UZxVQgpsGhwxnWuc8YeM99byB6lbWqGTewVbDy97zXcJwHfVgx0oUNwQl0qwZ+B1LX8Cw1eei2vBzHlsVpx0G/RKn4ai1puSyYeFyTOWIc38HZ8d4ZdL2LYx2PqCTYOfHYfLY4q3Mj2SDxr/fq++0F7jbQ== pierre@ozoux.net
 write_files:
   - path: /etc/sysctl.d/aio-max.conf
     permissions: 0644
@@ -22,14 +24,7 @@ write_files:
 coreos:
   update:
     reboot-strategy: off
-  etcd:
-    addr: 172.17.42.1:4001
-    bind-addr: 172.17.42.1:4001
-    peer-addr: 172.17.42.1:7001
-    peer-bind-addr: 172.17.42.1:7001
   units:
-    - name: etcd.service
-      command: start
     - name: systemd-sysctl.service
       command: restart
     - name: data-domains.mount
@@ -39,9 +34,8 @@ coreos:
         What=/dev/md0
         Where=/data/domains
         Type=ext4
-ssh_authorized_keys:
-  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCTDu9fp/BkVv7afu4HWBf9Ou/Bu0A0wmT8ELx6w2LguywKVYytubS++j1cuZ90BmK7pso22gJL8JA+z3I4YSzzX07E+/Tauug/xqWY88nk2yykIbRdYwnBQ545yDoK9b2MG+3Ih9NFNo4CTe0hfm9OC8Ztd+6/tJI85JUNjISSEuGhwkfCHUKwu5kUQDLCJg5hzbq0mpE/CAnXiX6Vs2vJL2RHuvM37CzuqjFqJq+k7OYW1Dz32PrFxOefCHCHXI5Oq2a6lWcBLHmYPx8KDk5li7XSm3HirPoPOpSgfZmFtTM7bbJmOjlJgD27tDUgM94yZoRB9qFSM3103CX1qRfLfDd/e9BDI6jbG/Jdq4Zt1PdOb4V6ee86DzO+PIOqv0P9tImMAwZDve9EfcaNjqNhWeY4oUbEuvsZ5R5BrFGvg10D7WsVs1iIJ//XYaiC+D5PG6iDjXsvR7j+auLGGMOjZNEvIJcqDmtTi2mQsZ4n9Y9M0zAKCKIGkKS+JQqZZUToRA7YV+C7JniTlxg4UZxVQgpsGhwxnWuc8YeM99byB6lbWqGTewVbDy97zXcJwHfVgx0oUNwQl0qwZ+B1LX8Cw1eei2vBzHlsVpx0G/RKn4ai1puSyYeFyTOWIc38HZ8d4ZdL2LYx2PqCTYOfHYfLY4q3Mj2SDxr/fq++0F7jbQ== pierre@ozoux.net
-###
+EOF
+
 bash coreos-install -d /dev/sda -c cloud-config 
 
 reboot
@@ -52,28 +46,19 @@ ssh-keygen -f "/home/pierre/.ssh/known_hosts" -R 5.9.101.242
 
 ssh core@machine
 
-sudo su -
 vi /etc/mdadm.conf
 MAILADDR my.email@gmail.com
 mdadm --create --verbose /dev/md0 --level=mirror --raid-devices=2 /dev/sdb /dev/sdc
 
-docker pull indiepaas/haproxy
-docker pull indiepaas/confd
-docker pull indiepaas/duplicity
-docker pull ibuildthecloud/systemd-docker
+sudo su -
 
 # Create Directory structure
 mkdir -p /data/domains
 mkdir -p /data/runtime/haproxy/approved-certs
-git clone https://github.com/indiepaas/IndiePaaS.git /data/indiehosters
+git clone https://github.com/indiehosters/LibrePaaS.git /data/indiehosters
 
 # Install unit-files
 cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
-
-systemctl enable confd
-systemctl start  confd
-systemctl enable haproxy.path
-systemctl start  haproxy.path
 
 mkfs.ext4 /dev/md0
 coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
