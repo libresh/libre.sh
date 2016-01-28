@@ -28,7 +28,7 @@ LOG_LEVEL="${LOG_LEVEL:-6}" # 7 = debug -> 0 = emergency
 # opts & defaults from. The parsing is unforgiving so be precise in your syntax
 read -r -d '' usage <<-'EOF'
   -u   [arg] URL to process. Required.
-  -a   [arg] Application to install. (in the form github.com/indiehosters/wordress)
+  -a   [arg] Application to install. (in the form github.com/indiehosters/wordpress)
   -s         Start the application right away.
   -b         Buys the associated domain name.
   -i         Configure OpenDKIM.

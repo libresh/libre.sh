@@ -20,16 +20,16 @@ function configure_dns () {
 &HostName2=www\
 &RecordType2=CNAME\
 &Address2=${arg_u}\
-&HostName3=mail\
-&RecordType3=CNAME\
+&HostName3=@\
+&RecordType3=MX\
 &Address3=${mail_hostname}\
+&MXPref3=10\
 &HostName4=@\
-&RecordType4=MX\
-&Address4=mail.${arg_u}\
-&MXPref4=10\
-&HostName5=@\
+&RecordType4=TXT\
+&Address4=v=spf1%20include:${mail_hostname}\
+&Hostname5=_dmarc\
 &RecordType5=TXT\
-&Address5=v=spf1%20include:${mail_hostname}\
+&Address5=v=DMARC1;%20p=none;%20rua=mailto:support@indie.host\
 &HostName6=mail._domainkey\
 &RecordType6=TXT\
 &Address6=${domain_key}\
@@ -37,7 +37,6 @@ function configure_dns () {
 &RecordType7=CNAME\
 &Address7=autoconfig.`echo $mail_hostname | cut -d. -f2,3`\
 &EmailType=mx"
-
   call_API ${arguments}
 
 }
