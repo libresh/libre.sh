@@ -1,49 +1,51 @@
-## IndieHosters
+# LibrePaaS
 
-This repository contains the configuration and scripts I use to control my servers.
+## Introduction
 
-### Tests
+A PaaS that is aimed at hosting free software \o/
 
-There is a script that provision 2 VMs on Vutlr for tests purpose.
+To install it, follow instructions in `INSTALL.nd`.
 
-#### Prerequisites
+## Modular
 
- - have a [vultr account](http://www.vultr.com/?ref=6810586)
- - have a [VULTR API KEY](https://my.vultr.com/settings/)
- - have the [port 25 open](https://www.vultr.com/docs/what-ports-are-blocked) (if you want to test emails)
- - have an [ssh key registered](https://my.vultr.com/sshkeys/)
+The PaaS is really modular, that's why it contains the strict necessary, then you'll probably want to add `system` modules or `applications`.
 
-#### Start tests
+## System modules
 
-/!\ This is still in dev, use it at your own risk /!\
+Here is a list of modules supported:
+ - haproxy
+ - git-puller
+ - backups
+Go to their respective page for more details.
+
+To install and start a module:
 
 ```
-export VULTR_API_KEY=
-./scripts/start.sh
-ssh root@server.test
-cd /data/indiehosters
-./tests/start.sh
-./tests/email.sh
-reboot
-ssh root@server.test
-./tests/stop.sh
-# find out WordPress password:
-journalctl -u web@*.test | grep to\ connect\ test
-# find out piwik and owncloud password:
-journalctl -u web@*.test | grep \'\>\>\ generated
-exit
-./scripts/stop.sh
+git clone module /system/
+systemctl enable s@module
+systemctl start s@module
 ```
 
-Most of the tests are "visual", but by reading them, it gives you an idea on how to start and stop services.
+## Application modules
 
-Before running `./scripts/stop.sh`, you can use your browser to see the applications:
+To install application `wordpress` on `example.org`, just run:
 
-* https://wordpress.test/ user: test@test.org pass: as found with journalctl before
-* https://owncloud.test/ user: test@test.org pass: as found with journalctl before
-* https://piwik.test/ user: test@test.org pass: as found with journalctl before
-* https://static.test/ (you will simply see the contents of server.test:/data/domains/static.test/static/www-content/index.html)
-* https://known.test/ (you will be able to create a user there)
+```
+provision -a github.com/indiehosters/wordpress -u example.org -s
+```
 
-This is still work in progress, please feel free to contribute to it!
+Run `provision` for more details on the capabilities of the script.
 
+## Contributing
+
+If you have any issue (something not working, mail marked as spam, missing doc), please do report an issue here! Thanks
+
+This system is used in production at [IndieHosters](https://indiehosters.net/) so it is maintained. If you use it, please tell us, and we'll be really happy to update this README!
+
+You can help us by:
+ - starring this project
+ - sending us a thanks email
+ - reporting bugs
+ - writing documentation/blog on how you got up and running in 5mins
+ - writing more documentation
+ - sending us cake :) We loove cake!
