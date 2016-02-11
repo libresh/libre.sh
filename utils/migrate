@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 source /etc/environment
-  
+
 from=$1
 domain=$2
 
@@ -12,8 +12,6 @@ scp core@${from}:${domain}.tgz /data/domains/$domain
 cd /data/domains/$domain
 tar xvzf ${domain}.tgz
 rm ${domain}.tgz
-
-/data/indiehosters/utils/append_crt_list.sh $domain
 
 systemctl start u@$domain
 systemctl enable u@$domain
