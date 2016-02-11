@@ -3,7 +3,7 @@ Description=Turn on swap
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/swapon /data/swap
+ExecStart=/sbin/swapon /swap
 
 [Install]
 WantedBy=local.target
