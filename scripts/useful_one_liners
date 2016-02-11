@@ -1,5 +1,3 @@
-for cert in `ls /data/runtime/haproxy/approved-certs/`;do echo $cert;openssl x509 -enddate -noout -in $cert | cut -d'=' -f2;done
-
 cp /data/indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
 
 systemctl list-units | grep failed
