@@ -1,4 +1,0 @@
-#!/bin/bash -eux
-
-systemctl list-units | grep failed | cut -d' ' -f2 | xargs systemctl status | grep lockfile.lock | cut -f4 -d: | xargs rm
-systemctl list-units | grep failed | cut -d' ' -f2 | xargs systemctl start
