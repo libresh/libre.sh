@@ -41,8 +41,8 @@ EOF
 #####################################################################
 
 source /etc/environment
-source /data/indiehosters/utils/helpers.sh
-source /data/indiehosters/utils/configure_dkim_dns.sh
+source /data/indiehosters/utils/helpers
+source /data/indiehosters/utils/configure_dkim_dns
 
 function buy_domain_name () {
 
