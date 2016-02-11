@@ -1,9 +1,0 @@
-[Unit]
-Description=Turn on swap
-
-[Service]
-Type=oneshot
-ExecStart=/sbin/swapon /swap
-
-[Install]
-WantedBy=local.target
