@@ -3,11 +3,9 @@ Description=%p-%i
 
 # Requirements
 Requires=docker.service
-Requires=b-u@%i.timer
 
 # Dependency ordering
 After=docker.service
-Before=b-u@%i.timer
 
 [Service]
 Restart=always
@@ -21,4 +19,3 @@ ExecStop=/opt/bin/docker-compose stop
 
 [Install]
 WantedBy=multi-user.target
-
