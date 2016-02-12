@@ -13,7 +13,7 @@ The PaaS is really modular, that's why it contains the strict necessary, then yo
 ## System modules
 
 Here is a list of modules supported:
- - haproxy
+ - [HAproxy](https://github.com/indiehosters/haproxy)
  - git-puller
  - backups
 Go to their respective page for more details.
