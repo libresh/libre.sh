@@ -13,15 +13,18 @@ The PaaS is really modular, that's why it contains the strict necessary, then yo
 ## System modules
 
 Here is a list of modules supported:
- - [HAproxy](https://github.com/indiehosters/haproxy)
- - git-puller
- - backups
+ - [HAProxy](https://github.com/indiehosters/haproxy)
+ - [git-puller](https://github.com/indiehosters/git-puller)
+ - [backups](https://github.com/indiehosters/backups)
+ - [sshd](https://github.com/indiehosters/sshd)
+ - [pull-backups](https://github.com/indiehosters/pull-backups)
 Go to their respective page for more details.
 
 To install and start a module:
 
 ```
-git clone module /system/
+cd /system/
+git clone module
 systemctl enable s@module
 systemctl start s@module
 ```
@@ -38,7 +41,7 @@ Run `provision` for more details on the capabilities of the script.
 
 ## Contributing
 
-If you have any issue (something not working, mail marked as spam, missing doc), please do report an issue here! Thanks
+If you have any issue (something not working, missing doc), please do report an issue here! Thanks
 
 This system is used in production at [IndieHosters](https://indiehosters.net/) so it is maintained. If you use it, please tell us, and we'll be really happy to update this README!
 
