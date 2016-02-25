@@ -1,13 +1,10 @@
 # Instructions to install LibrePaaS
 
-## Requirements
-
-- API key on Namecheap
-
 ## Recommendation
 - ssd on /dev/sda
 - hdd on /dev/sdb
 - hdd on /dev/sdc
+- API key on Namecheap (if you want to automatically buy domain name)
 
 # Installation
 
