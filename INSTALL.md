@@ -1,62 +1,16 @@
 # Instructions to install LibrePaaS
 
 ## Recommendation
-- ssd on /dev/sda
-- hdd on /dev/sdb
-- hdd on /dev/sdc
 - API key on Namecheap (if you want to automatically buy domain name)
 
-# Installation
+## Installation
 
 First, you need a server.
-We recommend [Hetzner](https://serverboerse.de/index.php?country=EN) as they are the cheapest options around.
-You can filter servers with ssd.
+You can take it from a cloud provider, like DigitalOcean or Scaleway and choose to spin up a VM with CoreOS already installed on it.
 
-These instructions can also work on any VM/VPS/Hardware.
-
-## Install the system
+You can also buy a baremetal at [Hetzner](https://serverboerse.de/index.php?country=EN) as they are the cheapest options around. Follow these [instructions](INSTALL_HETZNER.md) in this case.
 
 ```
-IP=
-
-ssh -o "StrictHostKeyChecking no" root@$IP
-
-hostname=
-ssh_public_key=""
-
-fdisk -l #find your ssd
-
-# Setup raid
-cat > /etc/mdadm.conf << EOF
-MAILADDR dev@null.org
-EOF
-mdadm --create --verbose /dev/md0 --level=mirror --raid-devices=2 /dev/sdb /dev/sdc
-mkfs.ext4 /dev/md0
-
-cat > cloud-config.tmp << EOF
-#cloud-config
-
-hostname: "$hostname"
-ssh_authorized_keys:
-  - $ssh_public_key
-EOF
-
-wget https://raw.github.com/coreos/init/master/bin/coreos-install
-bash coreos-install -d /dev/sda -c cloud-config.tmp
-
-reboot
-```
-
-```
-ssh core@$IP
-sudo su -
-
-# Add swap
-fallocate -l 8192m /swap
-chmod 600 /swap
-mkswap /swap
-
-cat > /var/lib/coreos-install/user_data << EOF
 #cloud-config
 
 hostname: $hostname
@@ -102,31 +56,46 @@ coreos:
   units:
     - name: systemd-sysctl.service
       command: restart
-    - name: data.mount
-      command: start
-      content: |
-        [Mount]
-        What=/dev/md0
-        Where=/data
-        Type=ext4
     - name: swap.service
       command: start
       content: |
+        [Unit]
+        Description=Turn on swap
         [Service]
         Type=oneshot
+        RemainAfterExit=true
+        ExecStartPre=-/bin/bash -euxc ' \
+          fallocate -l 8192m /swap \
+          chmod 600 /swap \
+          mkswap /swap'
         ExecStart=/sbin/swapon /swap
-EOF
-
-# Create Directory structure
-git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters
-mkdir /{data,system}
-mkdir /data/trash
-
-# Install unit-files and utils
-cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
-cp /indiehosters/utils/* /opt/bin/
-
-mkdir -p /opt/bin
-DOCKER_COMPOSE_VERSION=1.6.0
-curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > /opt/bin/docker-compose
-chmod +x /opt/bin/docker-compose
+        ExecStop=/sbin/swapoff /swap
+        [Install]
+        WantedBy=local.target
+    - name: install-compose.service
+      command: start
+      content: |
+        [unit]
+        Description=Install Docker Compose
+        [Service]
+        Type=oneshot
+        RemainAfterExit=true
+        ExecStart=-/bin/bash -euxc ' \
+          mkdir -p /opt/bin \
+          curl -L `curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r '.assets[].browser_download_url | select(contains("Linux") and contains("x86_64"))'` > /opt/bin/docker-compose \
+          chmod +x /opt/bin/docker-compose'
+    - name: install-indiehosters.service
+      command: start
+      content: |
+        [unit]
+        Description=Install IndieHosters
+        [Service]
+        Type=oneshot
+        RemainAfterExit=true
+        ExecStart=-/bin/bash -euxc ' \
+          git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters \
+          mkdir /{data,system} \
+          mkdir /data/trash \
+          cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload \
+          cp /indiehosters/utils/* /opt/bin/'
+```
