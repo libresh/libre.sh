@@ -65,8 +65,8 @@ coreos:
         Type=oneshot
         RemainAfterExit=true
         ExecStartPre=-/bin/bash -euxc ' \
-          fallocate -l 8192m /swap \
-          chmod 600 /swap \
+          fallocate -l 8192m /swap &&\
+          chmod 600 /swap &&\
           mkswap /swap'
         ExecStart=/sbin/swapon /swap
         ExecStop=/sbin/swapoff /swap
@@ -75,27 +75,28 @@ coreos:
     - name: install-compose.service
       command: start
       content: |
-        [unit]
+        [Unit]
         Description=Install Docker Compose
         [Service]
         Type=oneshot
         RemainAfterExit=true
         ExecStart=-/bin/bash -euxc ' \
-          mkdir -p /opt/bin \
-          curl -L `curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r '.assets[].browser_download_url | select(contains("Linux") and contains("x86_64"))'` > /opt/bin/docker-compose \
+          mkdir -p /opt/bin &&\
+          url=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r \'.assets[].browser_download_url | select(contains("Linux") and contains("x86_64"))\') &&\
+          curl -L $url > /opt/bin/docker-compose &&\
           chmod +x /opt/bin/docker-compose'
     - name: install-indiehosters.service
       command: start
       content: |
-        [unit]
+        [Unit]
         Description=Install IndieHosters
         [Service]
         Type=oneshot
         RemainAfterExit=true
         ExecStart=-/bin/bash -euxc ' \
-          git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters \
-          mkdir /{data,system} \
-          mkdir /data/trash \
-          cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload \
+          git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters &&\
+          mkdir /{data,system} &&\
+          mkdir /data/trash &&\
+          cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload &&\
           cp /indiehosters/utils/* /opt/bin/'
 ```
