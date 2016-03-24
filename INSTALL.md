@@ -10,6 +10,8 @@ You can take it from a cloud provider, like DigitalOcean or Scaleway and choose 
 
 You can also buy a baremetal at [Hetzner](https://serverboerse.de/index.php?country=EN) as they are the cheapest options around. Follow these [instructions](INSTALL_HETZNER.md) in this case.
 
+Copy this as your `user_data` and don't forget to change the hostname and your ssh key!
+
 ```
 #cloud-config
 
@@ -100,3 +102,5 @@ coreos:
           cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload &&\
           cp /indiehosters/utils/* /opt/bin/'
 ```
+
+And voila, your firet LibrePaaS node is ready!
