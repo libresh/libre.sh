@@ -8,13 +8,21 @@
 
 # Installation
 
-Replace the following variables with yours:
-IP
-hostname
+First, you need a server.
+We recommend [Hetzner](https://serverboerse.de/index.php?country=EN) as they are the cheapest options around.
+You can filter servers with ssd.
+
+These instructions can also work on any VM/VPS/Hardware.
+
+## Install the system
 
 ```
+IP=
 
 ssh -o "StrictHostKeyChecking no" root@$IP
+
+hostname=
+ssh_public_key=""
 
 fdisk -l #find your ssd
 
@@ -28,13 +36,13 @@ mkfs.ext4 /dev/md0
 cat > cloud-config.tmp << EOF
 #cloud-config
 
-hostname: $hostname
+hostname: "$hostname"
 ssh_authorized_keys:
-  - #your ssh public key here
+  - $ssh_public_key
 EOF
 
 wget https://raw.github.com/coreos/init/master/bin/coreos-install
-bash coreos-install -d /dev/sda -c cloud-config 
+bash coreos-install -d /dev/sda -c cloud-config.tmp
 
 reboot
 ```
