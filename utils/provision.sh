@@ -112,7 +112,9 @@ function application () {
 
   git clone https://${arg_a}.git /data/domains/${arg_u}
   cd /data/domains/${arg_u}
-  ./scripts/install
+  if [ -f ./scripts/install ]; then
+    ./scripts/install
+  fi
 }
 
 function start () {
