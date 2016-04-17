@@ -112,7 +112,7 @@ function application () {
 
   git clone https://${arg_a}.git /data/domains/${arg_u}
   cd /data/domains/${arg_u}
-  ./install
+  ./scripts/install
 }
 
 function start () {
