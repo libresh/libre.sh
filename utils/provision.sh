@@ -105,14 +105,13 @@ function buy_domain_name () {
 }
 
 function application () {
-  export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
-  export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
-  export URL=${arg_u}
-  /data/indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
-
   git clone https://${arg_a}.git /data/domains/${arg_u}
   cd /data/domains/${arg_u}
   if [ -f ./scripts/install ]; then
+    export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
+    export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
+    export URL=${arg_u}
+    /data/indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
     ./scripts/install
   fi
 }
