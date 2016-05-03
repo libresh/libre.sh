@@ -41,8 +41,8 @@ EOF
 #####################################################################
 
 source /etc/environment
-source /data/indiehosters/utils/helpers
-source /data/indiehosters/utils/configure_dkim_dns
+source /indiehosters/utils/helpers
+source /indiehosters/utils/configure_dkim_dns
 
 function buy_domain_name () {
 
@@ -111,7 +111,7 @@ function application () {
     export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
     export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
     export URL=${arg_u}
-    /data/indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
+    /indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
     ./scripts/install
   fi
 }
