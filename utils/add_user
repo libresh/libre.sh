@@ -4,6 +4,7 @@ source /etc/environment
 
 email=$1
 cc_welcome_email=$2
+quota=$3
 
 password=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 10 | xargs`
 local_part=`echo $email | cut -d@ -f1`
@@ -15,6 +16,9 @@ curl --data "local_part=${local_part}&domain=${domain_id}&password=${password}&w
 
 rm /tmp/cookie.txt
 
+curl -X POST --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users -d userid="${email}" -d password="${password}"
+curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${email} -d key="email" -d value="${email}"
+curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${email} -d key="quota" -d value="${quota}"
+
 docker exec -it --user www-data `echo ${cloud_hostname}_app_1 |sed 's/-//g' | sed 's/\.//g'` bash -c "\
-  OC_PASS=${password} php occ user:add --display-name ${local_part} ${local_part} --password-from-env &&\
-  php occ mail:account:create ${local_part} ${local_part} ${email} ${mail_hostname} 993 ssl ${email} ${password} ${mail_hostname} 587 tls ${email} ${password}"
+  php occ mail:account:create ${email} ${email} ${email} ${mail_hostname} 993 ssl ${email} ${password} ${mail_hostname} 587 tls ${email} ${password}"
