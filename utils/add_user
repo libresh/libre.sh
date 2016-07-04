@@ -16,8 +16,6 @@ curl --data "local_part=${local_part}&domain=${domain_id}&password=${password}&w
 
 rm /tmp/cookie.txt
 
-curl -X POST --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users -d userid="${email}" -d password="${password}"
-curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${email} -d key="email" -d value="${email}"
 curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${email} -d key="quota" -d value="${quota}"
 
 docker exec -it --user www-data `echo ${cloud_hostname}_app_1 |sed 's/-//g' | sed 's/\.//g'` bash -c "\
