@@ -18,5 +18,5 @@ rm /tmp/cookie.txt
 
 curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${email} -d key="quota" -d value="${quota}"
 
-docker exec -it --user www-data `echo ${cloud_hostname}_app_1 |sed 's/-//g' | sed 's/\.//g'` bash -c "\
-  php occ mail:account:create ${email} ${email} ${email} ${mail_hostname} 993 ssl ${email} ${password} ${mail_hostname} 587 tls ${email} ${password}"
+#docker exec -it --user www-data `echo ${cloud_hostname}_app_1 |sed 's/-//g' | sed 's/\.//g'` bash -c "\
+  #  php occ mail:account:create ${email} ${email} ${email} ${mail_hostname} 993 ssl ${email} ${password} ${mail_hostname} 587 tls ${email} ${password}"
