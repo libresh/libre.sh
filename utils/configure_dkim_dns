@@ -8,7 +8,7 @@ function provision_dkim () {
 
 
 function configure_dns () {
-  domain_key=`cat /data/domains/mail.indie.host/opendkim/keys/chailloux.info/mail.txt | cut -d\" -f2 | sed 'N;s/\n//g' | sed 's/ //g' | sed 's/+/%2B/g' | sed 's/\//%2F/g'`
+  domain_key=`cat /data/domains/mail.indie.host/opendkim/keys/${arg_u}/mail.txt | cut -d\" -f2 | sed 'N;s/\n//g' | sed 's/ //g' | sed 's/+/%2B/g' | sed 's/\//%2F/g'`
   info "Configuring DNS."
   arguments="&Command=namecheap.domains.dns.setHosts\
 &DomainName=${arg_u}\
