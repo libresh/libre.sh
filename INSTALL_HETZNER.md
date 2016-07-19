@@ -122,11 +122,12 @@ git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters
 mkdir /{data,system}
 mkdir /data/trash
 
+mkdir -p /opt/bin
+
 # Install unit-files and utils
 cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload
 cp /indiehosters/utils/* /opt/bin/
 
-mkdir -p /opt/bin
 DOCKER_COMPOSE_VERSION=1.6.0
 curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > /opt/bin/docker-compose
 chmod +x /opt/bin/docker-compose
