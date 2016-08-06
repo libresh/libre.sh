@@ -108,10 +108,21 @@ function application () {
   git clone https://${arg_a}.git /data/domains/${arg_u}
   cd /data/domains/${arg_u}
   if [ -f ./scripts/install ]; then
-    export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
-    export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
     export URL=${arg_u}
-    /indiehosters/utils/add_mailbox ${MAIL_USER} ${MAIL_PASS}
+    if [ -z ${MAIL_DOMAIN:-} ]; then
+      warning "you have no email server setup, we'll print a random configuration in your application. Make sure to check the parameters for your app to send proper emails."
+      warning "To stop having this warning, please configure your LibrePaaS to be abble to create email accounts."
+      warning "You can also contact support@indie.host to setup an email account for you"
+      export MAIL_PASS="random pass"
+      export MAIL_USER="example@indie.host"
+      export MAIL_DOMAIN="indie.host"
+      export MAIL_HOST="mail.indie.host"
+      export MAIL_PORT="587"
+    else
+      export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
+      export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
+      /indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
+    fi
     ./scripts/install
   fi
 }
