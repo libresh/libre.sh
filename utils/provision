@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-# Provision an application for a user for IndiePaaS
+# Provision an application for a user for LibrePaaS
 #
 # This file:
 #  - Registers the domain name to NameCheap
-#  - Generates the TLS certificate associated
 #  - Configures the DNS
-#  - Configures the mail forwarding
 #
 # Version 0.0.3
 #
@@ -13,7 +11,7 @@
 #  - Pierre Ozoux (pierre-o.fr)
 #
 # Usage:
-#  LOG_LEVEL=7 ./provision.sh -e test@test.org -a known -u example.org -g -b -c
+#  LOG_LEVEL=7 ./provision.sh -a github.com/indiehosters/known -u example.org -g -b -c
 #
 # Licensed under AGPLv3
 
