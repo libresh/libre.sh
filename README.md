@@ -4,40 +4,86 @@
 
 A PaaS that is aimed at hosting free software \o/
 
-To install it, follow instructions in `INSTALL.nd`.
+To install it, follow instructions in `INSTALL.md`.
 
-## Modular
+### What is LibrePaaS
+
+LibrePaaS is a little framework to host Docker. It is simple and modular and respect the convention over configuration paradigm.
+
+This is aimed at Hosters to manage a huge amount of different web application, and a quantity of domain names related with emails and so on.
+
+It is currently installed at 3 different hosters in production and hosting ~20 different web applications, with ~500 containers.
+
+Once well installed, in one bash command, you'll be able to:
+ - buy a domain name
+ - configure DNS for it
+ - configure email for it
+ - configure dkim for that domain
+ - configure dmarc for that domain
+ - configure autoconfig for that domain
+ - install and start a web application on that domain (WordPress, Nextcloud, piwik...)
+ - provision a TLS cert on that domain
+
+Amazing, right?
+
+### Modular
 
 The PaaS is really modular, that's why it contains the strict necessary, then you'll probably want to add `system` modules or `applications`.
+
+It contains 2 [unit-files](https://github.com/indiehosters/LibrePaaS/tree/master/unit-files) to manage system modules and applications, start them at boot, and load the appropriate environment.
 
 ## System modules
 
 Here is a list of modules supported:
- - [HAProxy](https://github.com/indiehosters/haproxy)
+ - https proxy:
+  - [HAProxy](https://github.com/indiehosters/haproxy)
+  - [Nginx](https://github.com/indiehosters/nginx)
  - [git-puller](https://github.com/indiehosters/git-puller)
  - [backups](https://github.com/indiehosters/backups)
  - [sshd](https://github.com/indiehosters/sshd)
  - [pull-backups](https://github.com/indiehosters/pull-backups)
 Go to their respective page for more details.
 
-To install and start a module:
+### To install and start a module:
 
 ```
 cd /system/
 git clone module
+cd module
 systemctl enable s@module
-systemctl start s@module
+start
 ```
 
-## Application modules
+### To debug a module:
 
-To install application `wordpress` on `example.org`, just run:
+```
+docker-compose ps
+docker-compose logs
+stop
+restart
+```
+
+## Applications
+
+### Installation
+
+To install application `wordpress` on `example.org`, first make point example.org to your server IP, and then, just run:
 
 ```
 provision -a github.com/indiehosters/wordpress -u example.org -s
 ```
 
 Run `provision` for more details on the capabilities of the script.
+
+### debug an application
+
+```
+docker-compose ps
+docker-compose logs
+stop
+start
+restart
+```
 
 ## Contributing
 
