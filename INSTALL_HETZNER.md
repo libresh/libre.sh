@@ -41,6 +41,7 @@ ssh_authorized_keys:
   - $ssh_public_key
 EOF
 
+apt-get install gawk
 wget https://raw.github.com/coreos/init/master/bin/coreos-install
 bash coreos-install -d /dev/sda -c cloud-config.tmp
 
@@ -49,7 +50,18 @@ reboot
 
 ```
 ssh core@$IP
+
+#configure mdmonitor.
+
 sudo su -
+
+mdadm --examine --scan > /etc/mdadm.conf
+vim /etc/mdadm.conf
+#ADD your mail
+MAILADDR xxx@xxx.org
+
+# Start service
+systemctl start  mdmonitor.service
 
 # Add swap
 fallocate -l 8192m /swap
