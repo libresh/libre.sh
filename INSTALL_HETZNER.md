@@ -51,7 +51,7 @@ reboot
 ```
 ssh core@$IP
 
-configure mdmonitor.
+#configure mdmonitor.
 
 sudo su -
 
