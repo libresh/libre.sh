@@ -1,4 +1,4 @@
-# Instructions to install LibrePaaS
+# Instructions to install libre.sh
 
 ## Recommendation
 - API key on Namecheap (if you want to automatically buy domain name)
@@ -104,11 +104,11 @@ coreos:
         Type=oneshot
         RemainAfterExit=true
         ExecStart=-/bin/bash -euxc ' \
-          git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters &&\
+          git clone https://github.com/indiehosters/libre.sh.git /indiehosters &&\
           mkdir /{data,system} &&\
           mkdir /data/trash &&\
           cp /indiehosters/unit-files/* /etc/systemd/system && systemctl daemon-reload &&\
           cp /indiehosters/utils/* /opt/bin/'
 ```
 
-And voila, your firet LibrePaaS node is ready!
+And voila, your first libre.sh node is ready!
