@@ -1,4 +1,4 @@
-# Instructions to install LibrePaaS
+# Instructions to install libre.sh
 
 ## Recommendation
 - ssd on /dev/sda
@@ -130,7 +130,7 @@ coreos:
 EOF
 
 # Create Directory structure
-git clone https://github.com/indiehosters/LibrePaaS.git /indiehosters
+git clone https://github.com/indiehosters/libre.sh.git /indiehosters
 mkdir /{data,system}
 mkdir /data/trash
 
