@@ -32,6 +32,16 @@ The PaaS is really modular, that's why it contains the strict necessary, then yo
 
 It contains 2 [unit-files](https://github.com/indiehosters/LibrePaaS/tree/master/unit-files) to manage system modules and applications, start them at boot, and load the appropriate environment.
 
+### Support
+
+You can use the following channels to request community support:
+ - [mailinglist/forum](https://forum.indie.host/t/about-the-libre-sh-category/71)
+ - [chat](https://chat.indie.host/channel/libre.sh)
+
+For paid support, just send an inquiry to libre.sh@indie.host.
+
+All of this is hosted by libre.sh :)
+
 ## System modules
 
 Here is a list of modules supported:
