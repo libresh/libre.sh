@@ -1,4 +1,4 @@
-# LibrePaaS
+# libre.sh
 
 ## Introduction
 
@@ -6,9 +6,9 @@ A PaaS that is aimed at hosting free software \o/
 
 To install it, follow instructions in `INSTALL.md`.
 
-### What is LibrePaaS
+### What is libre.sh
 
-LibrePaaS is a little framework to host Docker. It is simple and modular and respect the convention over configuration paradigm.
+libre.sh is a little framework to host Docker. It is simple and modular and respect the convention over configuration paradigm.
 
 This is aimed at Hosters to manage a huge amount of different web application, and a quantity of domain names related with emails and so on.
 
@@ -38,7 +38,7 @@ You can use the following channels to request community support:
  - [mailinglist/forum](https://forum.indie.host/t/about-the-libre-sh-category/71)
  - [chat](https://chat.indie.host/channel/libre.sh)
 
-For paid support, just send an inquiry to libre.sh@indie.host.
+For paid support, just send an inquiry to support@libre.sh.
 
 All of this is hosted by libre.sh :)
 
