@@ -11,7 +11,7 @@
 #  - Pierre Ozoux (pierre-o.fr)
 #
 # Usage:
-#  LOG_LEVEL=7 ./provision.sh -a github.com/indiehosters/known -u example.org -g -b -c
+#  LOG_LEVEL=7 ./provision -a github.com/indiehosters/known -u example.org -g -b -c
 #
 # Licensed under AGPLv3
 
@@ -119,7 +119,7 @@ function application () {
     else
       export MAIL_PASS=`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 20 | xargs`
       export MAIL_USER="noreply.${arg_u}@${MAIL_DOMAIN}"
-      /indiehosters/utils/add_mailbox.sh ${MAIL_USER} ${MAIL_PASS}
+      /indiehosters/utils/add_mailbox ${MAIL_USER} ${MAIL_PASS}
     fi
     ./scripts/install
   fi
@@ -207,7 +207,7 @@ fi
 
 # Exit on error. Append ||true if you expect an error.
 # set -e is safer than #!/bin/bash -e because that is neutralised if
-# someone runs your script like `bash yourscript.sh`
+# someone runs your script like `bash yourscript`
 set -o errexit
 set -o nounset
 
