@@ -1,17 +1,17 @@
 #!/bin/bash -eux
+#!/bin/bash -eux
 
-source /etc/environment
-
-from=$1
+hash=$1
 domain=$2
 
-ssh core@$from sudo /data/indiehosters/utils/stop_before_migration.sh $domain $IP
+cd /data/domains/
+wget https://wader.indie.host/migrate/$hash
+unzip $hash
+rm $hash
 
-mkdir /data/domains/$domain
-scp core@${from}:${domain}.tgz /data/domains/$domain
-cd /data/domains/$domain
-tar xvzf ${domain}.tgz
-rm ${domain}.tgz
+cd $domain
+
+cp TLS/$domain.pem /system/haproxy/haproxy/certs
 
 systemctl start u@$domain
 systemctl enable u@$domain
