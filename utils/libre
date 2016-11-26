@@ -49,7 +49,7 @@ case "$1" in
   update)
     if [ "$(pwd)" == "/libre.sh" ]; then
       git pull
-      cp /libre.sh/unit-files/* /etc/systemd/system && systemctl daemon-reload &&\
+      cp /libre.sh/unit-files/* /etc/systemd/system && systemctl daemon-reload
       cp /libre.sh/utils/* /opt/bin/
     elif [ -n "$(systemctl_param)" ]; then
       git pull
