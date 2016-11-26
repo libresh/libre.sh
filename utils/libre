@@ -44,7 +44,6 @@ case "$1" in
     fi;;
   update)
     if [ "$(pwd)" == "/libre.sh" ]; then
-      echo "Indiehosters";
       git pull
       cp /libre.sh/unit-files/* /etc/systemd/system && systemctl daemon-reload &&\
       cp /libre.sh/utils/* /opt/bin/
