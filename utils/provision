@@ -109,7 +109,7 @@ function application () {
     export URL=${arg_u}
     if [ -z ${MAIL_DOMAIN:-} ]; then
       warning "you have no email server setup, we'll print a random configuration in your application. Make sure to check the parameters for your app to send proper emails."
-      warning "To stop having this warning, please configure your LibrePaaS to be abble to create email accounts."
+      warning "To stop having this warning, please configure your libre.sh to be abble to create email accounts."
       warning "You can also contact support@indie.host to setup an email account for you"
       export MAIL_PASS="randompass"
       export MAIL_USER="example@indie.host"
