@@ -36,6 +36,10 @@ case "$1" in
       echo "systemctl $1 $(systemctl_param)"
       systemctl $1 $(systemctl_param)
     fi;;
+  journal)
+    if [ -n "$(systemctl_param)" ]; then
+      journalctl -fu $(systemctl_param)
+    fi;;
   ps|exec|logs)
     if [ -f ./env ]; then
       env $(cat ./env | xargs) docker-compose $1 ${@:2}
