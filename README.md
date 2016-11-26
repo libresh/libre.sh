@@ -53,7 +53,6 @@ Here is a list of modules supported:
  - [git-puller](https://github.com/indiehosters/git-puller)
  - [backups](https://github.com/indiehosters/backups)
  - [sshd](https://github.com/indiehosters/sshd)
- - [pull-backups](https://github.com/indiehosters/pull-backups)
 
 Go to their respective page for more details.
 
