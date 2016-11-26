@@ -13,6 +13,7 @@ RestartSec=10
 TimeoutStartSec=60
 TimeoutStopSec=15
 EnvironmentFile=-/data/domains/%i/env
+Environment=HOSTNAME=%H
 WorkingDirectory=/data/domains/%i/
 ExecStartPre=-/opt/bin/docker-compose rm -f
 ExecStart=/bin/bash -euxc "VIRTUAL_HOST=%i /opt/bin/docker-compose up"
