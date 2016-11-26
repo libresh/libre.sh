@@ -63,17 +63,8 @@ Go to their respective page for more details.
 cd /system/
 git clone module
 cd module
-systemctl enable s@module
-start
-```
-
-### To debug a module:
-
-```
-docker-compose ps
-docker-compose logs
-stop
-restart
+libre enable
+libre start
 ```
 
 ## Applications
@@ -83,19 +74,18 @@ restart
 To install application `wordpress` on `example.org`, first make point example.org to your server IP, and then, just run:
 
 ```
-provision -a github.com/indiehosters/wordpress -u example.org -s
+libre provision -a github.com/indiehosters/wordpress -u example.org -s
 ```
 
-Run `provision` for more details on the capabilities of the script.
+Run `libre provision` for more details on the capabilities of the script.
 
-### debug an application
+## To debug a module or an application:
 
 ```
-docker-compose ps
-docker-compose logs
-stop
-start
-restart
+libre ps
+libre logs -f --tail=100
+libre stop
+libre restart
 ```
 
 ## Contributing
