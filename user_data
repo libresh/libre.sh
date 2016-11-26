@@ -1,10 +1,12 @@
 #cloud-config
 
 write_files:
-  - path: /etc/sysctl.d/aio-max.conf
+  - path: /etc/sysctl.d/libresh.conf
     permissions: 0644
     owner: root
-    content: "fs.aio-max-nr = 1048576"
+    content: |
+      fs.aio-max-nr=1048576
+      vm.max_map_count=262144
   - path: /etc/hosts
     permissions: 0644
     owner: root
