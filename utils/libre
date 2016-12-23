@@ -55,7 +55,7 @@ case "$1" in
       git pull
       docker-compose pull
       docker-compose build
-      libre restart
+      /opt/bin/libre restart
     fi;;
   provision)
     provision ${@:2};;
