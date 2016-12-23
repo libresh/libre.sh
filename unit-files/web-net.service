@@ -1,0 +1,11 @@
+[Unit]
+Description=Create lb_web network
+Requires=docker.service
+After=docker.service
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/docker network create lb_web
+ExecStop=/usr/bin/docker network rm lb_web
+[Install]
+WantedBy=local.target

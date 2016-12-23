@@ -72,11 +72,11 @@ coreos:
           url=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r \'.assets[].browser_download_url | select(contains("Linux") and contains("x86_64"))\') &&\
           curl -L $url > /opt/bin/docker-compose &&\
           chmod +x /opt/bin/docker-compose'
-    - name: install-indiehosters.service
+    - name: install-libresh.service
       command: start
       content: |
         [Unit]
-        Description=Install IndieHosters
+        Description=Install libre.sh
         [Service]
         Type=oneshot
         RemainAfterExit=true
@@ -85,19 +85,6 @@ coreos:
           mkdir /{data,system} &&\
           mkdir /data/trash &&\
           cp /libre.sh/unit-files/* /etc/systemd/system && systemctl daemon-reload &&\
+          systemctl enable web-net.service &&\
+          systemctl start web-net.service &&\
           cp /libre.sh/utils/* /opt/bin/'
-    - name: web-net.service
-      enable: true
-      command: start
-      content: |
-        [Unit]
-        Description=Create lb_web network
-        Requires=docker.service
-        After=docker.service
-        [Service]
-        Type=oneshot
-        RemainAfterExit=true
-        ExecStart=/usr/bin/docker network create lb_web
-        ExecStop=/usr/bin/docker network rm lb_web
-        [Install]
-        WantedBy=local.target
