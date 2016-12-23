@@ -54,6 +54,7 @@ case "$1" in
     elif [ -n "$(systemctl_param)" ]; then
       git pull
       docker-compose pull
+      docker-compose build
       libre restart
     fi;;
   provision)
