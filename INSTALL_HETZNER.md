@@ -64,11 +64,19 @@ MAILADDR xxx@xxx.org
 systemctl start  mdmonitor.service
 
 cat > /etc/systemd/system/data.mount << EOF
+[Unit]
+Description=Mount data
 [Mount]
 What=/dev/md0
 Where=/data
 Type=ext4
+ExecStart=mount /dev/vdb1 /data
+ExecStop=umount /data
+[Install]
+WantedBy=docker.service
 EOF
+systemctl enable /etc/systemd/system/data.mount
+systemctl start /etc/systemd/system/data.mount
 
 wget https://raw.githubusercontent.com/indiehosters/libre.sh/master/user_data -O /var/lib/coreos-install/user_data
 
