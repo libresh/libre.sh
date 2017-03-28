@@ -63,7 +63,7 @@ MAILADDR xxx@xxx.org
 # Start service
 systemctl start  mdmonitor.service
 
-cat > /etc/systemd/system/data.mont << EOF
+cat > /etc/systemd/system/data.mount << EOF
 [Mount]
 What=/dev/md0
 Where=/data
