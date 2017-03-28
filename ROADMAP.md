@@ -82,3 +82,6 @@ These services could be:
 
 So, when you install a new WordPress, it will try to discover opportunistically if there is a ldap service in the cluster,
 and if yes, configure WordPress to use this ldap service.
+
+This pattern will help make it happen:
+https://github.com/kubernetes-incubator/service-catalog
