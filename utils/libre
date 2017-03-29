@@ -59,9 +59,12 @@ case "$1" in
     fi;;
   provision)
     provision ${@:2};;
+  stats)
+    docker stats $(docker ps|grep -v "NAMES"|awk '{ print $NF }'|tr "\n" " ");;
   *)
     echo "Usage:"
     echo " - start|status|enable|disable|restart|stop: command sent to systemctl."
     echo " - ps|exec|logs: command sent to docker compose." 
     echo " - update: to update the current folder."
+    echo " - stats: show docker stats with names."
 esac
