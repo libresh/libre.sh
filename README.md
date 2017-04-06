@@ -4,7 +4,11 @@
 
 A PaaS that is aimed at hosting free software \o/
 
-To install it, follow instructions in `INSTALL.md`.
+## Installation
+
+[![ScreenShot](https://cloud.pierre-o.fr/index.php/apps/files_sharing/ajax/publicpreview.php?x=1364&y=283&a=true&file=preview.png&t=KlxYYFT59GirMJa&scalingup=0)](https://fosdem.org/2017/schedule/event/libre_sh/)
+
+To install it, follow the video above and instructions in `INSTALL.md`.
 
 ### What is libre.sh
 
