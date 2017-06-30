@@ -17,26 +17,32 @@ as root
 
 ### SSHD Config
 Don't forget to create the user core and adding your ssh key before
-You could also remove AllowUsers core or/and change the username.
-> echo "UsePrivilegeSeparation sandbox  
+You could also remove AllowUsers core or/and change the username.  
+> cat > /etc/ssh/sshd_config <<EOF  
+UsePrivilegeSeparation sandbox  
 Subsystem sftp internal-sftp  
 PermitRootLogin no  
 AllowUsers core  
 PasswordAuthentication no  
-ChallengeResponseAuthentication no" > /etc/ssh/sshd_config  
+ChallengeResponseAuthentication no  
+EOF  
 > chmod 600 /etc/ssh/sshd_config  
 > systemctl restart sshd  
 
 ### Kernel Parameter
-> echo "fs.aio-max-nr=1048576  
-vm.max_map_count=262144" > /etc/sysctl.d/libresh.conf  
-> chmod 644  /etc/sysctl.d/libresh.conf  
+> cat > /etc/sysctl.d/libresh.conf <<EOF  
+fs.aio-max-nr=1048576  
+vm.max_map_count=262144  
+EOF  
+> chmod 644 /etc/sysctl.d/libresh.conf
 > sysctl -p  
 
 ### Localhost definition
-> echo "127.0.0.1 localhost  
+> cat > /etc/hosts <<EOF  
+127.0.0.1 localhost  
 255.255.255.255 broadcasthost  
-::1 localhost" > /etc/hosts  
+::1 localhost  
+EOF  
 
 ### Envrionment definition (optional)
 Don't forget to edit /etc/environment with your own variable
@@ -44,24 +50,26 @@ such as example :
 **The 1st part** Pierre use Namecheap.com as a Domain Name Provider, which support command through API. This make possible to buy domainname and fill the info with these above.  
 **In the second part** It's a common configuration to send email, often from the system.  
 
-> echo "NAMECHEAP_URL="namecheap.com"  
-      NAMECHEAP_API_USER="pierreo"  
-      NAMECHEAP_API_KEY=  
-      IP=`curl -s http://icanhazip.com/`  
-      FirstName="Pierre"  
-      LastName="Ozoux"  
-      Address=""  
-      PostalCode=""  
-      Country="Portugal"  
-      Phone="+351.967184553"  
-      EmailAddress="pierre@ozoux.net"  
-      City="Lisbon"  
-      CountryCode="PT"  
-      BACKUP_DESTINATION=root@xxxxx:port  
-      MAIL_USER=  
-      MAIL_PASS=  
-      MAIL_HOST=mail.indie.host  
-      MAIL_PORT=587" > /etc/environment  
+> cat > /etc/environment <<EOF  
+NAMECHEAP_URL="namecheap.com"  
+NAMECHEAP_API_USER="pierreo"  
+NAMECHEAP_API_KEY=  
+IP="curl -s http://icanhazip.com/"  
+FirstName="Pierre"  
+LastName="Ozoux"  
+Address=""  
+PostalCode=""  
+Country="Portugal"  
+Phone="+351.967184553"  
+EmailAddress="pierre@ozoux.net"  
+City="Lisbon"  
+CountryCode="PT"  
+BACKUP_DESTINATION=root@xxxxx:port  
+MAIL_USER=  
+MAIL_PASS=  
+MAIL_HOST=mail.indie.host  
+MAIL_PORT=587  
+EOF  
 
 ### Install docker-compose
 *Remark I did a variante to find the last version of DockerCompose and download it*
@@ -95,3 +103,11 @@ such as example :
 5. enable web-net service
 6. start web-net service	*# be sure you did'nt create lb_web network before or it will fail*
 7. copy libre.sh tool's in /opt/bin
+
+
+### Add PATH /opt/bin
+It's possible you have to had /opt/bin into your PATH
+> cat > /etc/profile.d/libre.sh <<EOF  
+export PATH=$PATH:/opt/bin  
+EOF  
+chmod 644 /etc/profile.d/libre.sh  
