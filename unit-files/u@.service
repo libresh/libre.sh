@@ -16,7 +16,7 @@ EnvironmentFile=-/data/domains/%i/env
 Environment=HOSTNAME=%H
 WorkingDirectory=/data/domains/%i/
 ExecStartPre=-/opt/bin/docker-compose rm -f
-ExecStart=/bin/bash -euxc "VIRTUAL_HOST=%i /opt/bin/docker-compose up"
+ExecStart=/bin/bash -euxc "VIRTUAL_HOST=%i,www.%i /opt/bin/docker-compose up"
 ExecStop=/opt/bin/docker-compose stop
 
 [Install]
