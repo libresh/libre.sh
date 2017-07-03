@@ -1,16 +1,16 @@
-# Instructions to install libre.sh on linux with Systemd  
+# Instructions to install libre.sh on linux with Systemd
 
-## Recommendation  
-- Systemd (debian 8 or debian 9, CentOS 7 ...)  
+## Recommendation
+- Systemd (debian 8 or debian 9, CentOS 7 ...)
 
-# Installation  
-Where basicly reproduce what the user_data do for us.  
+# Installation
+Where basicly reproduce what the user_data do for us.
 
-as root  
+as root
 
-# configure sshd  
+# configure sshd
 Don't forget to create the user core and adding your ssh key before
-You could also remove AllowUsers core or/and change the username.  
+You could also remove AllowUsers core or/and change the username.
   
 > cat > /etc/ssh/sshd_config <<EOF  
 UsePrivilegeSeparation sandbox  
@@ -23,7 +23,6 @@ EOF
 > chmod 600 /etc/ssh/sshd_config  
 > systemctl restart sshd  
 
-# add kernel parameter  
   
 > cat > /etc/sysctl.d/libresh.conf <<EOF  
 fs.aio-max-nr=1048576  
@@ -31,6 +30,7 @@ vm.max_map_count=262144
 EOF  
 > chmod 644 /etc/sysctl.d/libresh.conf
 > sysctl -p  
+# add kernel parameter
 
 # define Localhost
   
@@ -40,7 +40,6 @@ EOF
 ::1 localhost  
 EOF  
 
-# define envrionment  
   
 > cat > /etc/environment <<EOF  
 NAMECHEAP_URL="namecheap.com"  
@@ -63,15 +62,15 @@ MAIL_HOST=mail.indie.host
 MAIL_PORT=587  
 EOF  
 
-# install docker-compose  
   
+# define envrionment
+# install docker-compose
 *Remark I did a variante to find the last version of DockerCompose and download it*
 > mkdir -p /opt/bin &&\  
 > dockerComposeVersion=$(curl -s https://api.github.com/repos/docker/compose/releases/latest|grep tag_name|cut -d'"' -f4) &&\  
 > curl -L https://github.com/docker/compose/releases/download/$dockerComposeVersion/docker-compose-`uname -s`-`uname -m` > /opt/bin/docker-compose &&\  
 > chmod +x /opt/bin/docker-compose  
 
-# install Libre.sh  
   
 > git clone https://github.com/indiehosters/libre.sh.git /libre.sh &&\  
 > mkdir /{data,system} &&\  
@@ -81,9 +80,10 @@ EOF
 > systemctl start web-net.service &&\  
 > cp /libre.sh/utils/* /opt/bin/  
 
-# add /opt/bin path  
   
 > cat > /etc/profile.d/libre.sh <<EOF  
 export PATH=$PATH:/opt/bin  
 EOF  
 chmod 644 /etc/profile.d/libre.sh  
+# install Libre.sh
+# add /opt/bin path
