@@ -1,5 +1,8 @@
 #cloud-config
 
+ssh_authorized_keys:
+  - "PUT YOUR SSH KEY PUBLIC HERE"
+
 write_files:
   - path: /etc/ssh/sshd_config
     permissions: 0600
@@ -26,7 +29,7 @@ write_files:
       255.255.255.255 broadcasthost
       ::1 localhost
   - path: /etc/environment
-    permission: 0644
+    permissions: 0644
     owner: root
     content: |
       NAMECHEAP_URL="namecheap.com"
