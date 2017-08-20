@@ -50,6 +50,11 @@ write_files:
       MAIL_PASS=
       MAIL_HOST=mail.indie.host
       MAIL_PORT=587
+  - path: /sys/kernel/mm/transparent_hugepage/enabled
+    permission: 0644
+    owner: root
+    content: |
+      never
 coreos:
   update:
     reboot-strategy: off
