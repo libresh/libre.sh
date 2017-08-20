@@ -31,9 +31,12 @@ systemctl restart sshd
 cat > /etc/sysctl.d/libresh.conf <<EOF
 fs.aio-max-nr=1048576
 vm.max_map_count=262144
+vm.overcommit_memory=1
 EOF
 chmod 644 /etc/sysctl.d/libresh.conf
 sysctl -p
+
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
 ```
 
 # define Localhost
