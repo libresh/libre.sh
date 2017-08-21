@@ -21,6 +21,7 @@ write_files:
     content: |
       fs.aio-max-nr=1048576
       vm.max_map_count=262144
+      vm.overcommit_memory=1
   - path: /etc/hosts
     permissions: 0644
     owner: root
