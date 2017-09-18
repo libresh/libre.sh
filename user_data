@@ -22,6 +22,7 @@ write_files:
       fs.aio-max-nr=1048576
       vm.max_map_count=262144
       vm.overcommit_memory=1
+      vm.nr_hugepages=0
   - path: /etc/hosts
     permissions: 0644
     owner: root
@@ -51,11 +52,6 @@ write_files:
       MAIL_PASS=
       MAIL_HOST=mail.indie.host
       MAIL_PORT=587
-  - path: /sys/kernel/mm/transparent_hugepage/enabled
-    permissions: 0644
-    owner: root
-    content: |
-      never
 coreos:
   update:
     reboot-strategy: off
