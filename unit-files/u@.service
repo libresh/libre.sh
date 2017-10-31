@@ -15,9 +15,9 @@ TimeoutStopSec=15
 EnvironmentFile=-/data/domains/%i/env
 Environment=HOSTNAME=%H
 WorkingDirectory=/data/domains/%i/
-ExecStartPre=-/opt/bin/docker-compose rm -f
-ExecStart=/bin/bash -euxc "VIRTUAL_HOST=%i,www.%i /opt/bin/docker-compose up"
-ExecStop=/opt/bin/docker-compose stop
+ExecStartPre=-/usr/bin/docker-compose rm -f
+ExecStart=/bin/bash -euxc "VIRTUAL_HOST=%i,www.%i /usr/bin/docker-compose up"
+ExecStop=/usr/bin/docker-compose stop
 
 [Install]
 WantedBy=multi-user.target
