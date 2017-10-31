@@ -1,0 +1,11 @@
+[Unit]
+Description=Lifecycle of a frontend web network
+Requires=docker.service
+After=docker.service
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/docker network create frontend_web
+ExecStop=/usr/bin/docker network rm frontend_web
+[Install]
+WantedBy=local.target
