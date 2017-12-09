@@ -5,7 +5,7 @@ After=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/usr/bin/docker network create frontend_web
-ExecStop=/usr/bin/docker network rm frontend_web
+ExecStart=/usr/bin/docker network create frontend-web
+ExecStop=/usr/bin/docker network rm frontend-web
 [Install]
 WantedBy=local.target
