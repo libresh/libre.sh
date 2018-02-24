@@ -34,7 +34,7 @@ vm.max_map_count=262144
 vm.overcommit_memory=1
 EOF
 chmod 644 /etc/sysctl.d/libresh.conf
-sysctl -p
+sysctl -p /etc/sysctl.d/libresh.conf
 
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 ```
