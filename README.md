@@ -1,4 +1,6 @@
 # libre.sh
+[![Backers on Open Collective](https://opencollective.com/libresh/backers/badge.svg)](#backers)
+ [![Sponsors on Open Collective](https://opencollective.com/libresh/sponsors/badge.svg)](#sponsors) 
 
 ## Introduction
 
@@ -104,3 +106,33 @@ You can help us by:
  - writing documentation/blog on how you got up and running in 5mins
  - writing more documentation
  - sending us cake :) We loove cake!
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/libresh/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/libresh#backer)]
+
+<a href="https://opencollective.com/libresh#backers" target="_blank"><img src="https://opencollective.com/libresh/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/libresh#sponsor)]
+
+<a href="https://opencollective.com/libresh/sponsor/0/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/1/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/2/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/3/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/4/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/5/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/6/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/7/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/8/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/libresh/sponsor/9/website" target="_blank"><img src="https://opencollective.com/libresh/sponsor/9/avatar.svg"></a>
+
+
