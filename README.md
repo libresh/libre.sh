@@ -2,6 +2,8 @@
 [![Backers on Open Collective](https://opencollective.com/libresh/backers/badge.svg)](#backers)
  [![Sponsors on Open Collective](https://opencollective.com/libresh/sponsors/badge.svg)](#sponsors) 
 
+/!\ This is version 1, based on docker-compose and version 2, based on kubernetes is at http://libre.sh
+
 ## Introduction
 
 A PaaS that is aimed at hosting free software \o/
