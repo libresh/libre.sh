@@ -58,7 +58,6 @@ Here is a list of modules supported:
  - [monitoring](https://github.com/indiehosters/monitoring)
  - [git-puller](https://github.com/indiehosters/git-puller)
  - [backups](https://github.com/indiehosters/borg-server)
- - [sshd](https://github.com/indiehosters/sshd)
 
 Go to their respective page for more details.
 
