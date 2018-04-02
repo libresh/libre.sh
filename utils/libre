@@ -56,6 +56,9 @@ case "$1" in
       docker-compose pull
       docker-compose build
       /opt/bin/libre restart
+      if [ -f ./scripts/post-update ]; then
+        ./scripts/post-update
+      fi
     fi;;
   provision)
     provision ${@:2};;
