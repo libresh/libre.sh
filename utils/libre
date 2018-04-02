@@ -41,7 +41,7 @@ case "$1" in
       journalctl -fu $(systemctl_param)
     fi;;
   ps|exec|logs)
-    docker-compose $1 ${@:2}
+    docker-compose $1 ${@:2};;
   update)
     if [ "$(pwd)" == "/libre.sh" ]; then
       git pull
