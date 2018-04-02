@@ -29,7 +29,7 @@ function configure_dns () {
 &Address4=v=spf1%20include:${mail_hostname}\
 &Hostname5=_dmarc\
 &RecordType5=TXT\
-&Address5=v=DMARC1;%20p=none;%20rua=mailto:support@indie.host\
+&Address5=v=DMARC1;%20p=none;%20rua=mailto:dmarc@indie.host\
 &HostName6=mail._domainkey\
 &RecordType6=TXT\
 &Address6=${domain_key}\
