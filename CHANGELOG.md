@@ -1,3 +1,10 @@
+# 1.0.0
+
+* libre command
+* post-update scripts
+* SUBNET support (allow more than 32 applications per server)
+* usage of .env file
+
 # 0.3.0
 
 * adds automation script for user provisionning
