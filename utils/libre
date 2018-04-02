@@ -53,6 +53,7 @@ case "$1" in
       docker-compose build
       /opt/bin/libre restart
       if [ -f ./scripts/post-update ]; then
+        sleep 10
         ./scripts/post-update
       fi
     fi;;
