@@ -66,5 +66,5 @@ case "$1" in
     echo " - journal: show the journal of unit-file."
     echo " - ps|exec|logs: command sent to docker compose." 
     echo " - update: to update the current folder."
-    echo " - stats: show docker stats with names."
+    echo " - stats: show docker stats with names.";;
 esac
