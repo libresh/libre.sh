@@ -107,7 +107,7 @@ function application () {
   cd /data/domains/${arg_u}
   if [ -f ./scripts/install ]; then
     export URL=${arg_u}
-    CURRENT_SUBNET=$(for folder in `ls /data/domains`; do cat /data/domains/$folder/.env | grep SUBNET | cut -d"=" -f2; done | sort -g | tail -n1)
+    CURRENT_SUBNET=$(for folder in `ls /data/domains`; do if [ -f /data/domains/$folder/.env ];then cat /data/domains/$folder/.env; fi | grep SUBNET | cut -d"=" -f2; done | sort -g | tail -n1)
     export SUBNET=$(($CURRENT_SUBNET +1))
     if [ -z ${MAIL_DOMAIN:-} ]; then
       warning "you have no email server setup, we'll print a random configuration in your application. Make sure to check the parameters for your app to send proper emails."
