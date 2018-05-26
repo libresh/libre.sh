@@ -48,7 +48,8 @@ There are already some work done on it like the [ceph-docker](https://github.com
 
 Another big challenge is network. k8s is strongly opiniated on what should be the network configuration.
 Ideally, we would use some IPsec to secure the links between machine in a context we can't trust the network (like at hetzner).
-There are 2 options:
+There are 3 options:
+ - zerotier  
  - tinc vpn
  - flannel that might implement IPsec in a near future
 
