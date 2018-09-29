@@ -12,7 +12,7 @@ The aim of this document is to write the big lines of the future of libre.sh.
 # Version 1
 
 The current version, let's call it 1, is a nice opiniated framework on how to run a single host with docker-compose.
-It provides a list of packages and mofule compatible with this framework.
+It provides a list of packages and module compatible with this framework.
 The best features of this framework are:
  - https only
  - some integration between the tools (auto provisioning of emails for new applications)
