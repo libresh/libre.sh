@@ -5,4 +5,4 @@ source /etc/environment
 user=$1
 group=$2
 
-curl -X POST --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${1}/groups -d groupid="${2}"
+curl -X POST -H "OCS-APIRequest:true" --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${1}/groups -d groupid="${2}"
