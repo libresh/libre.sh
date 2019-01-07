@@ -6,6 +6,6 @@ user=$1
 email=$2
 quota=$3
 
-curl -X POST --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users -d userid="$1" -d password="`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 10 | xargs`"
-curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${user} -d key="email" -d value="${email}"
-curl -X PUT --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${user} -d key="quota" -d value="${quota}"
+curl -X POST -H "OCS-APIRequest:true" --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users -d userid="$1" -d password="`tr -dc A-Za-z0-9_ < /dev/urandom | head -c 10 | xargs`"
+curl -X PUT -H "OCS-APIRequest:true" --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${user} -d key="email" -d value="${email}"
+curl -X PUT -H "OCS-APIRequest:true" --user ${cloud_admin}:${cloud_pass} https://${cloud_hostname}/ocs/v1.php/cloud/users/${user} -d key="quota" -d value="${quota}"
