@@ -4,7 +4,17 @@
 
 ## Introduction
 
-A PaaS that is aimed at hosting free software \o/
+A ecosystem that is aimed at hosting free software \o/
+
+We are working on bootstrapping an ecosystem of tools to facilitate the hosting of free software.
+Think of it as
+ - [ISPconfig](https://www.ispconfig.org/)
+ - FLOSS [cpanel](https://www.cpanel.net/products/)
+ - [cloudron](https://cloudron.io/) with email
+
+for [kubernetes](https://kubernetes.io/).
+
+This ecosystem can be deployed on [Raspberries](https://kubecloud.io/setting-up-a-kubernetes-1-11-raspberry-pi-cluster-using-kubeadm-952bbda329c8) or on popular cloud providers and scale globally or anything in between. We can affirm that it scales globally because it is based on kubernetes, a tool developped from the experience of Google hosting containers at scale.
 
 ## Installation
 
