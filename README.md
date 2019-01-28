@@ -52,7 +52,7 @@ It contains 2 [unit-files](https://github.com/indiehosters/LibrePaaS/tree/master
 
 You can use the following channels to request community support:
  - [mailinglist/forum](https://forum.indie.host/t/about-the-libre-sh-category/71)
- - [chat](https://chat.indie.host/channel/libre.sh)
+ - [chat](https://riot.allmende.io/#/room/#libre.sh:matrix.allmende.io)
 
 For paid support, just send an inquiry to support@libre.sh.
 
