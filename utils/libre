@@ -61,6 +61,23 @@ case "$1" in
     provision ${@:2};;
   stats)
     docker stats $(docker ps|grep -v "NAMES"|awk '{ print $NF }'|tr "\n" " ");;
+  delete)
+    read -p "Are you sure you want to delete ${2}? (yY)" -n 1 -r
+    echo    # (optional) move to a new line
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+      cd /data/domains/${2}
+      libre stop
+      libre disable
+      cd /data/domains
+      tar cvzf ${2}.tgz ./${2}
+      if [ -f ./${2}.tgz ]; then
+        mv ${2}.tgz /data/domains/to_keep/
+        rm -rf /data/domains/${2}
+        rm -rf /system/haproxy/certs/${2}
+        rm /system/haproxy/haproxy/certs/${2}.pem
+      fi
+    fi;;
   *)
     echo "Usage:"
     echo " - start|status|enable|disable|restart|stop: command sent to systemctl."
