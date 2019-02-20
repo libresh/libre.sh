@@ -64,11 +64,9 @@ Here is a list of modules supported:
  - https proxy:
    - [HAProxy](https://github.com/indiehosters/haproxy)
    - [Nginx](https://github.com/indiehosters/nginx)
- - [logs](https://github.com/indiehosters/logs)
  - [monitoring](https://github.com/indiehosters/monitoring)
  - [git-puller](https://github.com/indiehosters/git-puller)
  - [backups](https://github.com/indiehosters/backups)
- - [sshd](https://github.com/indiehosters/sshd)
 
 Go to their respective page for more details.
 
